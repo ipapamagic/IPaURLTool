@@ -1,0 +1,243 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6E24709015D208B200622159 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E24708F15D208B200622159 /* Foundation.framework */; };
+		6E24709515D208B200622159 /* IPaURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E24709415D208B200622159 /* IPaURLConnection.h */; };
+		6E24709715D208B200622159 /* IPaURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E24709615D208B200622159 /* IPaURLConnection.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6E24708A15D208B200622159 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				6E24709515D208B200622159 /* IPaURLConnection.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6E24708C15D208B200622159 /* libIPaURLConnection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaURLConnection.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E24708F15D208B200622159 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6E24709315D208B200622159 /* IPaURLConnection-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaURLConnection-Prefix.pch"; sourceTree = "<group>"; };
+		6E24709415D208B200622159 /* IPaURLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPaURLConnection.h; sourceTree = "<group>"; };
+		6E24709615D208B200622159 /* IPaURLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaURLConnection.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6E24708915D208B200622159 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E24709015D208B200622159 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6E24708115D208B200622159 = {
+			isa = PBXGroup;
+			children = (
+				6E24709115D208B200622159 /* IPaURLConnection */,
+				6E24708E15D208B200622159 /* Frameworks */,
+				6E24708D15D208B200622159 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6E24708D15D208B200622159 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E24708C15D208B200622159 /* libIPaURLConnection.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6E24708E15D208B200622159 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E24708F15D208B200622159 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E24709115D208B200622159 /* IPaURLConnection */ = {
+			isa = PBXGroup;
+			children = (
+				6E24709415D208B200622159 /* IPaURLConnection.h */,
+				6E24709615D208B200622159 /* IPaURLConnection.m */,
+				6E24709215D208B200622159 /* Supporting Files */,
+			);
+			path = IPaURLConnection;
+			sourceTree = "<group>";
+		};
+		6E24709215D208B200622159 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6E24709315D208B200622159 /* IPaURLConnection-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6E24708B15D208B200622159 /* IPaURLConnection */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E24709A15D208B200622159 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */;
+			buildPhases = (
+				6E24708815D208B200622159 /* Sources */,
+				6E24708915D208B200622159 /* Frameworks */,
+				6E24708A15D208B200622159 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IPaURLConnection;
+			productName = IPaURLConnection;
+			productReference = 6E24708C15D208B200622159 /* libIPaURLConnection.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6E24708315D208B200622159 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = IPaPa;
+			};
+			buildConfigurationList = 6E24708615D208B200622159 /* Build configuration list for PBXProject "IPaURLConnection" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6E24708115D208B200622159;
+			productRefGroup = 6E24708D15D208B200622159 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6E24708B15D208B200622159 /* IPaURLConnection */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6E24708815D208B200622159 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E24709715D208B200622159 /* IPaURLConnection.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6E24709815D208B200622159 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6E24709915D208B200622159 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6E24709B15D208B200622159 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IPaURLConnection.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IPaURLConnection/IPaURLConnection-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6E24709C15D208B200622159 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IPaURLConnection.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IPaURLConnection/IPaURLConnection-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6E24708615D208B200622159 /* Build configuration list for PBXProject "IPaURLConnection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E24709815D208B200622159 /* Debug */,
+				6E24709915D208B200622159 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E24709A15D208B200622159 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E24709B15D208B200622159 /* Debug */,
+				6E24709C15D208B200622159 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6E24708315D208B200622159 /* Project object */;
+}
