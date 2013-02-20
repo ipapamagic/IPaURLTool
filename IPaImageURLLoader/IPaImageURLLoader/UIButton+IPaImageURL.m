@@ -59,6 +59,7 @@
     
     [loader loadImageWithURL:imageURL withCallback:^(UIImage *image){
         if (image != nil) {
+            [self setImage:image forState:UIControlStateNormal];
             for (NSNumber* nsState in @[@(UIControlStateHighlighted),@(UIControlStateSelected),@(UIControlStateDisabled)]) {
                 UIControlState state = [nsState integerValue];
                 if (state & states) {
