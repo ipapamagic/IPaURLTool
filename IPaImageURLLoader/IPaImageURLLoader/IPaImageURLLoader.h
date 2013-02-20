@@ -10,4 +10,5 @@
 @class UIImage;
 @interface IPaImageURLLoader : NSObject
 -(void)loadImageWithURL:(NSString*)imgURL withCallback:(void (^)(UIImage*))callback;
+-(void)cancel;
 @end

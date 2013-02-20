@@ -42,4 +42,13 @@
     };
     [self.currentConnection start];
 }
+-(void)cancel
+{
+    if (self.currentConnection != nil) {
+        [self.currentConnection cancel];
+        
+    }
+    self.currentConnection = nil;
+    self.currentImgURL = nil;
+}
 @end

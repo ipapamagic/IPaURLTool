@@ -65,6 +65,16 @@ url may change before last image downloaded
 these categories handle these jobs
 
 
+@interface UIButton (IPaImageURL)
+-(void)setImageURL:(NSString*)imageURL forState:(UIControlState)state;
+
+-(void)setImageURL:(NSString*)imageURL forNormalAndOtherStates:(NSInteger)states;
+
+if you need to set image the same as normalState
+
+use '|' to set the state you want as Argument
+
+ex: UIControlStateHighlighted | UIControlStateDisabled
 
 
 
