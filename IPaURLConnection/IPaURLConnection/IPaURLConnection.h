@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface IPaURLConnection : NSURLConnection <NSURLConnectionDelegate,NSURLConnectionDataDelegate> {
+@interface IPaURLConnection : NSURLConnection <NSURLConnectionDataDelegate> {
     
 
   
@@ -19,7 +19,8 @@
 @property (nonatomic,copy) void (^RecCallback)(NSURLResponse*,NSData*,NSData*);
 @property (nonatomic,copy) void (^SendCallback)(NSInteger,NSInteger,NSInteger);
 @property (nonatomic,copy) void (^RecAuthenticationChallengeCallback)(NSURLAuthenticationChallenge*);
-
+//willSendRequest:(NSURLResquest*) redirectResponse:(NSURLResponse*)
+@property (nonatomic,copy) NSURLRequest* (^willSendRequestCallback)(NSURLRequest*,NSURLResponse*);
 - (id)initWithURLString:(NSString*)URL
       cachePolicy:(NSURLRequestCachePolicy)cachePolicy
   timeoutInterval:(NSTimeInterval)timeoutInterval
@@ -78,6 +79,6 @@
                      failCallback:(void (^)(NSError*))failCallback
                      receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData*))receiveCallback;
 
-
-
+//if urlconnection is running
+-(BOOL)isRunning;
 @end

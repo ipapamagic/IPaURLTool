@@ -166,7 +166,8 @@ static NSMutableArray *connectionList;
     self.FailCallback = nil;
     self.RecCallback = nil;
     self.SendCallback = nil;
-    
+    self.RecAuthenticationChallengeCallback = nil;
+    self.willSendRequestCallback = nil;
 }
 
 -(void) start {
@@ -183,15 +184,17 @@ static NSMutableArray *connectionList;
 {
     return recData;
 }
-
-#pragma mark - NSURLConnectionDelegate
+-(BOOL)isRunning
+{
+    return ([connectionList indexOfObject:self] != NSNotFound);
+}
+#pragma mark - NSURLConnectionDataDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)_response
 {
     //    responseHeader = ((NSHTTPURLResponse*)response).allHeaderFields;
     response = _response;
 	[recData setLength:0];
 }
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
 	[recData appendData: data];
@@ -201,6 +204,31 @@ static NSMutableArray *connectionList;
     }
     
 }
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    if (self.Callback != nil) {
+        
+        self.Callback(response,recData);
+        
+    }
+    [IPaURLConnection ReleaseConnection:self];
+    
+}
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    if (self.SendCallback != nil) {
+        self.SendCallback(bytesWritten,totalBytesWritten,totalBytesExpectedToWrite);
+    }
+}
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
+{
+    if (self.willSendRequestCallback != nil) {
+        return self.willSendRequestCallback(request,redirectResponse);
+    }
+    return request;
+}
+#pragma mark - NSURLConnectionDelegate
+
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
@@ -211,25 +239,8 @@ static NSMutableArray *connectionList;
     [IPaURLConnection ReleaseConnection:self];
 }
 
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    if (self.Callback != nil) {
-
-        self.Callback(response,recData);
-        
-    }
-    [IPaURLConnection ReleaseConnection:self];
-
-}
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
-{
-    if (self.SendCallback != nil) {
-        self.SendCallback(bytesWritten,totalBytesWritten,totalBytesExpectedToWrite);
-    }
-}
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    NSLog(@"Challenge !!");
     if (self.RecAuthenticationChallengeCallback) {
         self.RecAuthenticationChallengeCallback(challenge);
     }
