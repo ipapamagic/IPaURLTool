@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E07DC9F170030120082B4B5 /* IPaHTTPDownloadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */; };
+		6E07DCA217003F7B0082B4B5 /* IPaConnectionBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */; };
 		6E24709015D208B200622159 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E24708F15D208B200622159 /* Foundation.framework */; };
 		6E24709515D208B200622159 /* IPaURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E24709415D208B200622159 /* IPaURLConnection.h */; };
 		6E24709715D208B200622159 /* IPaURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E24709615D208B200622159 /* IPaURLConnection.m */; };
@@ -26,6 +28,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E07DC9D170030120082B4B5 /* IPaHTTPDownloadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaHTTPDownloadConnection.h; sourceTree = "<group>"; };
+		6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaHTTPDownloadConnection.m; sourceTree = "<group>"; };
+		6E07DCA017003F7B0082B4B5 /* IPaConnectionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaConnectionBase.h; sourceTree = "<group>"; };
+		6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaConnectionBase.m; sourceTree = "<group>"; };
 		6E24708C15D208B200622159 /* libIPaURLConnection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaURLConnection.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E24708F15D208B200622159 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6E24709315D208B200622159 /* IPaURLConnection-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaURLConnection-Prefix.pch"; sourceTree = "<group>"; };
@@ -73,8 +79,12 @@
 		6E24709115D208B200622159 /* IPaURLConnection */ = {
 			isa = PBXGroup;
 			children = (
+				6E07DCA017003F7B0082B4B5 /* IPaConnectionBase.h */,
+				6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */,
 				6E24709415D208B200622159 /* IPaURLConnection.h */,
 				6E24709615D208B200622159 /* IPaURLConnection.m */,
+				6E07DC9D170030120082B4B5 /* IPaHTTPDownloadConnection.h */,
+				6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */,
 				6E24709215D208B200622159 /* Supporting Files */,
 			);
 			path = IPaURLConnection;
@@ -140,6 +150,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E24709715D208B200622159 /* IPaURLConnection.m in Sources */,
+				6E07DC9F170030120082B4B5 /* IPaHTTPDownloadConnection.m in Sources */,
+				6E07DCA217003F7B0082B4B5 /* IPaConnectionBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

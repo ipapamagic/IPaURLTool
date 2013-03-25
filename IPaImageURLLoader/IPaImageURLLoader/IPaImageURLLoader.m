@@ -22,17 +22,18 @@
         [self.currentConnection cancel];
         
     }
-    self.currentConnection = [[IPaURLConnection alloc] initWithURLString:self.currentImgURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10 callback:nil];
+    self.currentConnection = [[IPaURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.currentImgURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10]];
     
     
     __weak IPaImageURLLoader *weakSelf = self;
-    self.currentConnection.Callback = ^(NSURLResponse* response,NSData* retData){
+    __weak IPaURLConnection *weakConnection = self.currentConnection;
+    self.currentConnection.FinishCallback= ^(){
         if (![imgURL isEqualToString:weakSelf.currentImgURL]) {
             callback(nil);
             return;
         }
         
-        UIImage *image = [[UIImage alloc] initWithData:retData];
+        UIImage *image = [[UIImage alloc] initWithData:weakConnection.receiveData];
         callback(image);
         weakSelf.currentConnection = nil;
     };

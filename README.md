@@ -11,34 +11,46 @@ Block-base NSURLConnection for IOS
 
 you can easily use class method
 
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
-               cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-           timeoutInterval:(NSTimeInterval)timeoutInterval
-                  callback:(void (^)(NSURLResponse *,NSData*))callback;
 
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
++ (id)URLConnectionWithURLString:(NSString*)URL
                cachePolicy:(NSURLRequestCachePolicy)cachePolicy
            timeoutInterval:(NSTimeInterval)timeoutInterval
                   callback:(void (^)(NSURLResponse *,NSData*))callback
               failCallback:(void (^)(NSError*))failCallback;
 
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
-               cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-           timeoutInterval:(NSTimeInterval)timeoutInterval
-                  callback:(void (^)(NSURLResponse *,NSData* ))callback
-              failCallback:(void (^)(NSError*))failCallback
-           receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData* ))receiveCallback;
 
-
-
-
-+ (id)IPaURLConnectionWithURLRequest:(NSURLRequest*)request
-                         callback:(void (^)(NSURLResponse *,NSData*))callback
-                     failCallback:(void (^)(NSError*))failCallback
-                     receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData*))receiveCallback;
 
 
 to create NSURLConnection (if you use class method,you don't need to make [NSURLConnection start],it will automatically to do that)
+
+you can set delegate IPaURLConnection.connectionDelegate to catch other callback from NSURLConnection
+
+
+
+you can manually create IPaURLConnection with -(id)initWithRequest:(NSURLRequest *)request
+
+set callback manually
+IPaURLConnection.FinishCallback is a block object,it'll call when connection is done
+IPaURLConnection.FailCallback is a block object,it'll call when something wrong
+
+IPaURLConnection.response is response when connection is started
+
+IPaURLConnection.receiveData is result data
+
+
+
+IPaHTTPDownloadConnection
+=======================
+
+IPaHTTPDownloadConnection is just like IPaURLConnection  with the same parent IPaConnectionBase
+
+initial it with
+-(id)initWithDownloadURLString:(NSString *)URL toFilePath:(NSString*)filePath cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval;
+
+if the filePath exist, it will resume download 
+
+you can add an observer at progress, if you want to update UI for progress update
+
 
 
 

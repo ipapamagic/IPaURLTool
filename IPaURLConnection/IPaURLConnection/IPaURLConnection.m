@@ -13,220 +13,97 @@
 @implementation IPaURLConnection
 {
     NSMutableData* recData;
-    NSURLResponse *response;
+
     
 }
-static NSMutableArray *connectionList;
-+(void)RetainConnection:(IPaURLConnection*)connection
+
++ (id)ConnectionWithURLString:(NSString*)URL
+                  cachePolicy:(NSURLRequestCachePolicy)cachePolicy
+              timeoutInterval:(NSTimeInterval)timeoutInterval
+                     callback:(void (^)(NSURLResponse *,NSData*))callback
+                 failCallback:(void (^)(NSError*))failCallback
+                     delegate:(id <IPaURLConnectionDelegate>)delegate
 {
-    if (connectionList == nil) {
-        connectionList = [@[] mutableCopy];
-    }
-    if ([connectionList indexOfObject:connection] == NSNotFound)
-    {
-        [connectionList addObject:connection];
-    }
+    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
+    IPaURLConnection *connection = [[IPaURLConnection alloc] initWithRequest:theRequest];
+    
+    __weak IPaURLConnection *weakConnection = connection;
+    connection.FinishCallback = ^(){
+        callback(weakConnection.response,weakConnection.receiveData);
+    };
+    connection.FailCallback = failCallback;
+    connection.connectionDelegate = delegate;    
+    [connection start];
+    
+
+    return connection;
     
 }
-+(void)ReleaseConnection:(IPaURLConnection*)connection
-{
-    [connectionList removeObject:connection];
-}
-
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
-               cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-           timeoutInterval:(NSTimeInterval)timeoutInterval
-                  callback:(void (^)(NSURLResponse *,NSData *))callback
-{
-    return [IPaURLConnection IPaURLConnectionWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback failCallback:nil receiveCallback:nil];
-}
-
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
++ (id)ConnectionWithURLString:(NSString*)URL
                cachePolicy:(NSURLRequestCachePolicy)cachePolicy
            timeoutInterval:(NSTimeInterval)timeoutInterval
                   callback:(void (^)(NSURLResponse*, NSData *))callback
               failCallback:(void (^)(NSError*))failCallback
 {
-    return [IPaURLConnection IPaURLConnectionWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback
-                                  failCallback:failCallback receiveCallback:nil];
+    return [self ConnectionWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback failCallback:failCallback delegate:nil];
     
-}
-
-
-+ (id)IPaURLConnectionWithURLString:(NSString*)URL
-               cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-           timeoutInterval:(NSTimeInterval)timeoutInterval
-                  callback:(void (^)(NSURLResponse*, NSData*))callback
-              failCallback:(void (^)(NSError*))failCallback
-           receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData *))receiveCallback
-{
-    IPaURLConnection *connection = [[IPaURLConnection alloc] initWithURLString:URL
-                                                       cachePolicy:cachePolicy
-                                                   timeoutInterval:timeoutInterval
-                                                          callback:callback
-                                                      failCallback:failCallback
-                                                   receiveCallback:receiveCallback];
-    
-    [connection start];
-    
-    
-    return connection;
-}
-
-+ (id)IPaURLConnectionWithURLRequest:(NSURLRequest*)request
-                         callback:(void (^)(NSURLResponse *,NSData*))callback
-                     failCallback:(void (^)(NSError*))failCallback
-                  receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData*))receiveCallback
-{
-    IPaURLConnection *connection = [[IPaURLConnection alloc] initWithURLRequest:request
-                                                                 callback:callback
-                                                             failCallback:failCallback
-                                                          receiveCallback:receiveCallback];
-    
-    [connection start];
-    
-    
-    return connection;
-}
-
-
-- (id)initWithURLString:(NSString*)URL
-      cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-  timeoutInterval:(NSTimeInterval)timeoutInterval
-         callback:(void (^)(NSURLResponse*, NSData *))callback
-{
-    return [self initWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback failCallback:nil receiveCallback:nil];
-    
-}
-
-- (id)initWithURLString:(NSString*)URL
-      cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-  timeoutInterval:(NSTimeInterval)timeoutInterval
-         callback:(void (^)(NSURLResponse*, NSData *))callback
-     failCallback:(void (^)(NSError*))failCallback
-{
-    return [self initWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback failCallback:failCallback receiveCallback:nil];
-    
-}
-
-- (id)initWithURLString:(NSString*)URL
-      cachePolicy:(NSURLRequestCachePolicy)cachePolicy
-  timeoutInterval:(NSTimeInterval)timeoutInterval
-         callback:(void (^)(NSURLResponse*, NSData *))callback
-     failCallback:(void (^)(NSError*))failCallback
-  receiveCallback:(void (^)(NSURLResponse *,NSData*,NSData *))receiveCallback
-{
-    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
-    return [self initWithURLRequest:theRequest callback:callback failCallback:failCallback receiveCallback:receiveCallback];
-}
-
-
-- (id)initWithURLRequest:(NSURLRequest*)request
-                callback:(void (^)(NSURLResponse *,NSData*))callback
-            failCallback:(void (^)(NSError*))failCallback
-         receiveCallback:(void (^)(NSURLResponse *,NSData *,NSData*))receiveCallback
-
-{
-    return [self initWithURLRequest:request callback:callback failCallback:failCallback receiveCallback:receiveCallback sendCallback:nil];
-}
-- (id)initWithURLRequest:(NSURLRequest*)request
-                callback:(void (^)(NSURLResponse *,NSData*))callback
-            failCallback:(void (^)(NSError*))failCallback
-         receiveCallback:(void (^)(NSURLResponse *,NSData *,NSData*))receiveCallback
-            sendCallback:(void (^)(NSInteger,NSInteger,NSInteger))sendCallback
-{
-    self = [self initWithRequest:request];
-    self.Callback = [callback copy];
-    self.FailCallback = [failCallback copy];
-    self.RecCallback = [receiveCallback copy];
-    self.SendCallback = [sendCallback copy];
-    return self;
 }
 
 -(id)initWithRequest:(NSURLRequest *)request
 {
-    self = [super initWithRequest:request delegate:self startImmediately:NO];
-    recData = [NSMutableData data];
-    self.Callback = nil;
-    self.FailCallback = nil;
-    self.RecCallback = nil;
-    self.SendCallback = nil;
-    [self scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    self = [super initWithRequest:request];
+    recData = [NSMutableData data];    
     return self;
 }
 
 
 
 -(void)dealloc {
-    [self cancel];
     recData = nil;
-    response = nil;
-
-    self.Callback = nil;
-    self.FailCallback = nil;
-    self.RecCallback = nil;
-    self.SendCallback = nil;
-    self.RecAuthenticationChallengeCallback = nil;
-    self.willSendRequestCallback = nil;
-}
-
--(void) start {
-    [super start];
-    [IPaURLConnection RetainConnection:self];
 }
 
 -(void) cancel {
+    [recData setLength:0];    
     [super cancel];
-    [recData setLength:0];
-    [IPaURLConnection ReleaseConnection:self];
 }
 -(NSData*)receiveData
 {
     return recData;
 }
--(BOOL)isRunning
-{
-    return ([connectionList indexOfObject:self] != NSNotFound);
-}
+
 #pragma mark - NSURLConnectionDataDelegate
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)_response
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     //    responseHeader = ((NSHTTPURLResponse*)response).allHeaderFields;
-    response = _response;
+    [super connection:connection didReceiveResponse:response];
 	[recData setLength:0];
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
 	[recData appendData: data];
-    
-    if (self.RecCallback != nil) {
-        self.RecCallback(response,recData,data);
+    if ([self.connectionDelegate respondsToSelector:@selector(connection:didReceiveData:)]) {
+        [self.connectionDelegate connection:self didReceiveData:data];
     }
-    
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    if (self.Callback != nil) {
+    if (self.FinishCallback != nil) {
         
-        self.Callback(response,recData);
+        self.FinishCallback();
         
     }
-    [IPaURLConnection ReleaseConnection:self];
-    
+    [super connectionDidFinishLoading:connection];
+
 }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    if (self.SendCallback != nil) {
-        self.SendCallback(bytesWritten,totalBytesWritten,totalBytesExpectedToWrite);
+    if ([self.connectionDelegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+        [self.connectionDelegate connection:self didSendBodyData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }
 }
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
-{
-    if (self.willSendRequestCallback != nil) {
-        return self.willSendRequestCallback(request,redirectResponse);
-    }
-    return request;
-}
+
+
+
 #pragma mark - NSURLConnectionDelegate
 
 
@@ -239,11 +116,6 @@ static NSMutableArray *connectionList;
     [IPaURLConnection ReleaseConnection:self];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    if (self.RecAuthenticationChallengeCallback) {
-        self.RecAuthenticationChallengeCallback(challenge);
-    }
-}
+
 
 @end
