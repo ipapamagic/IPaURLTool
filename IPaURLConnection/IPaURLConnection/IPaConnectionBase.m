@@ -86,4 +86,15 @@ static NSMutableArray *connectionList;
     [IPaConnectionBase ReleaseConnection:self];
     
 }
+#pragma mark - NSURLConnectionDelegate
+
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+	if (self.FailCallback != nil) {
+        self.FailCallback(error);
+        
+    }
+    [IPaConnectionBase ReleaseConnection:self];
+}
 @end

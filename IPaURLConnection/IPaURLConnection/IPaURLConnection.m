@@ -85,16 +85,7 @@
         [self.connectionDelegate connection:self didReceiveData:data];
     }
 }
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    if (self.FinishCallback != nil) {
-        
-        self.FinishCallback();
-        
-    }
-    [super connectionDidFinishLoading:connection];
 
-}
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
     if ([self.connectionDelegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
@@ -103,18 +94,6 @@
 }
 
 
-
-#pragma mark - NSURLConnectionDelegate
-
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-	if (self.FailCallback != nil) {
-        self.FailCallback(error);
-        
-    }
-    [IPaURLConnection ReleaseConnection:self];
-}
 
 
 
