@@ -8,7 +8,23 @@
 
 #import <Foundation/Foundation.h>
 @class UIImage;
+@protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject
--(void)loadImageWithURL:(NSString*)imgURL withCallback:(void (^)(UIImage*))callback;
--(void)cancel;
+//need to load first
+-(void)insertLoadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
+-(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
+-(void)cancelLoaderWithImageID:(NSString*)imageID;
+-(UIImage*)cacheWithImageID:(NSString*)imageID;
+@property (nonatomic,weak) id <IPaImageURLLoaderDelegate> delegate;
+@end
+
+@protocol IPaImageURLLoaderDelegate <NSObject>
+
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID image:(UIImage*)image;
+
+@optional
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader failWithImageID:(NSString*)imageID;
+-(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID;
+-(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image;
+-(UIImage*)modifyImageWithIPaImageURLLoader:(IPaImageURLLoader*)loader originalImage:(UIImage*)originalImage withImageID:(NSString*)imageID;
 @end

@@ -7,97 +7,81 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E37784D16D3869B003D1286 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E37784C16D3869B003D1286 /* Foundation.framework */; };
-		6E37785216D3869B003D1286 /* IPaImageURLLoader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E37785116D3869B003D1286 /* IPaImageURLLoader.h */; };
-		6E37785416D3869B003D1286 /* IPaImageURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E37785316D3869B003D1286 /* IPaImageURLLoader.m */; };
-		6E37785B16D38703003D1286 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E37785A16D38703003D1286 /* UIKit.framework */; };
-		6E45137B16D4611E00100FFE /* UIImageView+IPaImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45137A16D4611E00100FFE /* UIImageView+IPaImageURL.m */; };
-		6EBC134016D482C800A7490D /* UIButton+IPaImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBC133F16D482C800A7490D /* UIButton+IPaImageURL.m */; };
+		6E9598CD177B505800B230D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9598CC177B505800B230D1 /* Foundation.framework */; };
+		6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		6E37784716D3869B003D1286 /* CopyFiles */ = {
+		6E9598C7177B505800B230D1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
-				6E37785216D3869B003D1286 /* IPaImageURLLoader.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6E37784916D3869B003D1286 /* libIPaImageURLLoader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaImageURLLoader.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E37784C16D3869B003D1286 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6E37785016D3869B003D1286 /* IPaImageURLLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaImageURLLoader-Prefix.pch"; sourceTree = "<group>"; };
-		6E37785116D3869B003D1286 /* IPaImageURLLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPaImageURLLoader.h; sourceTree = "<group>"; };
-		6E37785316D3869B003D1286 /* IPaImageURLLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLLoader.m; sourceTree = "<group>"; };
-		6E37785A16D38703003D1286 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6E45137916D4611E00100FFE /* UIImageView+IPaImageURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+IPaImageURL.h"; sourceTree = "<group>"; };
-		6E45137A16D4611E00100FFE /* UIImageView+IPaImageURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+IPaImageURL.m"; sourceTree = "<group>"; };
-		6EBC133E16D482C800A7490D /* UIButton+IPaImageURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+IPaImageURL.h"; sourceTree = "<group>"; };
-		6EBC133F16D482C800A7490D /* UIButton+IPaImageURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+IPaImageURL.m"; sourceTree = "<group>"; };
+		6E9598C9177B505800B230D1 /* libIPaImageURLLoader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaImageURLLoader.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E9598CC177B505800B230D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6E9598D0177B505800B230D1 /* IPaImageURLLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaImageURLLoader-Prefix.pch"; sourceTree = "<group>"; };
+		6E9598DA177B50D100B230D1 /* IPaImageURLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaImageURLLoader.h; sourceTree = "<group>"; };
+		6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLLoader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6E37784616D3869B003D1286 /* Frameworks */ = {
+		6E9598C6177B505800B230D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E37785B16D38703003D1286 /* UIKit.framework in Frameworks */,
-				6E37784D16D3869B003D1286 /* Foundation.framework in Frameworks */,
+				6E9598CD177B505800B230D1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E37784016D3869B003D1286 = {
+		6E9598C0177B505700B230D1 = {
 			isa = PBXGroup;
 			children = (
-				6E37784E16D3869B003D1286 /* IPaImageURLLoader */,
-				6E37784B16D3869B003D1286 /* Frameworks */,
-				6E37784A16D3869B003D1286 /* Products */,
+				6E9598CE177B505800B230D1 /* IPaImageURLLoader */,
+				6E9598CB177B505800B230D1 /* Frameworks */,
+				6E9598CA177B505800B230D1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		6E37784A16D3869B003D1286 /* Products */ = {
+		6E9598CA177B505800B230D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E37784916D3869B003D1286 /* libIPaImageURLLoader.a */,
+				6E9598C9177B505800B230D1 /* libIPaImageURLLoader.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E37784B16D3869B003D1286 /* Frameworks */ = {
+		6E9598CB177B505800B230D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E37785A16D38703003D1286 /* UIKit.framework */,
-				6E37784C16D3869B003D1286 /* Foundation.framework */,
+				6E9598CC177B505800B230D1 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6E37784E16D3869B003D1286 /* IPaImageURLLoader */ = {
+		6E9598CE177B505800B230D1 /* IPaImageURLLoader */ = {
 			isa = PBXGroup;
 			children = (
-				6E37785116D3869B003D1286 /* IPaImageURLLoader.h */,
-				6E37785316D3869B003D1286 /* IPaImageURLLoader.m */,
-				6E45137916D4611E00100FFE /* UIImageView+IPaImageURL.h */,
-				6E45137A16D4611E00100FFE /* UIImageView+IPaImageURL.m */,
-				6EBC133E16D482C800A7490D /* UIButton+IPaImageURL.h */,
-				6EBC133F16D482C800A7490D /* UIButton+IPaImageURL.m */,
-				6E37784F16D3869B003D1286 /* Supporting Files */,
+				6E9598DA177B50D100B230D1 /* IPaImageURLLoader.h */,
+				6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */,
+				6E9598CF177B505800B230D1 /* Supporting Files */,
 			);
 			path = IPaImageURLLoader;
 			sourceTree = "<group>";
 		};
-		6E37784F16D3869B003D1286 /* Supporting Files */ = {
+		6E9598CF177B505800B230D1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6E37785016D3869B003D1286 /* IPaImageURLLoader-Prefix.pch */,
+				6E9598D0177B505800B230D1 /* IPaImageURLLoader-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -105,13 +89,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6E37784816D3869B003D1286 /* IPaImageURLLoader */ = {
+		6E9598C8177B505800B230D1 /* IPaImageURLLoader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E37785716D3869B003D1286 /* Build configuration list for PBXNativeTarget "IPaImageURLLoader" */;
+			buildConfigurationList = 6E9598D7177B505800B230D1 /* Build configuration list for PBXNativeTarget "IPaImageURLLoader" */;
 			buildPhases = (
-				6E37784516D3869B003D1286 /* Sources */,
-				6E37784616D3869B003D1286 /* Frameworks */,
-				6E37784716D3869B003D1286 /* CopyFiles */,
+				6E9598C5177B505800B230D1 /* Sources */,
+				6E9598C6177B505800B230D1 /* Frameworks */,
+				6E9598C7177B505800B230D1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -119,50 +103,48 @@
 			);
 			name = IPaImageURLLoader;
 			productName = IPaImageURLLoader;
-			productReference = 6E37784916D3869B003D1286 /* libIPaImageURLLoader.a */;
+			productReference = 6E9598C9177B505800B230D1 /* libIPaImageURLLoader.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6E37784116D3869B003D1286 /* Project object */ = {
+		6E9598C1177B505700B230D1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = IPaPa;
 			};
-			buildConfigurationList = 6E37784416D3869B003D1286 /* Build configuration list for PBXProject "IPaImageURLLoader" */;
+			buildConfigurationList = 6E9598C4177B505700B230D1 /* Build configuration list for PBXProject "IPaImageURLLoader" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 6E37784016D3869B003D1286;
-			productRefGroup = 6E37784A16D3869B003D1286 /* Products */;
+			mainGroup = 6E9598C0177B505700B230D1;
+			productRefGroup = 6E9598CA177B505800B230D1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E37784816D3869B003D1286 /* IPaImageURLLoader */,
+				6E9598C8177B505800B230D1 /* IPaImageURLLoader */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6E37784516D3869B003D1286 /* Sources */ = {
+		6E9598C5177B505800B230D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E37785416D3869B003D1286 /* IPaImageURLLoader.m in Sources */,
-				6E45137B16D4611E00100FFE /* UIImageView+IPaImageURL.m in Sources */,
-				6EBC134016D482C800A7490D /* UIButton+IPaImageURL.m in Sources */,
+				6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		6E37785516D3869B003D1286 /* Debug */ = {
+		6E9598D5177B505800B230D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -186,14 +168,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../IPaURLConnection/IPaURLConnection\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		6E37785616D3869B003D1286 /* Release */ = {
+		6E9598D6177B505800B230D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -210,31 +191,32 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../IPaURLConnection/IPaURLConnection\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		6E37785816D3869B003D1286 /* Debug */ = {
+		6E9598D8177B505800B230D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";
+				HEADER_SEARCH_PATHS = "/Users/IPaPa/Documents/我的東西/我的作品/程式作品/IPhone/IPaURLTool/IPaURLConnection/IPaURLConnection";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		6E37785916D3869B003D1286 /* Release */ = {
+		6E9598D9177B505800B230D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";
+				HEADER_SEARCH_PATHS = "/Users/IPaPa/Documents/我的東西/我的作品/程式作品/IPhone/IPaURLTool/IPaURLConnection/IPaURLConnection";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -244,25 +226,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E37784416D3869B003D1286 /* Build configuration list for PBXProject "IPaImageURLLoader" */ = {
+		6E9598C4177B505700B230D1 /* Build configuration list for PBXProject "IPaImageURLLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E37785516D3869B003D1286 /* Debug */,
-				6E37785616D3869B003D1286 /* Release */,
+				6E9598D5177B505800B230D1 /* Debug */,
+				6E9598D6177B505800B230D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E37785716D3869B003D1286 /* Build configuration list for PBXNativeTarget "IPaImageURLLoader" */ = {
+		6E9598D7177B505800B230D1 /* Build configuration list for PBXNativeTarget "IPaImageURLLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E37785816D3869B003D1286 /* Debug */,
-				6E37785916D3869B003D1286 /* Release */,
+				6E9598D8177B505800B230D1 /* Debug */,
+				6E9598D9177B505800B230D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6E37784116D3869B003D1286 /* Project object */;
+	rootObject = 6E9598C1177B505700B230D1 /* Project object */;
 }

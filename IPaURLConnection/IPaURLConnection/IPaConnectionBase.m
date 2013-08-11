@@ -15,18 +15,21 @@
 static NSMutableArray *connectionList;
 +(void)RetainConnection:(IPaConnectionBase*)connection
 {
-    if (connectionList == nil) {
-        connectionList = [@[] mutableCopy];
+    @synchronized(self){
+        if (connectionList == nil) {
+            connectionList = [@[] mutableCopy];
+        }
+        if ([connectionList indexOfObject:connection] == NSNotFound)
+        {
+            [connectionList addObject:connection];
+        }
     }
-    if ([connectionList indexOfObject:connection] == NSNotFound)
-    {
-        [connectionList addObject:connection];
-    }
-    
 }
 +(void)ReleaseConnection:(IPaConnectionBase*)connection
 {
-    [connectionList removeObject:connection];
+    @synchronized(self){
+        [connectionList removeObject:connection];
+    }
 }
 -(id)initWithRequest:(NSURLRequest *)request delegate:(id)delegate
 {
