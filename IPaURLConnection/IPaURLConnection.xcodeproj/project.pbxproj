@@ -6,108 +6,118 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6EF6C20017E4CBB900D4E5B7 /* IPaURLConnectionUniversalFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6EF6C20D17E4CBB900D4E5B7 /* Build configuration list for PBXAggregateTarget "IPaURLConnectionUniversalFramework" */;
+			buildPhases = (
+				6EF6C1FF17E4CBB900D4E5B7 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = IPaURLConnectionUniversalFramework;
+			productName = IPaURLConnectionUniversalFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		6E07DC9F170030120082B4B5 /* IPaHTTPDownloadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */; };
-		6E07DCA217003F7B0082B4B5 /* IPaConnectionBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */; };
-		6E24709015D208B200622159 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E24708F15D208B200622159 /* Foundation.framework */; };
-		6E24709515D208B200622159 /* IPaURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E24709415D208B200622159 /* IPaURLConnection.h */; };
-		6E24709715D208B200622159 /* IPaURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E24709615D208B200622159 /* IPaURLConnection.m */; };
+		6EC4A9B117E4D13100228CF2 /* IPaConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AB17E4D13100228CF2 /* IPaConnectionBase.h */; };
+		6EC4A9B217E4D13100228CF2 /* IPaConnectionBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9AC17E4D13100228CF2 /* IPaConnectionBase.m */; };
+		6EC4A9B317E4D13100228CF2 /* IPaHTTPDownloadConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AD17E4D13100228CF2 /* IPaHTTPDownloadConnection.h */; };
+		6EC4A9B417E4D13100228CF2 /* IPaHTTPDownloadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9AE17E4D13100228CF2 /* IPaHTTPDownloadConnection.m */; };
+		6EC4A9B517E4D13100228CF2 /* IPaURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AF17E4D13100228CF2 /* IPaURLConnection.h */; };
+		6EC4A9B617E4D13100228CF2 /* IPaURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9B017E4D13100228CF2 /* IPaURLConnection.m */; };
+		6EF6C20617E4CBB900D4E5B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EF6C20417E4CBB900D4E5B7 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		6E24708A15D208B200622159 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				6E24709515D208B200622159 /* IPaURLConnection.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		6E07DC9D170030120082B4B5 /* IPaHTTPDownloadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaHTTPDownloadConnection.h; sourceTree = "<group>"; };
-		6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaHTTPDownloadConnection.m; sourceTree = "<group>"; };
-		6E07DCA017003F7B0082B4B5 /* IPaConnectionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaConnectionBase.h; sourceTree = "<group>"; };
-		6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaConnectionBase.m; sourceTree = "<group>"; };
-		6E24708C15D208B200622159 /* libIPaURLConnection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaURLConnection.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E24708F15D208B200622159 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6E24709315D208B200622159 /* IPaURLConnection-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaURLConnection-Prefix.pch"; sourceTree = "<group>"; };
-		6E24709415D208B200622159 /* IPaURLConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPaURLConnection.h; sourceTree = "<group>"; };
-		6E24709615D208B200622159 /* IPaURLConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaURLConnection.m; sourceTree = "<group>"; };
+		6EC4A9AB17E4D13100228CF2 /* IPaConnectionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaConnectionBase.h; sourceTree = "<group>"; };
+		6EC4A9AC17E4D13100228CF2 /* IPaConnectionBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaConnectionBase.m; sourceTree = "<group>"; };
+		6EC4A9AD17E4D13100228CF2 /* IPaHTTPDownloadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaHTTPDownloadConnection.h; sourceTree = "<group>"; };
+		6EC4A9AE17E4D13100228CF2 /* IPaHTTPDownloadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaHTTPDownloadConnection.m; sourceTree = "<group>"; };
+		6EC4A9AF17E4D13100228CF2 /* IPaURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaURLConnection.h; sourceTree = "<group>"; };
+		6EC4A9B017E4D13100228CF2 /* IPaURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaURLConnection.m; sourceTree = "<group>"; };
+		6EF6C1FD17E4CBB900D4E5B7 /* IPaURLConnection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaURLConnection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EF6C20317E4CBB900D4E5B7 /* IPaURLConnection-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IPaURLConnection-Info.plist"; sourceTree = "<group>"; };
+		6EF6C20517E4CBB900D4E5B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EF6C20717E4CBB900D4E5B7 /* IPaURLConnection-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaURLConnection-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6E24708915D208B200622159 /* Frameworks */ = {
+		6EF6C1F917E4CBB900D4E5B7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E24709015D208B200622159 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E24708115D208B200622159 = {
+		6EF6C1F317E4CBB900D4E5B7 = {
 			isa = PBXGroup;
 			children = (
-				6E24709115D208B200622159 /* IPaURLConnection */,
-				6E24708E15D208B200622159 /* Frameworks */,
-				6E24708D15D208B200622159 /* Products */,
+				6EF6C20117E4CBB900D4E5B7 /* IPaURLConnection */,
+				6EF6C1FE17E4CBB900D4E5B7 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		6E24708D15D208B200622159 /* Products */ = {
+		6EF6C1FE17E4CBB900D4E5B7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E24708C15D208B200622159 /* libIPaURLConnection.a */,
+				6EF6C1FD17E4CBB900D4E5B7 /* IPaURLConnection.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E24708E15D208B200622159 /* Frameworks */ = {
+		6EF6C20117E4CBB900D4E5B7 /* IPaURLConnection */ = {
 			isa = PBXGroup;
 			children = (
-				6E24708F15D208B200622159 /* Foundation.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E24709115D208B200622159 /* IPaURLConnection */ = {
-			isa = PBXGroup;
-			children = (
-				6E07DCA017003F7B0082B4B5 /* IPaConnectionBase.h */,
-				6E07DCA117003F7B0082B4B5 /* IPaConnectionBase.m */,
-				6E24709415D208B200622159 /* IPaURLConnection.h */,
-				6E24709615D208B200622159 /* IPaURLConnection.m */,
-				6E07DC9D170030120082B4B5 /* IPaHTTPDownloadConnection.h */,
-				6E07DC9E170030120082B4B5 /* IPaHTTPDownloadConnection.m */,
-				6E24709215D208B200622159 /* Supporting Files */,
+				6EC4A9AB17E4D13100228CF2 /* IPaConnectionBase.h */,
+				6EC4A9AC17E4D13100228CF2 /* IPaConnectionBase.m */,
+				6EC4A9AD17E4D13100228CF2 /* IPaHTTPDownloadConnection.h */,
+				6EC4A9AE17E4D13100228CF2 /* IPaHTTPDownloadConnection.m */,
+				6EC4A9AF17E4D13100228CF2 /* IPaURLConnection.h */,
+				6EC4A9B017E4D13100228CF2 /* IPaURLConnection.m */,
+				6EF6C20217E4CBB900D4E5B7 /* Supporting Files */,
 			);
 			path = IPaURLConnection;
 			sourceTree = "<group>";
 		};
-		6E24709215D208B200622159 /* Supporting Files */ = {
+		6EF6C20217E4CBB900D4E5B7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6E24709315D208B200622159 /* IPaURLConnection-Prefix.pch */,
+				6EF6C20317E4CBB900D4E5B7 /* IPaURLConnection-Info.plist */,
+				6EF6C20417E4CBB900D4E5B7 /* InfoPlist.strings */,
+				6EF6C20717E4CBB900D4E5B7 /* IPaURLConnection-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		6EF6C1FA17E4CBB900D4E5B7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EC4A9B117E4D13100228CF2 /* IPaConnectionBase.h in Headers */,
+				6EC4A9B517E4D13100228CF2 /* IPaURLConnection.h in Headers */,
+				6EC4A9B317E4D13100228CF2 /* IPaHTTPDownloadConnection.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		6E24708B15D208B200622159 /* IPaURLConnection */ = {
+		6EF6C1FC17E4CBB900D4E5B7 /* IPaURLConnection */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E24709A15D208B200622159 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */;
+			buildConfigurationList = 6EF6C20A17E4CBB900D4E5B7 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */;
 			buildPhases = (
-				6E24708815D208B200622159 /* Sources */,
-				6E24708915D208B200622159 /* Frameworks */,
-				6E24708A15D208B200622159 /* CopyFiles */,
+				6EF6C1F817E4CBB900D4E5B7 /* Sources */,
+				6EF6C1F917E4CBB900D4E5B7 /* Frameworks */,
+				6EF6C1FA17E4CBB900D4E5B7 /* Headers */,
+				6EF6C1FB17E4CBB900D4E5B7 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -115,59 +125,104 @@
 			);
 			name = IPaURLConnection;
 			productName = IPaURLConnection;
-			productReference = 6E24708C15D208B200622159 /* libIPaURLConnection.a */;
-			productType = "com.apple.product-type.library.static";
+			productReference = 6EF6C1FD17E4CBB900D4E5B7 /* IPaURLConnection.framework */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6E24708315D208B200622159 /* Project object */ = {
+		6EF6C1F417E4CBB900D4E5B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = IPaPa;
 			};
-			buildConfigurationList = 6E24708615D208B200622159 /* Build configuration list for PBXProject "IPaURLConnection" */;
+			buildConfigurationList = 6EF6C1F717E4CBB900D4E5B7 /* Build configuration list for PBXProject "IPaURLConnection" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 6E24708115D208B200622159;
-			productRefGroup = 6E24708D15D208B200622159 /* Products */;
+			mainGroup = 6EF6C1F317E4CBB900D4E5B7;
+			productRefGroup = 6EF6C1FE17E4CBB900D4E5B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E24708B15D208B200622159 /* IPaURLConnection */,
+				6EF6C1FC17E4CBB900D4E5B7 /* IPaURLConnection */,
+				6EF6C20017E4CBB900D4E5B7 /* IPaURLConnectionUniversalFramework */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		6EF6C1FB17E4CBB900D4E5B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EF6C20617E4CBB900D4E5B7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6EF6C1FF17E4CBB900D4E5B7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=${PRODUCT_NAME}\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/Resources\" \"${INSTALL_DIR}/Resources\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\n\n# Removes the binary and header from the resources folder.\nrm -r \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/Headers\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/${FMK_NAME}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		6E24708815D208B200622159 /* Sources */ = {
+		6EF6C1F817E4CBB900D4E5B7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E24709715D208B200622159 /* IPaURLConnection.m in Sources */,
-				6E07DC9F170030120082B4B5 /* IPaHTTPDownloadConnection.m in Sources */,
-				6E07DCA217003F7B0082B4B5 /* IPaConnectionBase.m in Sources */,
+				6EC4A9B417E4D13100228CF2 /* IPaHTTPDownloadConnection.m in Sources */,
+				6EC4A9B217E4D13100228CF2 /* IPaConnectionBase.m in Sources */,
+				6EC4A9B617E4D13100228CF2 /* IPaURLConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		6EF6C20417E4CBB900D4E5B7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EF6C20517E4CBB900D4E5B7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		6E24709815D208B200622159 /* Debug */ = {
+		6EF6C20817E4CBB900D4E5B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -178,84 +233,135 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		6E24709915D208B200622159 /* Release */ = {
+		6EF6C20917E4CBB900D4E5B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		6E24709B15D208B200622159 /* Debug */ = {
+		6EF6C20B17E4CBB900D4E5B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/IPaURLConnection.dst;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaURLConnection/IPaURLConnection-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				INFOPLIST_FILE = "IPaURLConnection/IPaURLConnection-Info.plist";
+				INSTALL_PATH = " $(BUILT_PRODUCTS_DIR)";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
+				STRIP_STYLE = all;
+				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
-		6E24709C15D208B200622159 /* Release */ = {
+		6EF6C20C17E4CBB900D4E5B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/IPaURLConnection.dst;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaURLConnection/IPaURLConnection-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				INFOPLIST_FILE = "IPaURLConnection/IPaURLConnection-Info.plist";
+				INSTALL_PATH = " $(BUILT_PRODUCTS_DIR)";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
+				STRIP_STYLE = all;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		6EF6C20E17E4CBB900D4E5B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = IPaURLConnection;
+			};
+			name = Debug;
+		};
+		6EF6C20F17E4CBB900D4E5B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = IPaURLConnection;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E24708615D208B200622159 /* Build configuration list for PBXProject "IPaURLConnection" */ = {
+		6EF6C1F717E4CBB900D4E5B7 /* Build configuration list for PBXProject "IPaURLConnection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E24709815D208B200622159 /* Debug */,
-				6E24709915D208B200622159 /* Release */,
+				6EF6C20817E4CBB900D4E5B7 /* Debug */,
+				6EF6C20917E4CBB900D4E5B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E24709A15D208B200622159 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */ = {
+		6EF6C20A17E4CBB900D4E5B7 /* Build configuration list for PBXNativeTarget "IPaURLConnection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E24709B15D208B200622159 /* Debug */,
-				6E24709C15D208B200622159 /* Release */,
+				6EF6C20B17E4CBB900D4E5B7 /* Debug */,
+				6EF6C20C17E4CBB900D4E5B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EF6C20D17E4CBB900D4E5B7 /* Build configuration list for PBXAggregateTarget "IPaURLConnectionUniversalFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EF6C20E17E4CBB900D4E5B7 /* Debug */,
+				6EF6C20F17E4CBB900D4E5B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6E24708315D208B200622159 /* Project object */;
+	rootObject = 6EF6C1F417E4CBB900D4E5B7 /* Project object */;
 }
