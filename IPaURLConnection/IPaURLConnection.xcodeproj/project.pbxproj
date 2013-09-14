@@ -21,11 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		6EC4A9B117E4D13100228CF2 /* IPaConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AB17E4D13100228CF2 /* IPaConnectionBase.h */; };
+		6EC4A9B117E4D13100228CF2 /* IPaConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AB17E4D13100228CF2 /* IPaConnectionBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC4A9B217E4D13100228CF2 /* IPaConnectionBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9AC17E4D13100228CF2 /* IPaConnectionBase.m */; };
-		6EC4A9B317E4D13100228CF2 /* IPaHTTPDownloadConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AD17E4D13100228CF2 /* IPaHTTPDownloadConnection.h */; };
+		6EC4A9B317E4D13100228CF2 /* IPaHTTPDownloadConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AD17E4D13100228CF2 /* IPaHTTPDownloadConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC4A9B417E4D13100228CF2 /* IPaHTTPDownloadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9AE17E4D13100228CF2 /* IPaHTTPDownloadConnection.m */; };
-		6EC4A9B517E4D13100228CF2 /* IPaURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AF17E4D13100228CF2 /* IPaURLConnection.h */; };
+		6EC4A9B517E4D13100228CF2 /* IPaURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC4A9AF17E4D13100228CF2 /* IPaURLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC4A9B617E4D13100228CF2 /* IPaURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4A9B017E4D13100228CF2 /* IPaURLConnection.m */; };
 		6EF6C20617E4CBB900D4E5B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EF6C20417E4CBB900D4E5B7 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */

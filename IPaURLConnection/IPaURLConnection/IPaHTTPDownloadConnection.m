@@ -26,7 +26,7 @@
     NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
     
     // Check to see if the download is in progress
-    NSUInteger downloadedBytes = 0;
+    unsigned long long downloadedBytes = 0;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
         NSError *error = nil;
@@ -37,7 +37,7 @@
         [fm createFileAtPath:filePath contents:nil attributes:nil];
     }
     if (downloadedBytes > 0) {
-        NSString *requestRange = [NSString stringWithFormat:@"bytes=%d-", downloadedBytes];
+        NSString *requestRange = [NSString stringWithFormat:@"bytes=%llu-", downloadedBytes];
         [theRequest setValue:requestRange forHTTPHeaderField:@"Range"];
     }
     self = [super initWithRequest:theRequest];
