@@ -112,7 +112,7 @@
     NSArray *items = loaderQueue[0];
     NSString *imageID = items[0];
     NSString *imageURL = items[1];
-    self.currentConnection = [[IPaURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10]];
+    self.currentConnection = [[IPaURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10]];
     
     __weak IPaImageURLLoader *weakSelf = self;
     __weak NSMutableArray *weakLoaderQueue = loaderQueue;
@@ -138,7 +138,7 @@
                 NSError *error;
                 [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
                 if (error) {
-                    NSLog(@"%@",error);
+//                    NSLog(@"%@",error);
                     return;
                 }
             }
