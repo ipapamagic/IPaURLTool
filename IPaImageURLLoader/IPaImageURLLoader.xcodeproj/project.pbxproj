@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E652EE818AE95D100744920 /* IPaImageURLOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E652EE718AE95D100744920 /* IPaImageURLOperation.m */; };
 		6E9598CD177B505800B230D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9598CC177B505800B230D1 /* Foundation.framework */; };
 		6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E652EE618AE95D100744920 /* IPaImageURLOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaImageURLOperation.h; sourceTree = "<group>"; };
+		6E652EE718AE95D100744920 /* IPaImageURLOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLOperation.m; sourceTree = "<group>"; };
 		6E9598C9177B505800B230D1 /* libIPaImageURLLoader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaImageURLLoader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E9598CC177B505800B230D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6E9598D0177B505800B230D1 /* IPaImageURLLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaImageURLLoader-Prefix.pch"; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 			children = (
 				6E9598DA177B50D100B230D1 /* IPaImageURLLoader.h */,
 				6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */,
+				6E652EE618AE95D100744920 /* IPaImageURLOperation.h */,
+				6E652EE718AE95D100744920 /* IPaImageURLOperation.m */,
 				6E9598CF177B505800B230D1 /* Supporting Files */,
 			);
 			path = IPaImageURLLoader;
@@ -137,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E652EE818AE95D100744920 /* IPaImageURLOperation.m in Sources */,
 				6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +206,7 @@
 		6E9598D8177B505800B230D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";
@@ -213,6 +220,7 @@
 		6E9598D9177B505800B230D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";

@@ -23,7 +23,7 @@
 {
     [self setHTTPBody:body];
     // set the content-length
-    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    NSString *postLength = [NSString stringWithFormat:@"%ld", [body length]];
     [self setValue:postLength forHTTPHeaderField:@"Content-Length"];
 }
 @end

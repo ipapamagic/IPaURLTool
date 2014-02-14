@@ -9,123 +9,45 @@
 #import "IPaImageURLLoader.h"
 #import <UIKit/UIKit.h>
 #import "IPaURLConnection.h"
+#import "IPaImageURLOperation.h"
 @interface IPaImageURLLoader()
 -(BOOL)useCache;
 -(NSString*)cachePathWithImageID:(NSString*)imageID;
-@property (nonatomic,strong) IPaURLConnection *currentConnection;
 @end
 @implementation IPaImageURLLoader
 {
-    NSMutableArray *loaderQueue;
+    NSOperationQueue *operationQueue;
+    
 }
 -(id)init
 {
     self  = [super init];
-    loaderQueue = [@[] mutableCopy];
-    
+    //    loaderQueue = [@[] mutableCopy];
+    operationQueue = [[NSOperationQueue alloc] init];
     
     return self;
 }
--(void)insertLoadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
-{
-    NSUInteger index = [loaderQueue indexOfObjectPassingTest:^(id obj,NSUInteger idx,BOOL *stop) {
-        NSArray *item = (NSArray*)obj;
-        return ([item[0] isEqualToString:imageID]);
-    }];
-    if (index == NSNotFound) {
-        if (loaderQueue.count >= 1) {
-            [loaderQueue insertObject:@[imageID,imgURL] atIndex:1];
-        }
-        else {
-            [loaderQueue addObject:@[imageID,imgURL]];
-        }
-        [self processLoaderQueue];
-        return;
-    }
-    NSArray *item = loaderQueue[index];
-    
-    
-    if (![item[1] isEqualToString:imgURL]) {
-        if (index == 0) {
-            [self.currentConnection cancel];
-            self.currentConnection = nil;
-            [self processLoaderQueue];
-            return;
-        }
-        else if (index == 1) {
-            [loaderQueue replaceObjectAtIndex:index withObject:@[imageID,imgURL]];
-            return;
-        }
-    }
-    
-    
-    [loaderQueue removeObjectAtIndex:index];
-    [loaderQueue insertObject:@[imageID,imgURL] atIndex:1];
-
-    
-
-
-}
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
 {
-    NSUInteger index = [loaderQueue indexOfObjectPassingTest:^(id obj,NSUInteger idx,BOOL *stop) {
-        NSArray *item = (NSArray*)obj;
-        return ([item[0] isEqualToString:imageID]);
+    NSArray *currentQueue = operationQueue.operations;
+    NSUInteger index = [currentQueue indexOfObjectPassingTest:^(IPaImageURLOperation* obj,NSUInteger idx,BOOL *stop) {
+        
+        return ([obj.imageID  isEqualToString:imageID]);
     }];
-    
-    if (index == NSNotFound) {
-        [loaderQueue addObject:@[imageID,imgURL]];
-        [self processLoaderQueue];
-        return;
-    }
-    NSArray *item = loaderQueue[index];
-    if ([item[1] isEqualToString:imgURL]) {
-        return;
-    }
-    if (index == 0) {
-        [self.currentConnection cancel];
-        self.currentConnection = nil;
+    if (index != NSNotFound) {
+        IPaImageURLOperation *operation = currentQueue[index];
+        [operation cancel];
     }
     
-    [loaderQueue replaceObjectAtIndex:index withObject:@[imageID,imgURL]];
-    
-    [self processLoaderQueue];
-    
-}
--(UIImage*)cacheWithImageID:(NSString*)imageID
-{
-    NSString *path = [self cachePathWithImageID:imageID];
-    if (path == nil) {
-        return nil;
-    }
-    return [UIImage imageWithContentsOfFile:path];
-}
--(void)processLoaderQueue
-{
-    
-    if (loaderQueue.count == 0) {
-        return;
-    }
-    if (self.currentConnection != nil) {
-        return;
-    }
-    NSArray *items = loaderQueue[0];
-    NSString *imageID = items[0];
-    NSString *imageURL = items[1];
-    self.currentConnection = [[IPaURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10]];
-    
-    __weak IPaImageURLLoader *weakSelf = self;
-    __weak NSMutableArray *weakLoaderQueue = loaderQueue;
-    self.currentConnection.FinishCallback = ^(){
-        NSArray *items = weakLoaderQueue[0];
-        if (![items[0] isEqualToString:imageID]) {
-            weakSelf.currentConnection = nil;
-            [weakSelf processLoaderQueue];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imgURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    IPaImageURLOperation *operation = [[IPaImageURLOperation alloc] initWithURLRequest:request withImageID:imageID];
+    __weak IPaImageURLOperation* weakOperation = operation;
+    IPaImageURLLoader *weakSelf = self;
+    operation.completionBlock = ^(){
+        if (weakOperation.loadedImage == nil) {
             return;
         }
-        
-        IPaURLConnection *connection = weakSelf.currentConnection;
-        UIImage *image = [[UIImage alloc] initWithData:connection.receiveData];
+        UIImage *image = weakOperation.loadedImage;
         UIImage *modifyImage = [weakSelf modifyImageWithOriginalImage:image imageID:imageID];
         if (modifyImage != nil) {
             image = modifyImage;
@@ -138,52 +60,43 @@
                 NSError *error;
                 [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
                 if (error) {
-//                    NSLog(@"%@",error);
+                    //                    NSLog(@"%@",error);
                     return;
                 }
             }
             NSData *data = [weakSelf createCacheWithImage:image];
             [data writeToFile:path atomically:YES];
         }
-        [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];        
-
-        weakSelf.currentConnection = nil;
-        [weakLoaderQueue removeObjectAtIndex:0];
+        [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
         
-        [weakSelf processLoaderQueue];
-    };
-    self.currentConnection.FailCallback = ^(NSError* error){
-        NSArray *items = weakLoaderQueue[0];
-        if (![items[0] isEqualToString:imageID]) {
-            weakSelf.currentConnection = nil;
-            [weakSelf processLoaderQueue];
-            return;
-        }
-        if ([weakSelf.delegate respondsToSelector:@selector(onIPaImageURLLoader:failWithImageID:)]) {
-            [weakSelf.delegate onIPaImageURLLoader:weakSelf failWithImageID:imageID];
-        }
         
-        weakSelf.currentConnection = nil;
-        [weakLoaderQueue removeObjectAtIndex:0];
-        [weakSelf processLoaderQueue];
     };
-    [self.currentConnection start];
-    
+    [operationQueue addOperation:operation];
 }
+-(UIImage*)cacheWithImageID:(NSString*)imageID
+{
+    NSString *path = [self cachePathWithImageID:imageID];
+    if (path == nil) {
+        return nil;
+    }
+    return [UIImage imageWithContentsOfFile:path];
+}
+
 -(void)cancelLoaderWithImageID:(NSString*)imageID
 {
-    NSUInteger index = [loaderQueue indexOfObjectPassingTest:^(id obj,NSUInteger idx,BOOL *stop) {
-        NSArray *item = (NSArray*)obj;
-        return ([item[0] isEqualToString:imageID]);
+    
+    NSArray *currentQueue = operationQueue.operations;
+    NSUInteger index = [currentQueue indexOfObjectPassingTest:^(IPaImageURLOperation* obj,NSUInteger idx,BOOL *stop) {
+        return ([obj.imageID  isEqualToString:imageID]);
     }];
+    
+    
     if (index == NSNotFound) {
         return;
     }
-
-    if (index == 0) {
-        return;
-    }
-    [loaderQueue removeObjectAtIndex:index];        
+    
+    IPaImageURLOperation* operation =  currentQueue[index];
+    [operation cancel];
     
 }
 #pragma mark - property

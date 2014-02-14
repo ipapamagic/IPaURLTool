@@ -15,7 +15,7 @@
 }
 -(void)appendHTTPPostWithName:(NSString*)dataName intData:(NSInteger)intData boundary:(NSString*)boundary
 {
-    [self appendHTTPPostWithName:dataName dataString:[NSString stringWithFormat:@"%d",intData] boundary:boundary];
+    [self appendHTTPPostWithName:dataName dataString:[NSString stringWithFormat:@"%ld",intData] boundary:boundary];
 }
 -(void)appendHTTPPostWithName:(NSString*)dataName floatData:(CGFloat)floatData boundary:(NSString*)boundary
 {

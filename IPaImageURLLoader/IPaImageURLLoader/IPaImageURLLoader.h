@@ -10,8 +10,6 @@
 @class UIImage;
 @protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject
-//need to load first
--(void)insertLoadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
 -(void)cancelLoaderWithImageID:(NSString*)imageID;
 -(UIImage*)cacheWithImageID:(NSString*)imageID;
