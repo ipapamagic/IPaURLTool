@@ -15,12 +15,16 @@
 @property (nonatomic,strong) IPaURLConnection *connection;
 @end
 @implementation IPaImageURLOperation
+{
+    dispatch_semaphore_t semaphore;
+}
 -(instancetype)initWithURLRequest:(NSURLRequest *)request withImageID:(NSString *)imageID
 {
     self = [super init];
     self.request = request;
     self.imageID = imageID;
     self.loadedImage = nil;
+    semaphore = NULL;
     return self;
 }
 -(void)start
@@ -29,7 +33,7 @@
     IPaURLConnection *urlConnection = [[IPaURLConnection alloc] initWithRequest:self.request];
     __weak IPaImageURLOperation *weakSelf = self;
     __weak IPaURLConnection *weakConnection = urlConnection;
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    semaphore = dispatch_semaphore_create(0);
     urlConnection.FinishCallback = ^(){
         weakSelf.loadedImage = [[UIImage alloc] initWithData:weakConnection.receiveData];
         dispatch_semaphore_signal(semaphore);
@@ -69,6 +73,11 @@
 }
 -(void)cancel
 {
+    if (semaphore != NULL)
+    {
+        dispatch_semaphore_signal(semaphore);
+        semaphore = NULL;
+    }
     [self.connection cancel];
 }
 @end
