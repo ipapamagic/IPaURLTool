@@ -13,38 +13,48 @@
 @property (nonatomic,readwrite) float progress;
 @end
 @implementation IPaHTTPDownloadConnection
-
+{
+    NSString *tempFileName;
+}
 
 -(id)initWithRequest:(NSURLRequest *)request
 {
     NSAssert(NO,@"Don't do this!");
     return nil;
 }
-
--(id)initWithDownloadURLString:(NSString *)URL toFilePath:(NSString*)filePath cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval
+-(id)initWithRequest:(NSURLRequest *)request toFilePath:(NSString*)filePath
 {
-    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
-    
     // Check to see if the download is in progress
+    NSMutableURLRequest *theRequest = [request mutableCopy];
     NSUInteger downloadedBytes = 0;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
         NSError *error = nil;
         NSDictionary *fileDictionary = [fm attributesOfItemAtPath:filePath error:&error];
-        if (!error && fileDictionary)
+        if (!error && fileDictionary) {
             downloadedBytes = (NSUInteger)[fileDictionary fileSize];
+            if (downloadedBytes > 0) {
+                NSString *requestRange = [NSString stringWithFormat:@"bytes=%d-", downloadedBytes];
+                [theRequest setValue:requestRange forHTTPHeaderField:@"Range"];
+            }
+        }
     } else {
         [fm createFileAtPath:filePath contents:nil attributes:nil];
     }
-    if (downloadedBytes > 0) {
-        NSString *requestRange = [NSString stringWithFormat:@"bytes=%d-", downloadedBytes];
-        [theRequest setValue:requestRange forHTTPHeaderField:@"Range"];
-    }
+    
+    
+    [theRequest setValue:@"" forHTTPHeaderField:@"Accept-Encoding"];
     self = [super initWithRequest:theRequest];
     self.downloadPath = filePath;
-    
-    
+    tempFileName = [self.downloadPath stringByAppendingPathExtension:@"tmp"];
     return self;
+}
+-(id)initWithDownloadURLString:(NSString *)URL toFilePath:(NSString*)filePath cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval
+{
+    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
+    
+    
+    return [self initWithRequest:theRequest toFilePath:filePath];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -56,7 +66,7 @@
         return;
     }
     
-    NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:self.downloadPath];
+    NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:tempFileName];
     self.fileHandle = fh;
     switch (httpResponse.statusCode) {
         case 206: {
@@ -101,20 +111,30 @@
             break;
     }
     
-   
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.fileHandle writeData:data];
     [self.fileHandle synchronizeFile];
-    self.progress = (float)self.fileHandle.availableData.length / (float)self.response.expectedContentLength;
+    
+    
+    self.progress = (float)self.fileHandle.offsetInFile / (float)self.response.expectedContentLength;
+    if (self.onProgressUpdate != nil) {
+        self.onProgressUpdate(self.progress);
+    }
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     
     [self.fileHandle closeFile];
     self.fileHandle = nil;
+    NSError *error;
+    [[NSFileManager defaultManager] moveItemAtPath:tempFileName toPath:self.downloadPath error:&error];
+    if (error) {
+        NSLog(@"%@",error);
+    }
     [super connectionDidFinishLoading:connection];
-  
+    
 }
 @end

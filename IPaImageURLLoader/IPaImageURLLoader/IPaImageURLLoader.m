@@ -29,6 +29,10 @@
 }
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
 {
+    [self loadImageWithURL:imgURL withImageID:imageID withCallback:nil];
+}
+-(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback
+{
     NSArray *currentQueue = operationQueue.operations;
     NSUInteger index = [currentQueue indexOfObjectPassingTest:^(IPaImageURLOperation* obj,NSUInteger idx,BOOL *stop) {
         
@@ -45,6 +49,9 @@
     IPaImageURLLoader *weakSelf = self;
     operation.completionBlock = ^(){
         if (weakOperation.loadedImage == nil) {
+            if (callback != nil) {
+                callback(nil);
+            }
             return;
         }
         UIImage *image = weakOperation.loadedImage;
@@ -61,6 +68,9 @@
                 [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
                 if (error) {
                     //                    NSLog(@"%@",error);
+                    if (callback != nil) {
+                        callback(nil);
+                    }
                     return;
                 }
             }
@@ -68,11 +78,14 @@
             [data writeToFile:path atomically:YES];
         }
         [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
-        
+        if (callback != nil) {
+            callback(image);
+        }
         
     };
     [operationQueue addOperation:operation];
 }
+
 -(UIImage*)cacheWithImageID:(NSString*)imageID
 {
     NSString *path = [self cachePathWithImageID:imageID];

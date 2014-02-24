@@ -11,6 +11,7 @@
 @protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
+-(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback;
 -(void)cancelLoaderWithImageID:(NSString*)imageID;
 -(UIImage*)cacheWithImageID:(NSString*)imageID;
 @property (nonatomic,weak) id <IPaImageURLLoaderDelegate> delegate;

@@ -9,5 +9,7 @@
 #import "IPaConnectionBase.h"
 @interface IPaHTTPDownloadConnection : IPaConnectionBase
 @property (nonatomic,readonly) float progress;
+@property (nonatomic,copy) void (^onProgressUpdate)(float);
 -(id)initWithDownloadURLString:(NSString *)URL toFilePath:(NSString*)filePath cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval;
+-(id)initWithRequest:(NSURLRequest *)request toFilePath:(NSString*)filePath;
 @end
