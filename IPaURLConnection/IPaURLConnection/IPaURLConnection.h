@@ -16,9 +16,6 @@
 }
 @property (nonatomic,weak) id <IPaURLConnectionDelegate> connectionDelegate;
 
-
--(id)initWithRequest:(NSURLRequest *)request;
-
 + (id)ConnectionWithURLString:(NSString*)URL
                cachePolicy:(NSURLRequestCachePolicy)cachePolicy
            timeoutInterval:(NSTimeInterval)timeoutInterval
