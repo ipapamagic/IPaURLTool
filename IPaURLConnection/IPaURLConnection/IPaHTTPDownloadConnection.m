@@ -30,7 +30,14 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
         NSError *error = nil;
-        NSDictionary *fileDictionary = [fm attributesOfItemAtPath:filePath error:&error];
+        [fm removeItemAtPath:filePath error:&error];
+    }
+    
+    
+    tempFileName = [filePath stringByAppendingPathExtension:@"tmp"];
+    if ([fm fileExistsAtPath:tempFileName]) {
+        NSError *error = nil;
+        NSDictionary *fileDictionary = [fm attributesOfItemAtPath:tempFileName error:&error];
         if (!error && fileDictionary) {
             downloadedBytes = (NSUInteger)[fileDictionary fileSize];
             if (downloadedBytes > 0) {
@@ -39,14 +46,14 @@
             }
         }
     } else {
-        [fm createFileAtPath:filePath contents:nil attributes:nil];
+        [fm createFileAtPath:tempFileName contents:nil attributes:nil];
     }
     
     
     [theRequest setValue:@"" forHTTPHeaderField:@"Accept-Encoding"];
     self = [super initWithRequest:theRequest];
     self.downloadPath = filePath;
-    tempFileName = [self.downloadPath stringByAppendingPathExtension:@"tmp"];
+    
     return self;
 }
 -(id)initWithDownloadURLString:(NSString *)URL toFilePath:(NSString*)filePath cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval
@@ -130,9 +137,16 @@
     [self.fileHandle closeFile];
     self.fileHandle = nil;
     NSError *error;
-    [[NSFileManager defaultManager] moveItemAtPath:tempFileName toPath:self.downloadPath error:&error];
-    if (error) {
-        NSLog(@"%@",error);
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:self.downloadPath]) {
+        [fm removeItemAtPath:self.downloadPath error:&error];
+    }
+    if (!error) {
+        [fm moveItemAtPath:tempFileName toPath:self.downloadPath error:&error];
+        if (error) {
+            NSLog(@"%@",error);
+        }
+        
     }
     [super connectionDidFinishLoading:connection];
     
