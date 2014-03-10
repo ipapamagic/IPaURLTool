@@ -12,6 +12,9 @@
 
 @end
 @implementation IPaConnectionBase
+{
+    NSMutableData* recData;
+}
 static NSMutableArray *connectionList;
 +(void)RetainConnection:(IPaConnectionBase*)connection
 {
@@ -47,6 +50,7 @@ static NSMutableArray *connectionList;
     self = [super initWithRequest:request delegate:self startImmediately:NO];
     [self clearCallback];
     [self scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    recData = [NSMutableData data];
     return self;
 }
 -(void)clearCallback
@@ -62,12 +66,19 @@ static NSMutableArray *connectionList;
 }
 
 -(void) cancel {
+    [recData setLength:0];
     [super cancel];
     [IPaConnectionBase ReleaseConnection:self];
 }
 -(void)dealloc {
+    recData = nil;
     [self cancel];
     [self clearCallback];
+}
+
+-(NSData*)receiveData
+{
+    return recData;
 }
 -(BOOL)isRunning
 {
@@ -78,12 +89,18 @@ static NSMutableArray *connectionList;
 {
     //    responseHeader = ((NSHTTPURLResponse*)response).allHeaderFields;
     self.response = response;
+    [recData setLength:0];
 }
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	[recData appendData: data];
+}
+
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     if (self.FinishCallback != nil) {
         
-        self.FinishCallback();
+        self.FinishCallback(self.response,recData);
         
     }
     [IPaConnectionBase ReleaseConnection:self];

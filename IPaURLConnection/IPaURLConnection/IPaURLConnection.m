@@ -12,7 +12,7 @@
 @end
 @implementation IPaURLConnection
 {
-    NSMutableData* recData;
+    
 
     
 }
@@ -46,41 +46,13 @@
               failCallback:(void (^)(NSError*))failCallback
 {
     return [self ConnectionWithURLString:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval callback:callback failCallback:failCallback delegate:nil];
-    
-}
-
--(id)initWithRequest:(NSURLRequest *)request
-{
-    self = [super initWithRequest:request];
-    recData = [NSMutableData data];    
-    return self;
-}
-
-
-
--(void)dealloc {
-    recData = nil;
-}
-
--(void) cancel {
-    [recData setLength:0];    
-    [super cancel];
-}
--(NSData*)receiveData
-{
-    return recData;
 }
 
 #pragma mark - NSURLConnectionDataDelegate
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    //    responseHeader = ((NSHTTPURLResponse*)response).allHeaderFields;
-    [super connection:connection didReceiveResponse:response];
-	[recData setLength:0];
-}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-	[recData appendData: data];
+	[super connection:connection didReceiveData:data];
     if ([self.connectionDelegate respondsToSelector:@selector(connection:didReceiveData:)]) {
         [self.connectionDelegate connection:self didReceiveData:data];
     }

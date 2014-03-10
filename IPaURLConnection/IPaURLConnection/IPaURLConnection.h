@@ -16,7 +16,7 @@
 }
 @property (nonatomic,weak) id <IPaURLConnectionDelegate> connectionDelegate;
 
-@property (nonatomic,readonly) NSData* receiveData;
+
 -(id)initWithRequest:(NSURLRequest *)request;
 
 + (id)ConnectionWithURLString:(NSString*)URL

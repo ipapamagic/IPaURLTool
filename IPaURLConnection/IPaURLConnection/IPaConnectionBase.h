@@ -10,7 +10,8 @@
 
 @interface IPaConnectionBase : NSURLConnection  <NSURLConnectionDataDelegate>
 @property (nonatomic,readonly) NSURLResponse* response;
-@property (nonatomic,copy) void (^FinishCallback)();
+@property (nonatomic,readonly) NSData* receiveData;
+@property (nonatomic,copy) void (^FinishCallback)(NSURLResponse*,NSData*);
 @property (nonatomic,copy) void (^FailCallback)(NSError*);
 //if urlconnection is running
 -(BOOL)isRunning;
