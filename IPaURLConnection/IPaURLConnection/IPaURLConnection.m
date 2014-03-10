@@ -27,10 +27,7 @@
     NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString: URL] cachePolicy: cachePolicy timeoutInterval:timeoutInterval];
     IPaURLConnection *connection = [[IPaURLConnection alloc] initWithRequest:theRequest];
     
-    __weak IPaURLConnection *weakConnection = connection;
-    connection.FinishCallback = ^(){
-        callback(weakConnection.response,weakConnection.receiveData);
-    };
+    connection.FinishCallback = callback;
     connection.FailCallback = failCallback;
     connection.connectionDelegate = delegate;    
     [connection start];

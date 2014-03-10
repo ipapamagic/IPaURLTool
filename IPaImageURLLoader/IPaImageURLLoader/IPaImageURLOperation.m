@@ -34,7 +34,7 @@
     __weak IPaImageURLOperation *weakSelf = self;
     __weak IPaURLConnection *weakConnection = urlConnection;
     semaphore = dispatch_semaphore_create(0);
-    urlConnection.FinishCallback = ^(){
+    urlConnection.FinishCallback = ^(NSURLResponse* response,NSData* retData){
         weakSelf.loadedImage = [[UIImage alloc] initWithData:weakConnection.receiveData];
         dispatch_semaphore_signal(semaphore);
     };
