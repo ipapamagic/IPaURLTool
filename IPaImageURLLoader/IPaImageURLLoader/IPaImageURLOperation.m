@@ -34,9 +34,10 @@
     __weak IPaImageURLOperation *weakSelf = self;
     __weak IPaURLConnection *weakConnection = urlConnection;
     semaphore = dispatch_semaphore_create(0);
-    urlConnection.FinishCallback = ^(NSURLResponse* response,NSData* retData){
+    urlConnection.FinishCallback = ^(){
         weakSelf.loadedImage = [[UIImage alloc] initWithData:weakConnection.receiveData];
         dispatch_semaphore_signal(semaphore);
+        
     };
     urlConnection.FailCallback = ^(NSError* error){
         dispatch_semaphore_signal(semaphore);
@@ -45,6 +46,7 @@
     self.connection = urlConnection;
     [urlConnection start];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    
 }
 
 -(NSString*)imageID
@@ -61,13 +63,13 @@
 }
 -(BOOL)isFinished
 {
-    BOOL isFinished = (self.connection != nil && ![self.connection isRunning]);
-    if (isFinished) {
-        NSLog(@"YES finished");
-    }
-    else {
-        NSLog(@"No not finished");
-    }
+    //    BOOL isFinished = (self.connection != nil && ![self.connection isRunning]);
+    //    if (isFinished) {
+    //        NSLog(@"YES finished");
+    //    }
+    //    else {
+    //        NSLog(@"No not finished");
+    //    }
     
     return (self.connection != nil && ![self.connection isRunning]);
 }

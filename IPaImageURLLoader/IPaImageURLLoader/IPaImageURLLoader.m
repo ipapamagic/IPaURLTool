@@ -17,6 +17,7 @@
 @implementation IPaImageURLLoader
 {
     NSOperationQueue *operationQueue;
+    NSMutableArray *imageCallbackList;
     
 }
 -(id)init
@@ -24,7 +25,7 @@
     self  = [super init];
     //    loaderQueue = [@[] mutableCopy];
     operationQueue = [[NSOperationQueue alloc] init];
-    
+    imageCallbackList = [@[] mutableCopy];
     return self;
 }
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
@@ -40,7 +41,16 @@
     }];
     if (index != NSNotFound) {
         IPaImageURLOperation *operation = currentQueue[index];
-        [operation cancel];
+        if ([[operation.request.URL absoluteString] isEqualToString:imgURL]) {
+            [operation cancel];
+        }
+        else{
+            if (callback != nil) {
+                [imageCallbackList addObject:[callback copy]];
+            }
+            return;
+        }
+        
     }
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imgURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
@@ -50,8 +60,19 @@
     operation.completionBlock = ^(){
         if (weakOperation.loadedImage == nil) {
             if (callback != nil) {
-                callback(nil);
+                dispatch_async(dispatch_get_main_queue(), ^(){
+                    callback(nil);
+                });
+                
             }
+            for (id callbackItem in imageCallbackList )
+            {
+                void (^blockItem)(UIImage*) = callbackItem;
+                dispatch_async(dispatch_get_main_queue(), ^(){
+                    blockItem(nil);
+                });
+            }
+            
             return;
         }
         UIImage *image = weakOperation.loadedImage;
@@ -69,7 +90,16 @@
                 if (error) {
                     //                    NSLog(@"%@",error);
                     if (callback != nil) {
-                        callback(nil);
+                        dispatch_async(dispatch_get_main_queue(), ^(){
+                            callback(nil);
+                        });
+                    }
+                    for (id callbackItem in imageCallbackList )
+                    {
+                        void (^blockItem)(UIImage*) = callbackItem;
+                        dispatch_async(dispatch_get_main_queue(), ^(){
+                            blockItem(nil);
+                        });
                     }
                     return;
                 }
@@ -77,10 +107,20 @@
             NSData *data = [weakSelf createCacheWithImage:image];
             [data writeToFile:path atomically:YES];
         }
-        [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
-        if (callback != nil) {
-            callback(image);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
+            if (callback != nil) {
+                callback(image);
+                
+            }
+            for (id callbackItem in imageCallbackList )
+            {
+                void (^blockItem)(UIImage*) = callbackItem;
+                blockItem(image);
+            }
+            
+        });
+        
         
     };
     [operationQueue addOperation:operation];

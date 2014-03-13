@@ -12,4 +12,5 @@
 -(NSString*)imageID;
 -(instancetype)initWithURLRequest:(NSURLRequest*)request withImageID:(NSString*)imageID;
 @property (nonatomic,readonly) UIImage *loadedImage;
+@property (nonatomic,readonly) NSURLRequest *request;
 @end
