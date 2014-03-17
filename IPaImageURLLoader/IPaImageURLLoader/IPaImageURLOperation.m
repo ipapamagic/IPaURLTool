@@ -32,10 +32,9 @@
     //如果queueData 這邊是 nil的話，就有大問題...
     IPaURLConnection *urlConnection = [[IPaURLConnection alloc] initWithRequest:self.request];
     __weak IPaImageURLOperation *weakSelf = self;
-    __weak IPaURLConnection *weakConnection = urlConnection;
     semaphore = dispatch_semaphore_create(0);
-    urlConnection.FinishCallback = ^(){
-        weakSelf.loadedImage = [[UIImage alloc] initWithData:weakConnection.receiveData];
+    urlConnection.FinishCallback = ^(NSURLResponse *response,NSData *responseData){
+        weakSelf.loadedImage = [[UIImage alloc] initWithData:responseData];
         dispatch_semaphore_signal(semaphore);
         
     };

@@ -41,18 +41,18 @@
 		6EC4A9C717E4D45F00228CF2 /* IPaURLTool-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IPaURLTool-Info.plist"; sourceTree = "<group>"; };
 		6EC4A9C917E4D45F00228CF2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6EC4A9CB17E4D45F00228CF2 /* IPaURLTool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaURLTool-Prefix.pch"; sourceTree = "<group>"; };
-		6EC4A9DE17E4D4FE00228CF2 /* IPaImageURLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaImageURLLoader.h; path = ../../IPaImageURLLoader/IPaImageURLLoader/IPaImageURLLoader.h; sourceTree = "<group>"; };
-		6EC4A9DF17E4D4FE00228CF2 /* IPaImageURLLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaImageURLLoader.m; path = ../../IPaImageURLLoader/IPaImageURLLoader/IPaImageURLLoader.m; sourceTree = "<group>"; };
-		6EC4A9E217E4D50500228CF2 /* NSMutableURLRequest+IPaHTTPPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = "NSMutableURLRequest+IPaHTTPPost.h"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableURLRequest+IPaHTTPPost.h"; sourceTree = "<group>"; };
-		6EC4A9E317E4D50500228CF2 /* NSMutableURLRequest+IPaHTTPPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = "NSMutableURLRequest+IPaHTTPPost.m"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableURLRequest+IPaHTTPPost.m"; sourceTree = "<group>"; };
-		6EC4A9E417E4D50500228CF2 /* NSMutableData+IPaHTTPPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = "NSMutableData+IPaHTTPPost.h"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableData+IPaHTTPPost.h"; sourceTree = "<group>"; };
-		6EC4A9E517E4D50500228CF2 /* NSMutableData+IPaHTTPPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = "NSMutableData+IPaHTTPPost.m"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableData+IPaHTTPPost.m"; sourceTree = "<group>"; };
-		6EC4A9EA17E4D50F00228CF2 /* IPaConnectionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaConnectionBase.h; path = ../../IPaURLConnection/IPaURLConnection/IPaConnectionBase.h; sourceTree = "<group>"; };
-		6EC4A9EB17E4D50F00228CF2 /* IPaConnectionBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaConnectionBase.m; path = ../../IPaURLConnection/IPaURLConnection/IPaConnectionBase.m; sourceTree = "<group>"; };
-		6EC4A9EC17E4D50F00228CF2 /* IPaHTTPDownloadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaHTTPDownloadConnection.h; path = ../../IPaURLConnection/IPaURLConnection/IPaHTTPDownloadConnection.h; sourceTree = "<group>"; };
-		6EC4A9ED17E4D50F00228CF2 /* IPaHTTPDownloadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaHTTPDownloadConnection.m; path = ../../IPaURLConnection/IPaURLConnection/IPaHTTPDownloadConnection.m; sourceTree = "<group>"; };
-		6EC4A9EE17E4D50F00228CF2 /* IPaURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaURLConnection.h; path = ../../IPaURLConnection/IPaURLConnection/IPaURLConnection.h; sourceTree = "<group>"; };
-		6EC4A9EF17E4D50F00228CF2 /* IPaURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = IPaURLConnection.m; path = ../../IPaURLConnection/IPaURLConnection/IPaURLConnection.m; sourceTree = "<group>"; };
+		6EC4A9DE17E4D4FE00228CF2 /* IPaImageURLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPaImageURLLoader.h; path = ../../IPaImageURLLoader/IPaImageURLLoader/IPaImageURLLoader.h; sourceTree = "<group>"; };
+		6EC4A9DF17E4D4FE00228CF2 /* IPaImageURLLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPaImageURLLoader.m; path = ../../IPaImageURLLoader/IPaImageURLLoader/IPaImageURLLoader.m; sourceTree = "<group>"; };
+		6EC4A9E217E4D50500228CF2 /* NSMutableURLRequest+IPaHTTPPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableURLRequest+IPaHTTPPost.h"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableURLRequest+IPaHTTPPost.h"; sourceTree = "<group>"; };
+		6EC4A9E317E4D50500228CF2 /* NSMutableURLRequest+IPaHTTPPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableURLRequest+IPaHTTPPost.m"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableURLRequest+IPaHTTPPost.m"; sourceTree = "<group>"; };
+		6EC4A9E417E4D50500228CF2 /* NSMutableData+IPaHTTPPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableData+IPaHTTPPost.h"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableData+IPaHTTPPost.h"; sourceTree = "<group>"; };
+		6EC4A9E517E4D50500228CF2 /* NSMutableData+IPaHTTPPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableData+IPaHTTPPost.m"; path = "../../IPaHTTPPost/IPaHTTPPost/NSMutableData+IPaHTTPPost.m"; sourceTree = "<group>"; };
+		6EC4A9EA17E4D50F00228CF2 /* IPaConnectionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPaConnectionBase.h; path = ../../IPaURLConnection/IPaURLConnection/IPaConnectionBase.h; sourceTree = "<group>"; };
+		6EC4A9EB17E4D50F00228CF2 /* IPaConnectionBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPaConnectionBase.m; path = ../../IPaURLConnection/IPaURLConnection/IPaConnectionBase.m; sourceTree = "<group>"; };
+		6EC4A9EC17E4D50F00228CF2 /* IPaHTTPDownloadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPaHTTPDownloadConnection.h; path = ../../IPaURLConnection/IPaURLConnection/IPaHTTPDownloadConnection.h; sourceTree = "<group>"; };
+		6EC4A9ED17E4D50F00228CF2 /* IPaHTTPDownloadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPaHTTPDownloadConnection.m; path = ../../IPaURLConnection/IPaURLConnection/IPaHTTPDownloadConnection.m; sourceTree = "<group>"; };
+		6EC4A9EE17E4D50F00228CF2 /* IPaURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPaURLConnection.h; path = ../../IPaURLConnection/IPaURLConnection/IPaURLConnection.h; sourceTree = "<group>"; };
+		6EC4A9EF17E4D50F00228CF2 /* IPaURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPaURLConnection.m; path = ../../IPaURLConnection/IPaURLConnection/IPaURLConnection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,7 @@
 		6EC4A9B817E4D45F00228CF2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = IPaPa;
 			};
 			buildConfigurationList = 6EC4A9BB17E4D45F00228CF2 /* Build configuration list for PBXProject "IPaURLTool" */;
@@ -235,7 +235,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -273,7 +272,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -304,7 +302,6 @@
 		6EC4A9CF17E4D45F00228CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_VERSION = A;
@@ -325,7 +322,6 @@
 		6EC4A9D017E4D45F00228CF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_VERSION = A;
@@ -376,6 +372,7 @@
 				6EC4A9D017E4D45F00228CF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6EC4A9D117E4D45F00228CF2 /* Build configuration list for PBXAggregateTarget "IPaURLToolUniversalFramework" */ = {
 			isa = XCConfigurationList;
@@ -384,6 +381,7 @@
 				6EC4A9D317E4D45F00228CF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -41,7 +41,7 @@
         if (!error && fileDictionary) {
             downloadedBytes = (NSUInteger)[fileDictionary fileSize];
             if (downloadedBytes > 0) {
-                NSString *requestRange = [NSString stringWithFormat:@"bytes=%d-", downloadedBytes];
+                NSString *requestRange = [NSString stringWithFormat:@"bytes=%lu-", (unsigned long)downloadedBytes];
                 [theRequest setValue:requestRange forHTTPHeaderField:@"Range"];
             }
         }
