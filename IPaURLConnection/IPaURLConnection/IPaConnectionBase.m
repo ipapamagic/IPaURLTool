@@ -100,7 +100,7 @@ static NSMutableArray *connectionList;
 {
     if (self.FinishCallback != nil) {
         
-        self.FinishCallback(self.response,recData);
+        self.FinishCallback(self.response,self.receiveData);
         
     }
     [IPaConnectionBase ReleaseConnection:self];
