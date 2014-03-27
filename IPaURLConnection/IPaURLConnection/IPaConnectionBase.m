@@ -18,7 +18,7 @@
 static NSMutableArray *connectionList;
 +(void)RetainConnection:(IPaConnectionBase*)connection
 {
-    @synchronized(self){
+    @synchronized(connectionList){
         if (connectionList == nil) {
             connectionList = [@[] mutableCopy];
         }
@@ -30,7 +30,7 @@ static NSMutableArray *connectionList;
 }
 +(void)ReleaseConnection:(IPaConnectionBase*)connection
 {
-    @synchronized(self){
+    @synchronized(connectionList){
         [connectionList removeObject:connection];
     }
 }
@@ -82,7 +82,9 @@ static NSMutableArray *connectionList;
 }
 -(BOOL)isRunning
 {
-    return ([connectionList indexOfObject:self] != NSNotFound);
+    @synchronized(connectionList){
+        return ([connectionList indexOfObject:self] != NSNotFound);
+    }
 }
 #pragma mark - NSURLConnectionDataDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

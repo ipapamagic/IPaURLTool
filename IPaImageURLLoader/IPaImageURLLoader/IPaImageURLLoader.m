@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "IPaURLConnection.h"
 #import "IPaImageURLOperation.h"
+
 @interface IPaImageURLLoader()
 -(BOOL)useCache;
 -(NSString*)cachePathWithImageID:(NSString*)imageID;
@@ -20,13 +21,19 @@
     NSMutableArray *imageCallbackList;
     
 }
+const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 -(id)init
 {
     self  = [super init];
     //    loaderQueue = [@[] mutableCopy];
     operationQueue = [[NSOperationQueue alloc] init];
+    operationQueue.maxConcurrentOperationCount = IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER;
     imageCallbackList = [@[] mutableCopy];
     return self;
+}
+-(void)setMaxConcurrentOperation:(NSUInteger)maxConcurrent
+{
+    operationQueue.maxConcurrentOperationCount = maxConcurrent;
 }
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
 {
@@ -41,7 +48,7 @@
     }];
     if (index != NSNotFound) {
         IPaImageURLOperation *operation = currentQueue[index];
-        if ([[operation.request.URL absoluteString] isEqualToString:imgURL]) {
+        if (![[operation.request.URL absoluteString] isEqualToString:imgURL]) {
             [operation cancel];
         }
         else{
@@ -151,6 +158,11 @@
     IPaImageURLOperation* operation =  currentQueue[index];
     [operation cancel];
     
+}
+-(void)cancelAllOperation
+{
+    [operationQueue cancelAllOperations];
+    [imageCallbackList removeAllObjects];
 }
 #pragma mark - property
 -(BOOL)useCache
