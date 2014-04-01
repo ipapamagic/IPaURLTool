@@ -43,21 +43,22 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 {
     NSArray *currentQueue = operationQueue.operations;
     NSUInteger index = [currentQueue indexOfObjectPassingTest:^(IPaImageURLOperation* obj,NSUInteger idx,BOOL *stop) {
-        
         return ([obj.imageID  isEqualToString:imageID]);
     }];
     if (index != NSNotFound) {
         IPaImageURLOperation *operation = currentQueue[index];
-        if (![[operation.request.URL absoluteString] isEqualToString:imgURL]) {
-            [operation cancel];
-        }
-        else{
-            if (callback != nil) {
-                [imageCallbackList addObject:[callback copy]];
+        if (!operation.isCancelled) {
+            if (![[operation.request.URL absoluteString] isEqualToString:imgURL]) {
+                [operation cancel];
             }
-            return;
+            else{
+                if (callback != nil) {
+                    [imageCallbackList addObject:[callback copy]];
+                }
+                return;
+            }
         }
-        
+
     }
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imgURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
@@ -125,7 +126,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
                 void (^blockItem)(UIImage*) = callbackItem;
                 blockItem(image);
             }
-            
+
         });
         
         
@@ -163,6 +164,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 {
     [operationQueue cancelAllOperations];
     [imageCallbackList removeAllObjects];
+    
 }
 #pragma mark - property
 -(BOOL)useCache
