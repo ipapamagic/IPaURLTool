@@ -17,44 +17,57 @@
 @end
 @implementation IPaImageURLOperation
 {
-
+    
 }
-@synthesize isFinished;
 -(instancetype)initWithURLRequest:(NSURLRequest *)request withImageID:(NSString *)imageID
 {
     self = [super init];
     self.request = request;
     self.imageID = imageID;
     self.loadedImage = nil;
+    self.isFinished = NO;
     return self;
 }
-- (void)main
+-(void)start
 {
-    [self willChangeValueForKey:@"isExecuting"];
-    IPaURLConnection *urlConnection = [[IPaURLConnection alloc] initWithRequest:self.request];
-    __weak IPaImageURLOperation *weakSelf = self;
-
-    urlConnection.FinishCallback = ^(NSURLResponse *response,NSData *responseData){
-        if (self.isCancelled) {
-   
-            return;
-        }
-        weakSelf.loadedImage = [[UIImage alloc] initWithData:responseData];
+    if (self.isCancelled)
+    {
+        // Must move the operation to the finished state if it is canceled.
         [self willChangeValueForKey:@"isFinished"];
         self.isFinished = YES;
         [self didChangeValueForKey:@"isFinished"];
-    };
-    urlConnection.FailCallback = ^(NSError* error){
-        [self willChangeValueForKey:@"isFinished"];
-        self.isFinished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-    };
-    
-    self.connection = urlConnection;
-    [urlConnection start];
-    [self didChangeValueForKey:@"isExecuting"];
+        return;
+    }
+    @synchronized(self){
+        [self willChangeValueForKey:@"isExecuting"];
+        IPaURLConnection *urlConnection = [[IPaURLConnection alloc] initWithRequest:self.request];
+        __weak IPaImageURLOperation *weakSelf = self;
+        
+        urlConnection.FinishCallback = ^(NSURLResponse *response,NSData *responseData){
+            if (self.isCancelled) {
+                
+                return;
+            }
+            weakSelf.loadedImage = [[UIImage alloc] initWithData:responseData];
+            [self willChangeValueForKey:@"isExecuting"];
+            [self willChangeValueForKey:@"isFinished"];
+            self.isFinished = YES;
+            [self didChangeValueForKey:@"isFinished"];
+            [self didChangeValueForKey:@"isExecuting"];
+        };
+        urlConnection.FailCallback = ^(NSError* error){
+            [self willChangeValueForKey:@"isExecuting"];
+            [self willChangeValueForKey:@"isFinished"];
+            self.isFinished = YES;
+            [self didChangeValueForKey:@"isFinished"];
+            [self didChangeValueForKey:@"isExecuting"];
+        };
+        
+        self.connection = urlConnection;
+        [urlConnection start];
+        [self didChangeValueForKey:@"isExecuting"];
+    }
 }
-
 
 -(BOOL)isConcurrent
 {
@@ -62,13 +75,25 @@
 }
 -(BOOL)isExecuting
 {
-    return (self.connection != nil && [self.connection isRunning]);
+    return !self.isFinished && (self.connection != nil && [self.connection isRunning]);
 }
-
 -(void)cancel
 {
     [super cancel];
-  
-    [self.connection cancel];
+    
+    @synchronized(self) {
+        if (self.isExecuting) {
+            [self willChangeValueForKey:@"isExecuting"];
+            [self willChangeValueForKey:@"isFinished"];
+            self.isFinished = YES;
+            [self.connection cancel];
+            self.connection = nil;
+            [self didChangeValueForKey:@"isFinished"];
+            [self didChangeValueForKey:@"isExecuting"];
+            
+        }
+    }
 }
+
+
 @end

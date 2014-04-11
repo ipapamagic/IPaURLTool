@@ -58,7 +58,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
                 return;
             }
         }
-
+        
     }
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imgURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
@@ -126,7 +126,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
                 void (^blockItem)(UIImage*) = callbackItem;
                 blockItem(image);
             }
-
+            
         });
         
         
