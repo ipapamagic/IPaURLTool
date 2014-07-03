@@ -7,25 +7,26 @@
 //
 
 #import "IPaImageURLOperation.h"
-#import "IPaURLConnection.h"
-@interface IPaImageURLOperation()
+@interface IPaImageURLOperation() <NSURLSessionDataDelegate>
 @property (atomic,strong,readwrite) UIImage *loadedImage;
 @property (atomic,copy) NSString *imageID;
 @property (atomic,strong) NSURLRequest *request;
-@property (atomic,strong) IPaURLConnection *connection;
+@property (atomic,strong) NSURLSession *session;
 @property (atomic,assign) BOOL isFinished;
+@property (nonatomic,strong) NSURLSessionDownloadTask *getImageTask;
 @end
 @implementation IPaImageURLOperation
 {
     
 }
--(instancetype)initWithURLRequest:(NSURLRequest *)request withImageID:(NSString *)imageID
+-(instancetype)initWithURLRequest:(NSURLRequest*)request withImageID:(NSString*)imageID;
 {
     self = [super init];
     self.request = request;
     self.imageID = imageID;
     self.loadedImage = nil;
     self.isFinished = NO;
+    
     return self;
 }
 -(void)start
@@ -40,31 +41,33 @@
     }
     @synchronized(self){
         [self willChangeValueForKey:@"isExecuting"];
-        IPaURLConnection *urlConnection = [[IPaURLConnection alloc] initWithRequest:self.request];
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
         __weak IPaImageURLOperation *weakSelf = self;
-        
-        urlConnection.FinishCallback = ^(NSURLResponse *response,NSData *responseData){
-            if (self.isCancelled) {
-                
-                return;
+        self.getImageTask = [session downloadTaskWithRequest:self.request completionHandler:^(NSURL *location,NSURLResponse *response,NSError *error) {
+            if (error == nil) {
+                //finish
+                if (self.isCancelled) {
+                    
+                    return;
+                }
+                weakSelf.loadedImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:location]];
+                [self willChangeValueForKey:@"isExecuting"];
+                [self willChangeValueForKey:@"isFinished"];
+                self.isFinished = YES;
+                [self didChangeValueForKey:@"isFinished"];
+                [self didChangeValueForKey:@"isExecuting"];
             }
-            weakSelf.loadedImage = [[UIImage alloc] initWithData:responseData];
-            [self willChangeValueForKey:@"isExecuting"];
-            [self willChangeValueForKey:@"isFinished"];
-            self.isFinished = YES;
-            [self didChangeValueForKey:@"isFinished"];
-            [self didChangeValueForKey:@"isExecuting"];
-        };
-        urlConnection.FailCallback = ^(NSError* error){
-            [self willChangeValueForKey:@"isExecuting"];
-            [self willChangeValueForKey:@"isFinished"];
-            self.isFinished = YES;
-            [self didChangeValueForKey:@"isFinished"];
-            [self didChangeValueForKey:@"isExecuting"];
-        };
+            else {
+                [self willChangeValueForKey:@"isExecuting"];
+                [self willChangeValueForKey:@"isFinished"];
+                self.isFinished = YES;
+                [self didChangeValueForKey:@"isFinished"];
+                [self didChangeValueForKey:@"isExecuting"];
+            }
+        }];
         
-        self.connection = urlConnection;
-        [urlConnection start];
+        [self.getImageTask resume];
         [self didChangeValueForKey:@"isExecuting"];
     }
 }
@@ -75,7 +78,7 @@
 }
 -(BOOL)isExecuting
 {
-    return !self.isFinished && (self.connection != nil && [self.connection isRunning]);
+    return !self.isFinished && (self.getImageTask != nil && self.getImageTask.state == NSURLSessionTaskStateRunning);
 }
 -(void)cancel
 {
@@ -86,8 +89,8 @@
             [self willChangeValueForKey:@"isExecuting"];
             [self willChangeValueForKey:@"isFinished"];
             self.isFinished = YES;
-            [self.connection cancel];
-            self.connection = nil;
+            [self.getImageTask cancel];
+            self.getImageTask = nil;
             [self didChangeValueForKey:@"isFinished"];
             [self didChangeValueForKey:@"isExecuting"];
             

@@ -8,7 +8,6 @@
 
 #import "IPaImageURLLoader.h"
 #import <UIKit/UIKit.h>
-#import "IPaURLConnection.h"
 #import "IPaImageURLOperation.h"
 
 @interface IPaImageURLLoader()
