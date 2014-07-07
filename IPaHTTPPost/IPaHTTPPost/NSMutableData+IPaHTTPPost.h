@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@import UIKit;
 @interface NSMutableData (IPaHTTPPost)
 /** append post data
  @param dataName name of data
