@@ -12,6 +12,8 @@
 		6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */; };
 		6ECF3DF519E99F40006849AE /* NSData+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */; };
 		6ECF3DF619E99F40006849AE /* NSString+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */; };
+		6ECF3E0119E99FEA006849AE /* IPaImageURLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3E0019E99FEA006849AE /* IPaImageURLView.m */; };
+		6ECF3E0419E9A159006849AE /* IPaImageURLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3E0319E9A159006849AE /* IPaImageURLButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +40,10 @@
 		6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+IPaSecurity.m"; path = "../../IPaSecurity/IPaSecurity/NSData+IPaSecurity.m"; sourceTree = "<group>"; };
 		6ECF3DF319E99F40006849AE /* NSString+IPaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+IPaSecurity.h"; path = "../../IPaSecurity/IPaSecurity/NSString+IPaSecurity.h"; sourceTree = "<group>"; };
 		6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+IPaSecurity.m"; path = "../../IPaSecurity/IPaSecurity/NSString+IPaSecurity.m"; sourceTree = "<group>"; };
+		6ECF3DFF19E99FEA006849AE /* IPaImageURLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaImageURLView.h; sourceTree = "<group>"; };
+		6ECF3E0019E99FEA006849AE /* IPaImageURLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLView.m; sourceTree = "<group>"; };
+		6ECF3E0219E9A159006849AE /* IPaImageURLButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaImageURLButton.h; sourceTree = "<group>"; };
+		6ECF3E0319E9A159006849AE /* IPaImageURLButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,10 +90,8 @@
 				6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */,
 				6E652EE618AE95D100744920 /* IPaImageURLOperation.h */,
 				6E652EE718AE95D100744920 /* IPaImageURLOperation.m */,
-				6ECF3DF119E99F40006849AE /* NSData+IPaSecurity.h */,
-				6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */,
-				6ECF3DF319E99F40006849AE /* NSString+IPaSecurity.h */,
-				6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */,
+				6ECF3DFE19E99FC9006849AE /* IPaUIImageURL */,
+				6ECF3DFD19E99FBD006849AE /* IPaSecurity */,
 				6E9598CF177B505800B230D1 /* Supporting Files */,
 			);
 			path = IPaImageURLLoader;
@@ -99,6 +103,28 @@
 				6E9598D0177B505800B230D1 /* IPaImageURLLoader-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6ECF3DFD19E99FBD006849AE /* IPaSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				6ECF3DF119E99F40006849AE /* NSData+IPaSecurity.h */,
+				6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */,
+				6ECF3DF319E99F40006849AE /* NSString+IPaSecurity.h */,
+				6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */,
+			);
+			name = IPaSecurity;
+			sourceTree = "<group>";
+		};
+		6ECF3DFE19E99FC9006849AE /* IPaUIImageURL */ = {
+			isa = PBXGroup;
+			children = (
+				6ECF3DFF19E99FEA006849AE /* IPaImageURLView.h */,
+				6ECF3E0019E99FEA006849AE /* IPaImageURLView.m */,
+				6ECF3E0219E9A159006849AE /* IPaImageURLButton.h */,
+				6ECF3E0319E9A159006849AE /* IPaImageURLButton.m */,
+			);
+			name = IPaUIImageURL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,8 +178,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ECF3E0419E9A159006849AE /* IPaImageURLButton.m in Sources */,
 				6E652EE818AE95D100744920 /* IPaImageURLOperation.m in Sources */,
 				6ECF3DF519E99F40006849AE /* NSData+IPaSecurity.m in Sources */,
+				6ECF3E0119E99FEA006849AE /* IPaImageURLView.m in Sources */,
 				6ECF3DF619E99F40006849AE /* NSString+IPaSecurity.m in Sources */,
 				6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */,
 			);

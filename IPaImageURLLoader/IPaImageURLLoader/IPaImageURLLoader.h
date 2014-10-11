@@ -13,12 +13,14 @@
 @class UIImage;
 @protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject
+-(UIImage*)loadImageFromURL:(NSString*)url;
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback;
 -(void)cancelLoaderWithImageID:(NSString*)imageID;
 -(UIImage*)cacheWithImageID:(NSString*)imageID;
 -(void)cancelAllOperation;
 -(void)setMaxConcurrentOperation:(NSUInteger)maxConcurrent;
++ (id)defaultLoader;
 @property (nonatomic,weak) id <IPaImageURLLoaderDelegate> delegate;
 @end
 

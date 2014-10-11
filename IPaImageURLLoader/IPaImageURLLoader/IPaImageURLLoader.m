@@ -20,6 +20,7 @@
     NSMutableArray *imageCallbackList;
     
 }
+static IPaImageURLLoader *instance;
 const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 -(id)init
 {
@@ -30,6 +31,18 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     imageCallbackList = [@[] mutableCopy];
     return self;
 }
++ (id)defaultLoader
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (instance == nil){
+            instance = [[IPaImageURLLoader alloc] init];
+        }
+    });
+    
+    return instance;
+}
+
 -(id <IPaImageURLLoaderDelegate>)delegate
 {
     if (_delegate == nil) {
@@ -41,10 +54,21 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 {
     operationQueue.maxConcurrentOperationCount = maxConcurrent;
 }
+-(UIImage*)loadImageFromURL:(NSString*)url
+{
+    UIImage *image = [self cacheWithImageID:url];
+    if (image != nil) {
+        return image;
+    }
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [self loadImageWithURL:url withImageID:url];
+    return nil;
+}
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID
 {
     [self loadImageWithURL:imgURL withImageID:imageID withCallback:nil];
 }
+
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback
 {
     NSArray *currentQueue = operationQueue.operations;
