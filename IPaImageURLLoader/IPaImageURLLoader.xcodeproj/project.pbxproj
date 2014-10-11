@@ -10,6 +10,8 @@
 		6E652EE818AE95D100744920 /* IPaImageURLOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E652EE718AE95D100744920 /* IPaImageURLOperation.m */; };
 		6E9598CD177B505800B230D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9598CC177B505800B230D1 /* Foundation.framework */; };
 		6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */; };
+		6ECF3DF519E99F40006849AE /* NSData+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */; };
+		6ECF3DF619E99F40006849AE /* NSString+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +34,10 @@
 		6E9598D0177B505800B230D1 /* IPaImageURLLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaImageURLLoader-Prefix.pch"; sourceTree = "<group>"; };
 		6E9598DA177B50D100B230D1 /* IPaImageURLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaImageURLLoader.h; sourceTree = "<group>"; };
 		6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaImageURLLoader.m; sourceTree = "<group>"; };
+		6ECF3DF119E99F40006849AE /* NSData+IPaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+IPaSecurity.h"; path = "../../IPaSecurity/IPaSecurity/NSData+IPaSecurity.h"; sourceTree = "<group>"; };
+		6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+IPaSecurity.m"; path = "../../IPaSecurity/IPaSecurity/NSData+IPaSecurity.m"; sourceTree = "<group>"; };
+		6ECF3DF319E99F40006849AE /* NSString+IPaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+IPaSecurity.h"; path = "../../IPaSecurity/IPaSecurity/NSString+IPaSecurity.h"; sourceTree = "<group>"; };
+		6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+IPaSecurity.m"; path = "../../IPaSecurity/IPaSecurity/NSString+IPaSecurity.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,10 @@
 				6E9598DB177B50D100B230D1 /* IPaImageURLLoader.m */,
 				6E652EE618AE95D100744920 /* IPaImageURLOperation.h */,
 				6E652EE718AE95D100744920 /* IPaImageURLOperation.m */,
+				6ECF3DF119E99F40006849AE /* NSData+IPaSecurity.h */,
+				6ECF3DF219E99F40006849AE /* NSData+IPaSecurity.m */,
+				6ECF3DF319E99F40006849AE /* NSString+IPaSecurity.h */,
+				6ECF3DF419E99F40006849AE /* NSString+IPaSecurity.m */,
 				6E9598CF177B505800B230D1 /* Supporting Files */,
 			);
 			path = IPaImageURLLoader;
@@ -143,6 +153,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E652EE818AE95D100744920 /* IPaImageURLOperation.m in Sources */,
+				6ECF3DF519E99F40006849AE /* NSData+IPaSecurity.m in Sources */,
+				6ECF3DF619E99F40006849AE /* NSString+IPaSecurity.m in Sources */,
 				6E9598E0177B50D100B230D1 /* IPaImageURLLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,7 +222,7 @@
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";
-				HEADER_SEARCH_PATHS = "/Users/IPaPa/Documents/我的東西/我的作品/程式作品/IPhone/IPaURLTool/IPaURLConnection/IPaURLConnection";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -224,7 +236,7 @@
 				DSTROOT = /tmp/IPaImageURLLoader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaImageURLLoader/IPaImageURLLoader-Prefix.pch";
-				HEADER_SEARCH_PATHS = "/Users/IPaPa/Documents/我的東西/我的作品/程式作品/IPhone/IPaURLTool/IPaURLConnection/IPaURLConnection";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

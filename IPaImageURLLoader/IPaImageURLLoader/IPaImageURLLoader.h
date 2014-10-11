@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#define IPA_NOTIFICATION_IMAGE_LOADED @"IPA_NOTIFICATION_IMAGE_LOADED"
+#define IPA_NOTIFICATION_KEY_IMAGE @"IPA_NOTIFICATION_KEY_IMAGE"
+#define IPA_NOTIFICATION_KEY_IMAGEID @"IPA_NOTIFICATION_KEY_IMAGEID"
 @class UIImage;
 @protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject

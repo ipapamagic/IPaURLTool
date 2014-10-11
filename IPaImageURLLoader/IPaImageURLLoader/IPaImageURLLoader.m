@@ -9,8 +9,8 @@
 #import "IPaImageURLLoader.h"
 #import <UIKit/UIKit.h>
 #import "IPaImageURLOperation.h"
-
-@interface IPaImageURLLoader()
+#import "NSString+IPaSecurity.h"
+@interface IPaImageURLLoader() <IPaImageURLLoaderDelegate>
 -(BOOL)useCache;
 -(NSString*)cachePathWithImageID:(NSString*)imageID;
 @end
@@ -29,6 +29,13 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     operationQueue.maxConcurrentOperationCount = IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER;
     imageCallbackList = [@[] mutableCopy];
     return self;
+}
+-(id <IPaImageURLLoaderDelegate>)delegate
+{
+    if (_delegate == nil) {
+        return self;
+    }
+    return _delegate;
 }
 -(void)setMaxConcurrentOperation:(NSUInteger)maxConcurrent
 {
@@ -115,6 +122,9 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
             [data writeToFile:path atomically:YES];
         }
         dispatch_async(dispatch_get_main_queue(), ^(){
+            [[NSNotificationCenter defaultCenter] postNotificationName:IPA_NOTIFICATION_IMAGE_LOADED object:nil userInfo:@{IPA_NOTIFICATION_KEY_IMAGE:image,IPA_NOTIFICATION_KEY_IMAGEID:imageID}];
+            
+            
             [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
             if (callback != nil) {
                 callback(image);
@@ -195,5 +205,38 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
         return [self.delegate modifyImageWithIPaImageURLLoader:self originalImage:originalImage withImageID:imageID];
     }
     return nil;
+}
+#pragma mark - IPaImageURLLoaderDelegate
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID image:(UIImage*)image
+{
+}
+
+-(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image
+{
+    return UIImageJPEGRepresentation(image, 0.5);
+}
+-(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID
+{
+    static NSString *cachepath = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cachepath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+        cachepath = [cachepath stringByAppendingPathComponent:@"cacheImage"];
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        if (![fileMgr fileExistsAtPath:cachepath]) {
+            NSError *error;
+            [fileMgr createDirectoryAtPath:cachepath withIntermediateDirectories:YES attributes:nil error:&error];
+            if (error) {
+                NSLog(@"%@",error);
+            }
+        }
+        
+    });
+    
+    NSString *filePath;
+    NSString *imgUrl = imageID;
+    filePath = [cachepath stringByAppendingPathComponent:[imgUrl MD5String]];
+    return filePath;
+    
 }
 @end

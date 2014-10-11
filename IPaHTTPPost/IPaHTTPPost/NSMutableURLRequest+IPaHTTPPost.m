@@ -11,7 +11,7 @@
 @implementation NSMutableURLRequest (IPaHTTPPost)
 -(NSString*)setHTTPPostContentType
 {
-    [self setHTTPMethod:@"post"];
+    [self setHTTPMethod:@"POST"];
     
     NSString *boundary = [[NSProcessInfo processInfo] globallyUniqueString];
     // set Content-Type in HTTP header
