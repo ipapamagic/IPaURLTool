@@ -12,5 +12,8 @@
 @property (nonatomic,copy) NSString *baseURL;
 @property (nonatomic,strong) NSURLSessionConfiguration *sessionConfiguration;
 @property (nonatomic,strong) NSURLSession* urlSession;
--(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+-(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+-(NSURLSessionDataTask*)apiPost:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+-(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+
 @end
