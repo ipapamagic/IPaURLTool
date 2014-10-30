@@ -65,7 +65,7 @@
         count++;
         
     }
-    
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
     
     //    postString = [postString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return [self apiWithRequest:request onComplete:complete failure:failure];
