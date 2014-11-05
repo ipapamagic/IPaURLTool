@@ -31,7 +31,6 @@
     [self didChangeValueForKey:@"isFinished"];
     return;
   }
-  @synchronized(self){
 
     [self willChangeValueForKey:@"isExecuting"];
     self.isExecuting = YES;
@@ -46,7 +45,6 @@
       [self didChangeValueForKey:@"isExecuting"];
 
     });
-  }
 }
 
 -(BOOL)isConcurrent
@@ -56,9 +54,7 @@
 
 -(void)cancel
 {
-  [super cancel];
-  
-  @synchronized(self) {
+    [super cancel];
     if (self.isExecuting) {
       [self willChangeValueForKey:@"isExecuting"];
       [self willChangeValueForKey:@"isFinished"];
@@ -68,7 +64,7 @@
       [self didChangeValueForKey:@"isExecuting"];
       
     }
-  }
+
 }
 
 

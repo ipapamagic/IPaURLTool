@@ -131,5 +131,11 @@
     [task resume];
     return task;
 }
-
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
+{
+    NSLog(@"%@",error);
+}
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    NSLog(@"sadmasdmalksmdksam");
+}
 @end
