@@ -71,6 +71,9 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback
 {
+    if (imgURL == nil) {
+        return;
+    }
     NSArray *currentQueue = operationQueue.operations;
     NSUInteger index = [currentQueue indexOfObjectPassingTest:^(IPaImageURLOperation* obj,NSUInteger idx,BOOL *stop) {
         return ([obj.imageID  isEqualToString:imageID]);
