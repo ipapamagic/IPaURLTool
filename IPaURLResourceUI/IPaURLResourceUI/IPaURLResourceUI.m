@@ -29,7 +29,7 @@
 
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:apiURL]];
+
     [request setHTTPMethod:@"GET"];
 
     if ([param count] > 0) {
@@ -44,7 +44,7 @@
         }
         
     }
-  
+    [request setURL:[NSURL URLWithString:apiURL]];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
 
