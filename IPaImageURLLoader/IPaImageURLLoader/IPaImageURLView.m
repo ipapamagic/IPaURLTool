@@ -15,10 +15,11 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
+    __weak IPaImageURLView *weakSelf = self;
     imageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:IPA_NOTIFICATION_IMAGE_LOADED object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification* noti){
         
-        if ([noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEID] isEqualToString:self.imageURL]) {
-            [self setImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE]];
+        if ([noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEID] isEqualToString:weakSelf.imageURL]) {
+            [weakSelf setImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE]];
         }
     }];
 }

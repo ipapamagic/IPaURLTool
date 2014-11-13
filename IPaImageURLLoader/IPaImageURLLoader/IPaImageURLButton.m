@@ -15,14 +15,15 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
+    __weak IPaImageURLButton *weakSelf = self;
     imageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:IPA_NOTIFICATION_IMAGE_LOADED object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification* noti){
         NSString *imageID = noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEID];
-        if ([imageID isEqualToString:self.imageURL]) {
+        if ([imageID isEqualToString:weakSelf.imageURL]) {
             
-            [self setImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
+            [weakSelf setImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
         }
-        else if ([imageID isEqualToString:self.backgroundImageURL]) {
-            [self setBackgroundImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
+        else if ([imageID isEqualToString:weakSelf.backgroundImageURL]) {
+            [weakSelf setBackgroundImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
         }
     }];
 }
