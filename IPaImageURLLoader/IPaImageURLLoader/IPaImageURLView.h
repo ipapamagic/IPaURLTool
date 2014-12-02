@@ -10,4 +10,5 @@
 
 @interface IPaImageURLView : UIImageView
 @property (nonatomic,copy) NSString *imageURL;
+- (void)setImageURL:(NSString *)imageURL withDefaultImage:(UIImage*)defaultImage;
 @end

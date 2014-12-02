@@ -25,9 +25,15 @@
 }
 -(void)setImageURL:(NSString *)imageURL
 {
-    _imageURL = imageURL;
-    [self setImage:[[IPaImageURLLoader defaultLoader] loadImageFromURL:self.imageURL]];
+    [self setImageURL:imageURL withDefaultImage:nil];
+
     
+}
+- (void)setImageURL:(NSString *)imageURL withDefaultImage:(UIImage*)defaultImage
+{
+    _imageURL = imageURL;
+    UIImage *image = [[IPaImageURLLoader defaultLoader] loadImageFromURL:self.imageURL];
+    [self setImage:(image == nil)?defaultImage:image];
 }
 -(void)dealloc
 {
