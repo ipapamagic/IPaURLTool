@@ -15,7 +15,7 @@
 }
 -(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
 {
-    return [self DecryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:kCCModeOptionCTR_BE];
+    return [self DecryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:0];
 }
 -(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
 {
@@ -27,7 +27,7 @@
 }
 -(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
 {
-    return [self EncryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:kCCModeOptionCTR_BE];
+    return [self EncryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:0];
 }
 -(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
 {
@@ -99,9 +99,10 @@
     }
     
     size_t bufferSize = CCCryptorGetOutputLength(cryptorRef,self.length,true);
+
+
     
-    
-    void *buffer = malloc(bufferSize);
+    void *buffer = malloc(bufferSize * sizeof(uint8_t));
     size_t movedBytes = 0;
     status = CCCryptorUpdate(cryptorRef,self.bytes,self.length,buffer,bufferSize,&movedBytes);
     if (status != kCCSuccess) {
@@ -109,18 +110,18 @@
         free(buffer);
         return nil;
     }
-    NSData *retData = [NSData dataWithBytesNoCopy:(void *)buffer length:(NSUInteger)movedBytes];
-    if (!padding && algorithm != kCCAlgorithmRC4) {
-        
-        //no padding and stream cipher ,don't need to call CCCryptorFinal
-        status = CCCryptorFinal(cryptorRef, buffer, bufferSize, &movedBytes);
-        if (status != kCCSuccess) {
-            NSLog(@"CCCryptor Final fail!");
-            return nil;
-        }
+    size_t totalBytesWritten = movedBytes;
+    void *ptr = buffer + movedBytes;
+    size_t remainingBytes = bufferSize - movedBytes;
+    
+    //no padding and stream cipher ,don't need to call CCCryptorFinal
+    status = CCCryptorFinal(cryptorRef, ptr, remainingBytes, &movedBytes);
+    if (status != kCCSuccess) {
+        NSLog(@"CCCryptor Final fail!");
+        return nil;
     }
-    
-    
+    totalBytesWritten += movedBytes;
+     NSData *retData = [NSData dataWithBytesNoCopy:(void *)buffer length:(NSUInteger)totalBytesWritten];
     if (cryptorRef) {
         CCCryptorRelease(cryptorRef);
     }

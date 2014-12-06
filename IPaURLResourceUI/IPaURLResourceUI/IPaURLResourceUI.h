@@ -14,6 +14,8 @@
 @property (nonatomic,strong) NSURLSession* urlSession;
 -(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
 -(NSURLSessionDataTask*)apiPost:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
--(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
 
+-(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+-(NSURLSessionDataTask*)apiPut:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
+-(NSURLSessionUploadTask*)apiPut:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure;
 @end

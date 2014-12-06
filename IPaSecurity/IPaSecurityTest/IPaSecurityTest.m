@@ -260,6 +260,28 @@
     
     
 }
+-(void)testDES2
+{
+    NSDictionary *testData = @{
+                           @"email":@"aaaaaaaaaa@gmail.com",
+                           @"id":@"12310202199454702557",
+                           @"name":@"abcabcabcabcabc",
+                           @"phone":@"12345678901",
+                           };
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:testData];
+    NSData *encryptData = [data EncryotWithAlgorighm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
+    
+    
+    
+    data = [encryptData DecryotWithAlgorighm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
+    
+    
+    NSDictionary *resultData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    if (![testData isEqual:resultData]) {
+        STFail(@"DES fail!! decrypt not correct");
+    }
+}
 -(void)testDES
 {
     NSArray *testCaseList = @[@{@"Key": @"133457799BBCDFF1",

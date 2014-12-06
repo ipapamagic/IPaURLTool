@@ -50,16 +50,24 @@
 
 -(NSURLSessionDataTask*)apiPost:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
 {
+    return [self api:api method:@"POST" paramInBody:param onComplete:complete failure:failure];
+}
+-(NSURLSessionDataTask*)apiPut:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+{
+    return [self api:api method:@"PUT" paramInBody:param onComplete:complete failure:failure];
+}
+-(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+{
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:apiURL]];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:method];
     
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     NSUInteger count = 0;
     NSString *postString;
-    for (NSString* key in param.allKeys) {
-        NSString* value = param[key];
+    for (NSString* key in paramInBody.allKeys) {
+        NSString* value = paramInBody[key];
         
         postString = [postString stringByAppendingFormat:(count > 0)?@"&%@=%@":@"%@=%@",key,value];
         count++;
@@ -70,15 +78,15 @@
     //    postString = [postString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
--(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionUploadTask*)api:(NSString*)api method:(NSString*)method contentType:(NSString*)contentType data:(NSData*)data onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
 {
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:apiURL]];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:method];
     
     [request setValue:contentType forHTTPHeaderField:@"content-type"];
-    NSURLSessionUploadTask *task = [self.urlSession uploadTaskWithRequest:request fromData:postData completionHandler:^(NSData* responseData,NSURLResponse* response,NSError* error){
+    NSURLSessionUploadTask *task = [self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:^(NSData* responseData,NSURLResponse* response,NSError* error){
         if (error != nil) {
             if (failure) {
                 failure(error);
@@ -102,6 +110,16 @@
     
     [task resume];
     return task;
+    
+
+}
+-(NSURLSessionUploadTask*)apiPut:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+{
+    return [self api:api method:@"PUT" contentType:contentType data:postData onComplete:complete failure:failure];
+}
+-(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+{
+    return [self api:api method:@"POST" contentType:contentType data:postData onComplete:complete failure:failure];
     
 }
 -(NSURLSessionDataTask*) apiWithRequest:(NSURLRequest*)request  onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
