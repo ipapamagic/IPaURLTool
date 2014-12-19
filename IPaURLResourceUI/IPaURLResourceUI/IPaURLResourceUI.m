@@ -94,6 +94,10 @@
             return;
         }
         NSError *jsonError;
+#ifdef DEBUG
+        NSString *retString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        NSLog(@"return string :%@",retString);
+#endif
         id jsonData = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
         if (jsonError != nil) {
             if (failure) {
