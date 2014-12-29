@@ -24,7 +24,7 @@
     }
     return _urlSession;
 }
--(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
 
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
@@ -44,19 +44,21 @@
         }
         
     }
-    [request setURL:[NSURL URLWithString:apiURL]];
+    apiURL = [apiURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:apiURL];
+    [request setURL:url];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
 
--(NSURLSessionDataTask*)apiPost:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)apiPost:(NSString*)api param:(NSDictionary *)param onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     return [self api:api method:@"POST" paramInBody:param onComplete:complete failure:failure];
 }
--(NSURLSessionDataTask*)apiPut:(NSString*)api param:(NSDictionary *)param onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)apiPut:(NSString*)api param:(NSDictionary *)param onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     return [self api:api method:@"PUT" paramInBody:param onComplete:complete failure:failure];
 }
--(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -78,7 +80,7 @@
     //    postString = [postString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
--(NSURLSessionUploadTask*)api:(NSString*)api method:(NSString*)method contentType:(NSString*)contentType data:(NSData*)data onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionUploadTask*)api:(NSString*)api uploadWithMethod:(NSString*)method contentType:(NSString*)contentType data:(NSData*)data onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -86,6 +88,10 @@
     [request setHTTPMethod:method];
     
     [request setValue:contentType forHTTPHeaderField:@"content-type"];
+//    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]];
+//    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"];
+//    [request setHTTPBody:data];
+    
     NSURLSessionUploadTask *task = [self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:^(NSData* responseData,NSURLResponse* response,NSError* error){
         if (error != nil) {
             if (failure) {
@@ -95,6 +101,7 @@
         }
         NSError *jsonError;
 #ifdef DEBUG
+
         NSString *retString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
         NSLog(@"return string :%@",retString);
 #endif
@@ -107,7 +114,7 @@
         }
         
         if (complete) {
-            complete(jsonData);
+            complete(response,jsonData);
         }
         
     }];
@@ -117,16 +124,25 @@
     
 
 }
--(NSURLSessionUploadTask*)apiPut:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionUploadTask*)api:(NSString*)api uploadMultipartFormDataWithMethod:(NSString*)method bodyData:(IPaURLMultipartFormData*)bodyData onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    return [self api:api method:@"PUT" contentType:contentType data:postData onComplete:complete failure:failure];
+
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", bodyData.boundary];
+    NSData* data = [bodyData createBodyData];
+
+    
+    return [self api:api uploadWithMethod:method contentType:contentType data:data onComplete:complete failure:failure];
 }
--(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionUploadTask*)apiPut:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    return [self api:api method:@"POST" contentType:contentType data:postData onComplete:complete failure:failure];
+    return [self api:api uploadWithMethod:@"PUT" contentType:contentType data:postData onComplete:complete failure:failure];
+}
+-(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
+{
+    return [self api:api uploadWithMethod:@"POST" contentType:contentType data:postData onComplete:complete failure:failure];
     
 }
--(NSURLSessionDataTask*) apiWithRequest:(NSURLRequest*)request  onComplete:(void (^)(id responseObject))complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*) apiWithRequest:(NSURLRequest*)request  onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request completionHandler:^(NSData* responseData,NSURLResponse* response,NSError* error){
         if (error != nil) {
@@ -145,7 +161,7 @@
         }
         
         if (complete) {
-            complete(jsonData);
+            complete(response,jsonData);
         }
         
     }];
@@ -158,6 +174,5 @@
     NSLog(@"%@",error);
 }
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
-    NSLog(@"sadmasdmalksmdksam");
 }
 @end

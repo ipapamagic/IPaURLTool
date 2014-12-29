@@ -9,7 +9,7 @@
 #import "NSMutableURLRequest+IPaHTTPPost.h"
 
 @implementation NSMutableURLRequest (IPaHTTPPost)
--(NSString*)setHTTPPostContentType
+-(NSString*)setHTTPMultipartFormDataContentType
 {
     [self setHTTPMethod:@"POST"];
     

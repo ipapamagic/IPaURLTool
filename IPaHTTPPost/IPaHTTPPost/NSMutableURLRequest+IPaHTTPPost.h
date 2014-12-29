@@ -11,7 +11,7 @@
 @interface NSMutableURLRequest (IPaHTTPPost)
 /** make request as Post and set contenttype to "multipart/form-data"
 */
--(NSString*)setHTTPPostContentType;
+-(NSString*)setHTTPMultipartFormDataContentType;
 /** set http post body,will set Content-Length to header field together
  @param body post body
  */

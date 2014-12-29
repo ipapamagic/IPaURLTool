@@ -31,6 +31,7 @@
 }
 - (void)setImageURL:(NSString *)imageURL withDefaultImage:(UIImage*)defaultImage
 {
+    imageURL = [imageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _imageURL = imageURL;
     UIImage *image = [[IPaImageURLLoader defaultLoader] loadImageFromURL:self.imageURL];
     [self setImage:(image == nil)?defaultImage:image];
