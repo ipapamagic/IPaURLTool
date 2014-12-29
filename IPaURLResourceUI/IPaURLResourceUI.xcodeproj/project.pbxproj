@@ -11,6 +11,8 @@
 		6E20A89719E788D300B4683D /* IPaURLResourceUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E20A89619E788D300B4683D /* IPaURLResourceUITests.m */; };
 		6E20A8A119E788E500B4683D /* IPaURLResourceUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E20A8A019E788E500B4683D /* IPaURLResourceUI.m */; };
 		6E20A8A319E788F800B4683D /* IPaURLResourceUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E20A8A219E788F800B4683D /* IPaURLResourceUI.h */; };
+		6EC0B51D1A4BDCCF000DFB79 /* IPaURLMultipartFormData.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC0B51B1A4BDCCF000DFB79 /* IPaURLMultipartFormData.h */; };
+		6EC0B51E1A4BDCCF000DFB79 /* IPaURLMultipartFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC0B51C1A4BDCCF000DFB79 /* IPaURLMultipartFormData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		6E20A89619E788D300B4683D /* IPaURLResourceUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaURLResourceUITests.m; sourceTree = "<group>"; };
 		6E20A8A019E788E500B4683D /* IPaURLResourceUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaURLResourceUI.m; sourceTree = "<group>"; };
 		6E20A8A219E788F800B4683D /* IPaURLResourceUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaURLResourceUI.h; sourceTree = "<group>"; };
+		6EC0B51B1A4BDCCF000DFB79 /* IPaURLMultipartFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaURLMultipartFormData.h; sourceTree = "<group>"; };
+		6EC0B51C1A4BDCCF000DFB79 /* IPaURLMultipartFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaURLMultipartFormData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				6E20A88C19E788D300B4683D /* IPaURLResourceUIHeader.h */,
 				6E20A8A219E788F800B4683D /* IPaURLResourceUI.h */,
 				6E20A8A019E788E500B4683D /* IPaURLResourceUI.m */,
+				6EC0B51B1A4BDCCF000DFB79 /* IPaURLMultipartFormData.h */,
+				6EC0B51C1A4BDCCF000DFB79 /* IPaURLMultipartFormData.m */,
 				6E20A88A19E788D300B4683D /* Supporting Files */,
 			);
 			path = IPaURLResourceUI;
@@ -104,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E20A88D19E788D300B4683D /* IPaURLResourceUIHeader.h in Headers */,
+				6EC0B51D1A4BDCCF000DFB79 /* IPaURLMultipartFormData.h in Headers */,
 				6E20A8A319E788F800B4683D /* IPaURLResourceUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E20A8A119E788E500B4683D /* IPaURLResourceUI.m in Sources */,
+				6EC0B51E1A4BDCCF000DFB79 /* IPaURLMultipartFormData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +389,7 @@
 				6E20A89C19E788D300B4683D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E20A89D19E788D300B4683D /* Build configuration list for PBXNativeTarget "IPaURLResourceUITests" */ = {
 			isa = XCConfigurationList;
@@ -389,6 +398,7 @@
 				6E20A89F19E788D300B4683D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
