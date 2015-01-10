@@ -60,7 +60,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     if (image != nil) {
         return image;
     }
-    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     [self loadImageWithURL:url withImageID:url];
     return nil;
 }

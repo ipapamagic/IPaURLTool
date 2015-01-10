@@ -38,7 +38,7 @@
 }
 - (void)addIntegerData:(NSInteger)intData forName:(NSString*)name
 {
-    [self addStringData:[NSString stringWithFormat:@"%ld",intData] forName:name];
+    [self addStringData:[NSString stringWithFormat:@"%ld",(long)intData] forName:name];
 }
 - (void)addFloatData:(CGFloat)floatData forName:(NSString*)name
 {
