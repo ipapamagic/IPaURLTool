@@ -11,6 +11,7 @@
 typedef void (^IPaURLResourceUISuccessHandler)(NSURLResponse*,id);
 @interface IPaURLResourceUI : NSObject
 @property (nonatomic,copy) NSString *baseURL;
+@property (nonatomic,assign) BOOL filterNSNull;
 @property (nonatomic,strong) NSURLSessionConfiguration *sessionConfiguration;
 @property (nonatomic,strong) NSURLSession* urlSession;
 -(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure;

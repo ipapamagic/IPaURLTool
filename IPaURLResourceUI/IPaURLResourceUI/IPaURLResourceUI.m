@@ -10,6 +10,14 @@
 @interface IPaURLResourceUI() <NSURLSessionDelegate>
 @end
 @implementation IPaURLResourceUI
+- (instancetype)init
+{
+    self  = [super init];
+    self.filterNSNull = NO;
+    return self;
+}
+
+
 -(NSURLSessionConfiguration*)sessionConfiguration;
 {
     if (_sessionConfiguration == nil) {
@@ -103,7 +111,7 @@
 #ifdef DEBUG
 
         NSString *retString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-        NSLog(@"return string :%@",retString);
+        NSLog(@"IPaURLResourceUI return string :%@",retString);
 #endif
         id jsonData = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
         if (jsonError != nil) {
@@ -114,6 +122,9 @@
         }
         
         if (complete) {
+            if (self.filterNSNull) {
+                jsonData = [self removeNSNullDataFromObject:jsonData];
+            }
             complete(response,jsonData);
         }
         
@@ -161,6 +172,10 @@
         }
         
         if (complete) {
+            
+            if (self.filterNSNull) {
+                jsonData = [self removeNSNullDataFromObject:jsonData];
+            }
             complete(response,jsonData);
         }
         
@@ -174,5 +189,51 @@
     NSLog(@"%@",error);
 }
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+}
+- (id)removeNSNullDataFromObject:(id)object
+{
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        return [self removeNSNullDataFromDictionary:object];
+    }
+    else if ([object isKindOfClass:[NSArray class]]) {
+        return [self removeNSNullDataFromArray:object];
+    }
+    return object;
+}
+- (NSDictionary *)removeNSNullDataFromDictionary:(NSDictionary*)dictionary
+{
+    NSMutableDictionary *mDict = [@{} mutableCopy];
+    for (NSString *key in dictionary.allKeys) {
+        id value = dictionary[key];
+        if ([value isEqual:[NSNull null]]) {
+            continue;
+        }
+        else if([value isKindOfClass:[NSDictionary class]]) {
+            value = [self removeNSNullDataFromDictionary:value];
+        }
+        else if ([value isKindOfClass:[NSArray class]]) {
+            value = [self removeNSNullDataFromArray:value];
+        }
+        mDict[key] = value;
+    }
+    return mDict;
+}
+- (NSArray *)removeNSNullDataFromArray:(NSArray*)array
+{
+    NSMutableArray *mArray = [@[] mutableCopy];
+    for (id value in array) {
+        id newValue = value;
+        if ([value isEqual:[NSNull null]]) {
+            continue;
+        }
+        else if([value isKindOfClass:[NSDictionary class]]) {
+            newValue = [self removeNSNullDataFromDictionary:value];
+        }
+        else if ([value isKindOfClass:[NSArray class]]) {
+            newValue = [self removeNSNullDataFromArray:value];
+        }
+        [mArray addObject:newValue];
+    }
+    return mArray;
 }
 @end
