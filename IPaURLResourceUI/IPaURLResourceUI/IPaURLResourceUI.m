@@ -66,7 +66,7 @@
 {
     return [self api:api method:@"PUT" paramInBody:param onComplete:complete failure:failure];
 }
--(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInHeader:(NSDictionary *)paramInHeader paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -74,6 +74,12 @@
     [request setHTTPMethod:method];
     
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    if (paramInHeader != nil) {
+        for (NSString *key in paramInHeader.allKeys) {
+            [request setValue:paramInHeader[key] forKey:key];
+        }
+    }
     NSUInteger count = 0;
     NSString *postString;
     for (NSString* key in paramInBody.allKeys) {
@@ -88,17 +94,23 @@
     //    postString = [postString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
--(NSURLSessionUploadTask*)api:(NSString*)api uploadWithMethod:(NSString*)method contentType:(NSString*)contentType data:(NSData*)data onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
+-(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
+{
+    return [self api:api method:method paramInHeader:nil paramInBody:paramInBody onComplete:complete failure:failure];
+}
+-(NSURLSessionUploadTask*)api:(NSString*)api uploadWithMethod:(NSString*)method headerParam:(NSDictionary *)headerParam data:(NSData*)data onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
     NSString *apiURL = [self.baseURL stringByAppendingString:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:apiURL]];
     [request setHTTPMethod:method];
-    
-    [request setValue:contentType forHTTPHeaderField:@"content-type"];
-//    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]];
-//    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"];
-//    [request setHTTPBody:data];
+    for (NSString *key in headerParam.allKeys) {
+        [request setValue:headerParam[key] forHTTPHeaderField:key];
+    }
+//        [request setValue:contentType forHTTPHeaderField:@"content-type"];
+    //    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]];
+    //    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"];
+    //    [request setHTTPBody:data];
     
     NSURLSessionUploadTask *task = [self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:^(NSData* responseData,NSURLResponse* response,NSError* error){
         if (error != nil) {
@@ -109,7 +121,7 @@
         }
         NSError *jsonError;
 #ifdef DEBUG
-
+        
         NSString *retString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
         NSLog(@"IPaURLResourceUI return string :%@",retString);
 #endif
@@ -142,15 +154,15 @@
     NSData* data = [bodyData createBodyData];
 
     
-    return [self api:api uploadWithMethod:method contentType:contentType data:data onComplete:complete failure:failure];
+    return [self api:api uploadWithMethod:method  headerParam:@{@"content-type":contentType} data:data onComplete:complete failure:failure];
 }
 -(NSURLSessionUploadTask*)apiPut:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    return [self api:api uploadWithMethod:@"PUT" contentType:contentType data:postData onComplete:complete failure:failure];
+    return [self api:api uploadWithMethod:@"PUT" headerParam:@{@"content-type":contentType} data:postData onComplete:complete failure:failure];
 }
 -(NSURLSessionUploadTask*)apiPost:(NSString*)api contentType:(NSString*)contentType postData:(NSData*)postData onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    return [self api:api uploadWithMethod:@"POST" contentType:contentType data:postData onComplete:complete failure:failure];
+    return [self api:api uploadWithMethod:@"POST"  headerParam:@{@"content-type":contentType} data:postData onComplete:complete failure:failure];
     
 }
 -(NSURLSessionDataTask*) apiWithRequest:(NSURLRequest*)request  onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
