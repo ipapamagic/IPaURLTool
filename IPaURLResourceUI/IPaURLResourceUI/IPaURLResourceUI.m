@@ -201,12 +201,14 @@
     [task resume];
     return task;
 }
+#pragma mark - NSURLSessionDelegate
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
 {
     NSLog(@"%@",error);
 }
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
 }
+
 - (id)removeNSNullDataFromObject:(id)object
 {
     if ([object isKindOfClass:[NSDictionary class]]) {
@@ -217,6 +219,7 @@
     }
     return object;
 }
+#pragma mark - helper method
 - (NSDictionary *)removeNSNullDataFromDictionary:(NSDictionary*)dictionary
 {
     NSMutableDictionary *mDict = [@{} mutableCopy];
