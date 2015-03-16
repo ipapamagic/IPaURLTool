@@ -16,7 +16,28 @@
     self.filterNSNull = NO;
     return self;
 }
+- (NSString*) urlStringForAPI:(NSString*)api
+{
+    return [self.baseURL stringByAppendingString:api];
+}
+- (NSString*) urlStringForGETAPI:(NSString*)api param:(NSDictionary*)param
+{
+    NSString *apiURL = [self.baseURL stringByAppendingString:api];
+    if ([param count] > 0) {
+        apiURL = [apiURL stringByAppendingString:@"?"];
+        NSUInteger count = 0;
+        for (NSString* key in param.allKeys) {
+            NSString* value = param[key];
+            
+            apiURL = [apiURL stringByAppendingFormat:(count > 0)?@"&%@=%@":@"%@=%@",key,value];
+            count++;
+        }
+    }
+    apiURL = [apiURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return apiURL;
 
+
+}
 
 -(NSURLSessionConfiguration*)sessionConfiguration;
 {
@@ -35,26 +56,12 @@
 -(NSURLSessionDataTask*)apiGet:(NSString*)api param:(NSDictionary *)param onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
 
-    NSString *apiURL = [self.baseURL stringByAppendingString:api];
+    NSString *apiURL = [self urlStringForGETAPI:api param:param];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 
     [request setHTTPMethod:@"GET"];
 
-    if ([param count] > 0) {
-        apiURL = [apiURL stringByAppendingString:@"?"];
-        NSUInteger count = 0;
-        for (NSString* key in param.allKeys) {
-            NSString* value = param[key];
-            
-            apiURL = [apiURL stringByAppendingFormat:(count > 0)?@"&%@=%@":@"%@=%@",key,value];
-            count++;
-            
-        }
-        
-    }
-    apiURL = [apiURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:apiURL];
-    [request setURL:url];
+    [request setURL:[NSURL URLWithString:apiURL]];
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
 
@@ -68,18 +75,16 @@
 }
 -(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInHeader:(NSDictionary *)paramInHeader paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    NSString *apiURL = [self.baseURL stringByAppendingString:api];
+    NSString *apiURL = [self urlStringForAPI:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:apiURL]];
     [request setHTTPMethod:method];
-    
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    
     if (paramInHeader != nil) {
         for (NSString *key in paramInHeader.allKeys) {
             [request setValue:paramInHeader[key] forKey:key];
         }
     }
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     NSUInteger count = 0;
     NSString *postString;
     for (NSString* key in paramInBody.allKeys) {
@@ -91,7 +96,7 @@
     }
     [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
     
-    //    postString = [postString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     return [self apiWithRequest:request onComplete:complete failure:failure];
 }
 -(NSURLSessionDataTask*)api:(NSString*)api method:(NSString*)method paramInBody:(NSDictionary *)paramInBody onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
@@ -100,7 +105,7 @@
 }
 -(NSURLSessionUploadTask*)api:(NSString*)api uploadWithMethod:(NSString*)method headerParam:(NSDictionary *)headerParam data:(NSData*)data onComplete:(IPaURLResourceUISuccessHandler)complete failure:(void (^)(NSError*))failure
 {
-    NSString *apiURL = [self.baseURL stringByAppendingString:api];
+    NSString *apiURL = [self urlStringForAPI:api];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:apiURL]];
     [request setHTTPMethod:method];
