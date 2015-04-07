@@ -221,7 +221,8 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
         data = [self.delegate IPaImageURLLoader:self createCacheWithImage:image];
     }
     else {
-        data = UIImageJPEGRepresentation(image, 0);
+//        data = UIImageJPEGRepresentation(image, 0);
+        data = UIImagePNGRepresentation(image);
     }
     return data;
 }
@@ -240,7 +241,8 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 
 -(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image
 {
-    return UIImageJPEGRepresentation(image, 0.5);
+//    return UIImageJPEGRepresentation(image, 0.5);
+    return UIImagePNGRepresentation(image);
 }
 -(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID
 {
