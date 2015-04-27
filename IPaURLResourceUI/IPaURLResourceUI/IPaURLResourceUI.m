@@ -86,14 +86,15 @@
     }
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     NSUInteger count = 0;
-    NSString *postString;
+    NSString *postString = @"";
     for (NSString* key in paramInBody.allKeys) {
-        NSString* value = paramInBody[key];
-        
+        NSString *value = [NSString stringWithFormat:@"%@",paramInBody[key]];
+        value = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)value,NULL,(CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
         postString = [postString stringByAppendingFormat:(count > 0)?@"&%@=%@":@"%@=%@",key,value];
         count++;
         
     }
+
     [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
     
     
