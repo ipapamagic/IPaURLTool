@@ -117,7 +117,7 @@
     //no padding and stream cipher ,don't need to call CCCryptorFinal
     status = CCCryptorFinal(cryptorRef, ptr, remainingBytes, &movedBytes);
     if (status != kCCSuccess) {
-        NSLog(@"CCCryptor Final fail!");
+        NSLog(@"CCCryptor Final fail!....%d",status);
         return nil;
     }
     totalBytesWritten += movedBytes;
