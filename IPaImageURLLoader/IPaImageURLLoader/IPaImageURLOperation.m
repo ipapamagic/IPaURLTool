@@ -8,7 +8,7 @@
 
 #import "IPaImageURLOperation.h"
 @interface IPaImageURLOperation() <NSURLSessionDataDelegate>
-@property (atomic,strong,readwrite) UIImage *loadedImage;
+@property (atomic,strong,readwrite) NSURL *loadedImageURL;
 @property (atomic,copy) NSString *imageID;
 @property (atomic,strong) NSURLRequest *request;
 @property (atomic,strong) NSURLSession *session;
@@ -24,10 +24,14 @@
     self = [super init];
     self.request = request;
     self.imageID = imageID;
-    self.loadedImage = nil;
+    self.loadedImageURL = nil;
     self.isFinished = NO;
     
     return self;
+}
+- (void)dealloc
+{
+    self.loadedImageURL = nil;
 }
 -(void)start
 {
@@ -51,7 +55,8 @@
                     
                     return;
                 }
-                weakSelf.loadedImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:location]];
+                weakSelf.loadedImageURL = location;
+//                weakSelf.loadedImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:location]];
                 [self willChangeValueForKey:@"isExecuting"];
                 [self willChangeValueForKey:@"isFinished"];
                 self.isFinished = YES;

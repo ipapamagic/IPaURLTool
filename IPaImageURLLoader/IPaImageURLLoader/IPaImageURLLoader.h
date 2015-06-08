@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #define IPA_NOTIFICATION_IMAGE_LOADED @"IPA_NOTIFICATION_IMAGE_LOADED"
-#define IPA_NOTIFICATION_KEY_IMAGE @"IPA_NOTIFICATION_KEY_IMAGE"
+#define IPA_NOTIFICATION_KEY_IMAGEURL @"IPA_NOTIFICATION_KEY_IMAGEURL"
 #define IPA_NOTIFICATION_KEY_IMAGEID @"IPA_NOTIFICATION_KEY_IMAGEID"
 @class UIImage;
 @protocol IPaImageURLLoaderDelegate;
 @interface IPaImageURLLoader : NSObject
 -(UIImage*)loadImageFromURL:(NSString*)url;
 -(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
--(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback;
+-(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(NSURL*))callback;
 -(void)cancelLoaderWithImageID:(NSString*)imageID;
 -(UIImage*)cacheWithImageID:(NSString*)imageID;
 -(void)cancelAllOperation;
@@ -26,11 +26,12 @@
 
 @protocol IPaImageURLLoaderDelegate <NSObject>
 
--(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID image:(UIImage*)image;
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID imageURL:(NSURL*)imageURL;
 
 @optional
 -(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader failWithImageID:(NSString*)imageID;
 -(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID;
--(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image;
--(UIImage*)modifyImageWithIPaImageURLLoader:(IPaImageURLLoader*)loader originalImage:(UIImage*)originalImage withImageID:(NSString*)imageID;
+//-(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image;
+-(UIImage*)modifyImageWithIPaImageURLLoader:(IPaImageURLLoader*)loader originalImageURL:(NSURL*)originalImageURL withImageID:(NSString*)imageID;
+
 @end

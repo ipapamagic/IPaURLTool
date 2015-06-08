@@ -20,10 +20,10 @@
         NSString *imageID = noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEID];
         if ([imageID isEqualToString:weakSelf.imageURL]) {
             
-            [weakSelf setImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
+            [weakSelf setImage:[UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEURL]]] forState:UIControlStateNormal];
         }
         else if ([imageID isEqualToString:weakSelf.backgroundImageURL]) {
-            [weakSelf setBackgroundImage:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGE] forState:UIControlStateNormal];
+            [weakSelf setBackgroundImage:[UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEURL]]] forState:UIControlStateNormal];
         }
     }];
 }

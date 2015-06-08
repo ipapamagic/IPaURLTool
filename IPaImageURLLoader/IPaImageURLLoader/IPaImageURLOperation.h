@@ -11,6 +11,6 @@
 @interface IPaImageURLOperation : NSOperation
 -(NSString*)imageID;
 -(instancetype)initWithURLRequest:(NSURLRequest*)request withImageID:(NSString*)imageID;
-@property (atomic,readonly) UIImage *loadedImage;
+@property (atomic,readonly) NSURL *loadedImageURL;
 @property (atomic,readonly) NSURLRequest *request;
 @end

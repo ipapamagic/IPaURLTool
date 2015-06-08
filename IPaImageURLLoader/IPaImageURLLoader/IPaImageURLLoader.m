@@ -69,7 +69,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     [self loadImageWithURL:imgURL withImageID:imageID withCallback:nil];
 }
 
--(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(UIImage*))callback
+-(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(NSURL*))callback
 {
     if (imgURL == nil) {
         return;
@@ -99,7 +99,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     __weak IPaImageURLOperation* weakOperation = operation;
     IPaImageURLLoader *weakSelf = self;
     operation.completionBlock = ^(){
-        if (weakOperation.loadedImage == nil) {
+        if (weakOperation.loadedImageURL == nil) {
             if (callback != nil) {
                 dispatch_async(dispatch_get_main_queue(), ^(){
                     callback(nil);
@@ -116,10 +116,17 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
             
             return;
         }
-        UIImage *image = weakOperation.loadedImage;
-        UIImage *modifyImage = [weakSelf modifyImageWithOriginalImage:image imageID:imageID];
+//        UIImage *image = weakOperation.loadedImage;
+        NSURL *imageURL = weakOperation.loadedImageURL;
+        
+        UIImage *modifyImage = [weakSelf modifyImageWithOriginalImageURL:imageURL imageID:imageID];
         if (modifyImage != nil) {
-            image = modifyImage;
+            NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+            path = [path stringByAppendingPathComponent:@"IPaImageCache.imageCache"];
+            NSData *data = UIImagePNGRepresentation(modifyImage);
+            [data writeToFile:path atomically:YES];
+            
+            imageURL = [NSURL fileURLWithPath:path];
         }
         NSString *path = [weakSelf cachePathWithImageID:imageID];
         if (path != nil) {
@@ -145,22 +152,24 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
                     return;
                 }
             }
-            NSData *data = [weakSelf createCacheWithImage:image];
-            [data writeToFile:path atomically:YES];
+            NSError *error;
+            [fileManager copyItemAtURL:imageURL toURL:[NSURL fileURLWithPath:path] error:&error];
+            
+            
         }
         dispatch_async(dispatch_get_main_queue(), ^(){
-            [[NSNotificationCenter defaultCenter] postNotificationName:IPA_NOTIFICATION_IMAGE_LOADED object:nil userInfo:@{IPA_NOTIFICATION_KEY_IMAGE:image,IPA_NOTIFICATION_KEY_IMAGEID:imageID}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:IPA_NOTIFICATION_IMAGE_LOADED object:nil userInfo:@{IPA_NOTIFICATION_KEY_IMAGEURL:imageURL,IPA_NOTIFICATION_KEY_IMAGEID:imageID}];
             
             
-            [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID image:image];
+            [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID imageURL:imageURL];
             if (callback != nil) {
-                callback(image);
+                callback(imageURL);
                 
             }
             for (id callbackItem in imageCallbackList )
             {
-                void (^blockItem)(UIImage*) = callbackItem;
-                blockItem(image);
+                void (^blockItem)(NSURL*) = callbackItem;
+                blockItem(imageURL);
             }
             
         });
@@ -214,36 +223,21 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
     }
     return nil;
 }
--(NSData*)createCacheWithImage:(UIImage*)image
-{
-    NSData *data;
-    if ([self.delegate respondsToSelector:@selector(IPaImageURLLoader:createCacheWithImage:)]) {
-        data = [self.delegate IPaImageURLLoader:self createCacheWithImage:image];
-    }
-    else {
-//        data = UIImageJPEGRepresentation(image, 0);
-        data = UIImagePNGRepresentation(image);
-    }
-    return data;
-}
 
--(UIImage*)modifyImageWithOriginalImage:(UIImage*)originalImage imageID:(NSString*)imageID
+
+-(UIImage*)modifyImageWithOriginalImageURL:(NSURL*)originalImageURL imageID:(NSString*)imageID
 {
-    if ([self.delegate respondsToSelector:@selector(modifyImageWithIPaImageURLLoader:originalImage:withImageID:)]) {
-        return [self.delegate modifyImageWithIPaImageURLLoader:self originalImage:originalImage withImageID:imageID];
+    if ([self.delegate respondsToSelector:@selector(modifyImageWithIPaImageURLLoader:originalImageURL:withImageID:)]) {
+        return [self.delegate modifyImageWithIPaImageURLLoader:self originalImageURL:originalImageURL withImageID:imageID];
     }
     return nil;
 }
+
 #pragma mark - IPaImageURLLoaderDelegate
--(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID image:(UIImage*)image
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID imageURL:(NSURL*)imageURL
 {
 }
 
--(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image
-{
-//    return UIImageJPEGRepresentation(image, 0.5);
-    return UIImagePNGRepresentation(image);
-}
 -(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID
 {
     static NSString *cachepath = nil;
