@@ -119,7 +119,7 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 //        UIImage *image = weakOperation.loadedImage;
         NSURL *imageURL = weakOperation.loadedImageURL;
         
-        UIImage *modifyImage = [weakSelf modifyImageWithOriginalImageURL:imageURL imageID:imageID];
+        UIImage *modifyImage = [weakSelf modifyImageWithOriginalImageFileURL:imageURL imageID:imageID];
         if (modifyImage != nil) {
             NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
             path = [path stringByAppendingPathComponent:@"IPaImageCache.imageCache"];
@@ -158,10 +158,10 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
             
         }
         dispatch_async(dispatch_get_main_queue(), ^(){
-            [[NSNotificationCenter defaultCenter] postNotificationName:IPA_NOTIFICATION_IMAGE_LOADED object:nil userInfo:@{IPA_NOTIFICATION_KEY_IMAGEURL:imageURL,IPA_NOTIFICATION_KEY_IMAGEID:imageID}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:IPA_NOTIFICATION_IMAGE_LOADED object:nil userInfo:@{IPA_NOTIFICATION_KEY_IMAGEFILEURL:imageURL,IPA_NOTIFICATION_KEY_IMAGEID:imageID}];
             
             
-            [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID imageURL:imageURL];
+            [weakSelf.delegate onIPaImageURLLoader:weakSelf imageID:imageID imageFileURL:imageURL];
             if (callback != nil) {
                 callback(imageURL);
                 
@@ -225,16 +225,16 @@ const NSUInteger IPA_IMAEG_LOADER_MAX_CONCURRENT_NUMBER = 3;
 }
 
 
--(UIImage*)modifyImageWithOriginalImageURL:(NSURL*)originalImageURL imageID:(NSString*)imageID
+-(UIImage*)modifyImageWithOriginalImageFileURL:(NSURL*)originalImageFileURL imageID:(NSString*)imageID
 {
-    if ([self.delegate respondsToSelector:@selector(modifyImageWithIPaImageURLLoader:originalImageURL:withImageID:)]) {
-        return [self.delegate modifyImageWithIPaImageURLLoader:self originalImageURL:originalImageURL withImageID:imageID];
+    if ([self.delegate respondsToSelector:@selector(modifyImageWithIPaImageURLLoader:originalImageFileURL:withImageID:)]) {
+        return [self.delegate modifyImageWithIPaImageURLLoader:self originalImageFileURL:originalImageFileURL withImageID:imageID];
     }
     return nil;
 }
 
 #pragma mark - IPaImageURLLoaderDelegate
--(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID imageURL:(NSURL*)imageURL
+-(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID imageFileURL:(NSURL*)imageFileURL
 {
 }
 

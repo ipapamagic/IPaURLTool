@@ -19,7 +19,7 @@
     imageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:IPA_NOTIFICATION_IMAGE_LOADED object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification* noti){
         
         if ([noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEID] isEqualToString:weakSelf.imageURL]) {
-            [weakSelf setImage:[UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEURL]]]];
+            [weakSelf setImage:[UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:noti.userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL]]]];
         }
     }];
 }
