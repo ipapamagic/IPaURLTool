@@ -18,6 +18,8 @@
 		6E49906516C37F4E00B77A46 /* NSData+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */; };
 		6E49906616C37F4E00B77A46 /* NSString+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904B16C35BF800B77A46 /* NSString+IPaSecurity.m */; };
 		6E5FF8361904D0AC0082CD72 /* IPaKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FF8351904D0AC0082CD72 /* IPaKeyChain.m */; };
+		6E69F9F11B2DCB500064A380 /* NSData+IPaSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F9EF1B2DCB500064A380 /* NSData+IPaSecurity.swift */; };
+		6E69F9F21B2DCB500064A380 /* String+IPaSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E69F9F01B2DCB500064A380 /* String+IPaSecurity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +52,8 @@
 		6E49906116C37E8C00B77A46 /* IPaSecurityTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaSecurityTest-Prefix.pch"; sourceTree = "<group>"; };
 		6E5FF8341904D0AC0082CD72 /* IPaKeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaKeyChain.h; sourceTree = "<group>"; };
 		6E5FF8351904D0AC0082CD72 /* IPaKeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaKeyChain.m; sourceTree = "<group>"; };
+		6E69F9EF1B2DCB500064A380 /* NSData+IPaSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+IPaSecurity.swift"; sourceTree = "<group>"; };
+		6E69F9F01B2DCB500064A380 /* String+IPaSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+IPaSecurity.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,8 @@
 				6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */,
 				6E49904A16C35BF800B77A46 /* NSString+IPaSecurity.h */,
 				6E49904B16C35BF800B77A46 /* NSString+IPaSecurity.m */,
+				6E69F9EF1B2DCB500064A380 /* NSData+IPaSecurity.swift */,
+				6E69F9F01B2DCB500064A380 /* String+IPaSecurity.swift */,
 				6E49903616C358EA00B77A46 /* Supporting Files */,
 			);
 			path = IPaSecurity;
@@ -181,7 +187,7 @@
 			name = IPaSecurityTest;
 			productName = IPaSecurityTest;
 			productReference = 6E49905216C37E8C00B77A46 /* IPaSecurityTest.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -246,6 +252,8 @@
 				6E49904916C35B9100B77A46 /* NSData+IPaSecurity.m in Sources */,
 				6E5FF8361904D0AC0082CD72 /* IPaKeyChain.m in Sources */,
 				6E49904C16C35BF800B77A46 /* NSString+IPaSecurity.m in Sources */,
+				6E69F9F11B2DCB500064A380 /* NSData+IPaSecurity.swift in Sources */,
+				6E69F9F21B2DCB500064A380 /* String+IPaSecurity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,21 +337,26 @@
 		6E49903F16C358EA00B77A46 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/IPaSecurity.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaSecurity/IPaSecurity-Prefix.pch";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		6E49904016C358EA00B77A46 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/IPaSecurity.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaSecurity/IPaSecurity-Prefix.pch";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

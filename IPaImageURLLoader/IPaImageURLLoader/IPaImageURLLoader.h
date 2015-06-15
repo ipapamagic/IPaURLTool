@@ -2,36 +2,19 @@
 //  IPaImageURLLoader.h
 //  IPaImageURLLoader
 //
-//  Created by IPaPa on 13/2/19.
-//  Copyright (c) 2013 IPaPa. All rights reserved.
+//  Created by IPa Chen on 2015/6/14.
+//  Copyright (c) 2015年 AMagicStudio. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#define IPA_NOTIFICATION_IMAGE_LOADED @"IPA_NOTIFICATION_IMAGE_LOADED"
-#define IPA_NOTIFICATION_KEY_IMAGEFILEURL @"IPA_NOTIFICATION_KEY_IMAGEFILEURL"
-#define IPA_NOTIFICATION_KEY_IMAGEID @"IPA_NOTIFICATION_KEY_IMAGEID"
-@class UIImage;
-@protocol IPaImageURLLoaderDelegate;
-@interface IPaImageURLLoader : NSObject
--(UIImage*)loadImageFromURL:(NSString*)url;
--(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID;
--(void)loadImageWithURL:(NSString*)imgURL withImageID:(NSString*)imageID withCallback:(void (^)(NSURL*))callback;
--(void)cancelLoaderWithImageID:(NSString*)imageID;
--(UIImage*)cacheWithImageID:(NSString*)imageID;
--(void)cancelAllOperation;
--(void)setMaxConcurrentOperation:(NSUInteger)maxConcurrent;
-+ (id)defaultLoader;
-@property (nonatomic,weak) id <IPaImageURLLoaderDelegate> delegate;
-@end
+#import <UIKit/UIKit.h>
 
-@protocol IPaImageURLLoaderDelegate <NSObject>
+//! Project version number for IPaImageURLLoader.
+FOUNDATION_EXPORT double IPaImageURLLoaderVersionNumber;
 
--(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader imageID:(NSString*)imageID imageFileURL:(NSURL*)imageFileURL;
+//! Project version string for IPaImageURLLoader.
+FOUNDATION_EXPORT const unsigned char IPaImageURLLoaderVersionString[];
 
-@optional
--(void)onIPaImageURLLoader:(IPaImageURLLoader*)loader failWithImageID:(NSString*)imageID;
--(NSString*)IPaImageURLLoader:(IPaImageURLLoader*)loader cacheFilePathWithImageID:(NSString*)imageID;
-//-(NSData*)IPaImageURLLoader:(IPaImageURLLoader*)loader createCacheWithImage:(UIImage*)image;
--(UIImage*)modifyImageWithIPaImageURLLoader:(IPaImageURLLoader*)loader originalImageFileURL:(NSURL*)originalImageFileURL withImageID:(NSString*)imageID;
+// In this header, you should import all the public headers of your framework using statements like #import <IPaImageURLLoader/PublicHeader.h>
 
-@end
+#import <IPaImageURLLoader/NSData+IPaSecurity.h>
+#import <IPaImageURLLoader/NSString+IPaSecurity.h>
