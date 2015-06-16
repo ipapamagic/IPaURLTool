@@ -7,9 +7,9 @@
 //
 
 import Foundation
-typealias IPaURLResourceUISuccessHandler = ((NSURLResponse,AnyObject?) -> ())!
-typealias IPaURLResourceUIFailHandler = ((NSError) -> ())!
-class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
+public typealias IPaURLResourceUISuccessHandler = ((NSURLResponse,AnyObject?) -> ())!
+public typealias IPaURLResourceUIFailHandler = ((NSError) -> ())!
+public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     var baseURL:String! = ""
     lazy var sessionConfiguration:NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
     lazy var urlSession:NSURLSession = NSURLSession(configuration: self.sessionConfiguration, delegate: self, delegateQueue: NSOperationQueue.mainQueue())
@@ -59,7 +59,7 @@ class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         return task
     }
     
-    func apiGet(api:String ,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
+    public func apiGet(api:String ,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
 
     {
         let apiURL = urlStringForGETAPI(api, param: param)
@@ -174,10 +174,10 @@ class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     
 
 // MARK:NSURLSessionDelegate
-    func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
+    public func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
         println("\(error)")
     }
-    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
+    public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
         
     }
     

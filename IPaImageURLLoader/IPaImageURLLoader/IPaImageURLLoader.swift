@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 let IPA_NOTIFICATION_IMAGE_LOADED = "IPA_NOTIFICATION_IMAGE_LOADED"
 let IPA_NOTIFICATION_KEY_IMAGEFILEURL = "IPA_NOTIFICATION_KEY_IMAGEFILEURL"
 let IPA_NOTIFICATION_KEY_IMAGEID = "IPA_NOTIFICATION_KEY_IMAGEID"
@@ -17,7 +18,7 @@ protocol IPaImageURLLoaderDelegate : AnyObject {
     func onIPaImageURLLoader(loader:IPaImageURLLoader,imageID:String,imageFileURL:NSURL)
     func onIPaImageURLLoaderFail(loader:IPaImageURLLoader, imageID:String)
     func getCacheFilePath(loader:IPaImageURLLoader,imageID:String) -> String
-    func modifyImage(loader:IPaImageURLLoader,originalImageFileURL:NSURL,imageID:String) -> UIImage?
+    func modifyImage(loader:IPaImageURLLoader,originalImageFileURL:NSURL?,imageID:String) -> UIImage?
 }
 class IPaImageURLLoader :IPaImageURLLoaderDelegate {
     static let sharedInstance = IPaImageURLLoader()
@@ -91,47 +92,49 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
             operation.completionBlock = {
                 //        UIImage *image = weakOperation.loadedImage;
                 var imageURL = operation.loadedImageFileURL
-                if imageURL != nil {
-                    if let modifyImage = self.delegate?.modifyImage(self, originalImageFileURL: imageURL!, imageID: imageID) {
-                        
-                        
-                        var path = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as! String;
-                        path = path.stringByAppendingPathComponent("IPaImageCache.imageCache")
-                        let data = UIImagePNGRepresentation(modifyImage);
-                        data.writeToFile(path, atomically: true)
-                        
-                        
-                        imageURL = NSURL(fileURLWithPath: path);
-                    }
-
-                }
                 
-                if let path = self.delegate?.getCacheFilePath(self, imageID: imageID) {
+                if let modifyImage = self.delegate?.modifyImage(self, originalImageFileURL: imageURL, imageID: imageID) {
                     
-                    let directory = path.stringByDeletingLastPathComponent
-                    let fileManager = NSFileManager.defaultManager()
-                    var error:NSError?
-                    if !fileManager.fileExistsAtPath(directory) {
+                    
+                    var path = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as! String;
+                    path = path.stringByAppendingPathComponent("IPaImageCache.imageCache")
+                    let data = UIImagePNGRepresentation(modifyImage);
+                    data.writeToFile(path, atomically: true)
+                    
+                    
+                    imageURL = NSURL(fileURLWithPath: path);
+                }
+            
+                
+                if let imageURL = imageURL {
+                    if let path = self.delegate?.getCacheFilePath(self, imageID: imageID) {
                         
+                        let directory = path.stringByDeletingLastPathComponent
+                        let fileManager = NSFileManager.defaultManager()
+                        var error:NSError?
+                        if !fileManager.fileExistsAtPath(directory) {
+                            
 
-                        fileManager.createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil, error: &error)
+                            fileManager.createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil, error: &error)
 
-                        if error != nil {
+                            if error != nil {
 
-                            return;
+                                return;
+                            }
                         }
+                        fileManager.copyItemAtURL(imageURL, toURL:(NSURL.fileURLWithPath(path))!, error: &error)
+                        
+                        
                     }
-                    fileManager.copyItemAtURL(imageURL!, toURL:(NSURL.fileURLWithPath(path))!, error: &error)
-                    
-                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        NSNotificationCenter.defaultCenter().postNotificationName(IPA_NOTIFICATION_IMAGE_LOADED, object: nil, userInfo: [IPA_NOTIFICATION_KEY_IMAGEFILEURL:imageURL,IPA_NOTIFICATION_KEY_IMAGEID:imageID])
+                        
+                        self.delegate?.onIPaImageURLLoader(self, imageID: imageID, imageFileURL: imageURL)
+                        
+                        
+                    });
                 }
-                dispatch_async(dispatch_get_main_queue(), {
-                    NSNotificationCenter.defaultCenter().postNotificationName(IPA_NOTIFICATION_IMAGE_LOADED, object: nil, userInfo: [IPA_NOTIFICATION_KEY_IMAGEFILEURL:imageURL!,IPA_NOTIFICATION_KEY_IMAGEID:imageID])
                 
-                    self.delegate?.onIPaImageURLLoader(self, imageID: imageID, imageFileURL: imageURL!)
-
-                    
-                });
                 
                 
             }
@@ -182,7 +185,7 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
         let filePath = cachePath.stringByAppendingPathComponent("\(imageIDString.MD5String())")
         return filePath;
     }
-    func modifyImage(loader:IPaImageURLLoader,originalImageFileURL:NSURL,imageID:String) -> UIImage?
+    func modifyImage(loader:IPaImageURLLoader,originalImageFileURL:NSURL?,imageID:String) -> UIImage?
     {
         return nil
     }
