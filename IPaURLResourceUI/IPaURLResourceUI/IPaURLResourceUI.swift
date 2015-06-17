@@ -11,6 +11,7 @@ public typealias IPaURLResourceUISuccessHandler = ((NSURLResponse,AnyObject?) ->
 public typealias IPaURLResourceUIFailHandler = ((NSError) -> ())!
 public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     var baseURL:String! = ""
+    public var removeNSNull:Bool = true
     lazy var sessionConfiguration:NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
     lazy var urlSession:NSURLSession = NSURLSession(configuration: self.sessionConfiguration, delegate: self, delegateQueue: NSOperationQueue.mainQueue())
     func urlStringForAPI(api:String) -> String {
@@ -24,7 +25,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
             var count = 0
             
             for key in params.keys {
-                apiURL = apiURL + ((count > 0) ? "&":"") + "\(key)=\(params[key])"
+                apiURL = apiURL + ((count > 0) ? "&":"") + "\(key)=\(params[key]!)"
                 count++
             }
         }
@@ -50,7 +51,9 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
                 
                 return
             }
-            
+            if self.removeNSNull {
+                jsonData = self.removeNSNullDataFromObject(jsonData!)
+            }
             complete(response,jsonData)
         })
         
@@ -88,7 +91,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         request.HTTPMethod = method
         if let param = paramInHeader {
             for key in param.keys {
-                request.setValue(param[key],forHTTPHeaderField: key)
+                request.setValue(param[key]!,forHTTPHeaderField: key)
             }
         }
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
@@ -97,7 +100,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
             var postString = ""
         
             for key in param.keys {
-                var value = "\(param[key])"
+                var value = "\(param[key]!)"
                 value = (value.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()))!
 
                 postString = postString + ((count > 0) ? "&" : "") + "\(key)=\(value)"
@@ -123,7 +126,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         request.HTTPMethod = method
         
         for key in headerParam.keys {
-            request.setValue(headerParam[key], forHTTPHeaderField: key)
+            request.setValue(headerParam[key]!, forHTTPHeaderField: key)
 
         }
     //        [request setValue:contentType forHTTPHeaderField:@"content-type"]
@@ -143,11 +146,14 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
             let retString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
             print("IPaURLResourceUI return string :\(retString)")
 #endif
-            let jsonData:AnyObject? = NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.allZeros, error: &jsonError)
+            var jsonData:AnyObject? = NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.allZeros, error: &jsonError)
 
             if (jsonError != nil) {
                 failure(error)
                 return
+            }
+            if self.removeNSNull {
+                jsonData = self.removeNSNullDataFromObject(jsonData!)
             }
             complete(response,jsonData)
 
@@ -179,6 +185,56 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     }
     public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
         
+    }
+    
+// MARK: helper method
+    func removeNSNullDataFromObject(object:AnyObject) -> AnyObject
+    {
+        if let dictObject = object as? [String:AnyObject] {
+            return removeNSNullDataFromDictionary(dictObject)
+        }
+        else if let arrayValue = object as? [AnyObject] {
+            return removeNSNullDataFromArray(arrayValue)
+        }
+        return object;
+    }
+    func removeNSNullDataFromDictionary(dictionary:[String:AnyObject!]) -> [String:AnyObject!]
+    {
+        var mDict = [String:AnyObject]()
+        
+        for key in dictionary.keys {
+            var value = dictionary[key]
+            if let value = value as? NSNull {
+                continue;
+            }
+            else if let dictValue = value as? [String:AnyObject] {
+                value = removeNSNullDataFromDictionary(dictValue)
+            }
+            else if let arrayValue = value as? [AnyObject] {
+                value = removeNSNullDataFromArray(arrayValue)
+            }
+            mDict[key] = value;
+        }
+        return mDict;
+    }
+    func removeNSNullDataFromArray(array:[AnyObject]) -> [AnyObject]
+    {
+        var mArray = [AnyObject]()
+        for value in array {
+            var newValue:AnyObject = value;
+            if let value = value as? NSNull {
+                continue;
+            }
+            else if let dictValue = value as? [String:AnyObject] {
+                newValue = removeNSNullDataFromDictionary(dictValue)
+            }
+            else if let arrayValue = value as? [AnyObject] {
+                newValue = removeNSNullDataFromArray(arrayValue)
+            }
+            mArray.append(newValue)
+
+        }
+        return mArray;
     }
     
 }
