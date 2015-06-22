@@ -34,8 +34,8 @@ class IPaBlockOperation : NSOperation {
             return true
         }
     }
-    init(completeBlock:IPaBlockOperationBlock) {
-        operationBlock = completeBlock
+    init(block:IPaBlockOperationBlock) {
+        operationBlock = block
     }
     override func start() {
         if cancelled {

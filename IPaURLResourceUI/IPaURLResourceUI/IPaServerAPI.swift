@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPaServerAPI {
+class IPaServerAPI :NSObject {
     let resourceUI:IPaURLResourceUI
     var currentAPITask:NSURLSessionDataTask?
     init(resourceUI:IPaURLResourceUI) {

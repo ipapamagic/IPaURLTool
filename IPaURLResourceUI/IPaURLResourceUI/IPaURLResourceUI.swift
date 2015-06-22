@@ -98,10 +98,10 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         if let param = paramInBody {
             var count = 0
             var postString = ""
-        
+            var customAllowedSet =  NSCharacterSet(charactersInString:"!*'();:@&=+$,/?%#[]").invertedSet
             for key in param.keys {
                 var value = "\(param[key]!)"
-                value = (value.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()))!
+                value = (value.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet))!
 
                 postString = postString + ((count > 0) ? "&" : "") + "\(key)=\(value)"
                 count++
