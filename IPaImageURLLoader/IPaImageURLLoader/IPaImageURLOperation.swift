@@ -51,7 +51,15 @@ class IPaImageURLOperation : NSOperation {
                 if self.cancelled {
                     return
                 }
-                self.loadedImageFileURL = location
+                
+                //move file to cache first
+                var cachePath:String = NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+                
+                cachePath = cachePath.stringByAppendingPathComponent(location.lastPathComponent!)
+                let toURL = NSURL(fileURLWithPath: cachePath)
+                var error:NSError?
+                NSFileManager.defaultManager().copyItemAtURL(location, toURL: toURL!, error:&error)
+                self.loadedImageFileURL = toURL
             }
             self.willChangeValueForKey("isExecuting")
             self.finished = true
