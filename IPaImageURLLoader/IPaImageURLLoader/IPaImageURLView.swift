@@ -10,7 +10,16 @@ import Foundation
 import UIKit
 public class IPaImageURLView : UIImageView {
     private var _imageURL:String?
-    private var imageObserver:NSObjectProtocol?    
+    private var _highlightedImageURL:String?
+    private var imageObserver:NSObjectProtocol?
+    public var highlightedImageURL:String? {
+        get {
+            return _highlightedImageURL
+        }
+        set {
+            setHighlightImageURL(newValue,defaultImage:nil)
+        }
+    }
     public var imageURL:String? {
         get {
             return _imageURL
@@ -19,7 +28,7 @@ public class IPaImageURLView : UIImageView {
             setImageURL(newValue, defaultImage: nil)
         }
     }
-
+    
     deinit {
         if let imageObserver = imageObserver {
             NSNotificationCenter .defaultCenter().removeObserver(imageObserver)
@@ -41,6 +50,16 @@ public class IPaImageURLView : UIImageView {
                     }
                 }
             }
+            if let highlightedImageURL = self.highlightedImageURL {
+                if let userInfo = noti.userInfo {
+                    let imageID = userInfo[IPA_NOTIFICATION_KEY_IMAGEID] as! String
+                    if imageID == highlightedImageURL {
+                        if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
+                            self.highlightedImage = UIImage(data: data)
+                        }
+                    }
+                }
+            }
         })
     }
     public func setImageURL(imageURL:String?,defaultImage:UIImage?) {
@@ -52,6 +71,16 @@ public class IPaImageURLView : UIImageView {
             
         }
         self.image = (image == nil) ? defaultImage :image
+    }
+   public func setHighlightImageURL(highlightedImageURL:String?,defaultImage:UIImage?) {
+        createImageObserver()
+        _highlightedImageURL = highlightedImageURL
+        var image:UIImage?
+        if let highlightedImageURL = highlightedImageURL {
+            image = IPaImageURLLoader.sharedInstance.loadImage(highlightedImageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: highlightedImageURL)
+            
+        }
+        self.highlightedImage = (image == nil) ? defaultImage :image
     }
    
 }
