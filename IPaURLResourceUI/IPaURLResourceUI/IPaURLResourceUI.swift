@@ -47,7 +47,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
 
             if jsonError != nil {
 
-                failure(error)
+                failure(jsonError!)
                 
                 return
             }
