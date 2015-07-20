@@ -57,13 +57,31 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
         return nil;
 
     }
+    func cacheDataWithImageID(imageID:String) -> NSData? {
+        if let path = delegate?.getCacheFilePath(self, imageID: imageID)
+        {
+            return NSData(contentsOfFile: path)
+        }
+        return nil;
+    }
+    func loadImageData(url:String,imageID:String) -> NSData? {
+        if let data = cacheDataWithImageID(imageID) {
+            return data
+        }
+        doLoadImage(url, imageID: imageID)
+        return nil
+    }
     func loadImage(url:String,imageID:String) -> UIImage? {
         
         if let image = cacheWithImageID(imageID) {
-            return image;
+            return image
         }
-
+        doLoadImage(url, imageID: imageID)
         
+        
+        return nil
+    }
+    func doLoadImage(url:String,imageID:String) {
         
         let currentQueue = operationQueue.operations
         var index = NSNotFound
@@ -82,7 +100,7 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
                 if operation.request.URL?.absoluteString != url {
                     operation.cancel()
                 }
-
+                
             }
             
         }
@@ -104,7 +122,7 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
                     
                     imageURL = NSURL(fileURLWithPath: path);
                 }
-            
+                
                 
                 if let imageURL = imageURL {
                     if let path = self.delegate?.getCacheFilePath(self, imageID: imageID) {
@@ -114,11 +132,11 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
                         var error:NSError?
                         if !fileManager.fileExistsAtPath(directory) {
                             
-
+                            
                             fileManager.createDirectoryAtPath(directory, withIntermediateDirectories: true, attributes: nil, error: &error)
-
+                            
                             if error != nil {
-
+                                
                                 return;
                             }
                         }
@@ -140,8 +158,8 @@ class IPaImageURLLoader :IPaImageURLLoaderDelegate {
             }
             operationQueue.addOperation(operation)
         }
-        return nil
     }
+    
     func cancelLoaderWithImageID(imageID:String) {
         
         let currentQueue = operationQueue.operations

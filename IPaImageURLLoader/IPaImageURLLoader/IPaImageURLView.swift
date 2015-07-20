@@ -45,7 +45,8 @@ public class IPaImageURLView : UIImageView {
                     let imageID = userInfo[IPA_NOTIFICATION_KEY_IMAGEID] as! String
                     if imageID == imageURL {
                         if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
-                            self.image = UIImage(data: data)
+                            
+                            self.image = UIImage(data: data,scale: UIScreen.mainScreen().scale)
                         }
                     }
                 }
@@ -67,7 +68,10 @@ public class IPaImageURLView : UIImageView {
         _imageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage(imageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: imageURL)
+            if let data = IPaImageURLLoader.sharedInstance.loadImageData(imageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: imageURL) {
+            
+                image = UIImage(data: data, scale: UIScreen.mainScreen().scale)
+            }
             
         }
         self.image = (image == nil) ? defaultImage :image
@@ -77,8 +81,11 @@ public class IPaImageURLView : UIImageView {
         _highlightedImageURL = highlightedImageURL
         var image:UIImage?
         if let highlightedImageURL = highlightedImageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage(highlightedImageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: highlightedImageURL)
-            
+           
+            if let data = IPaImageURLLoader.sharedInstance.loadImageData(highlightedImageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: highlightedImageURL) {
+                
+                image = UIImage(data: data, scale: UIScreen.mainScreen().scale)
+            }
         }
         self.highlightedImage = (image == nil) ? defaultImage :image
     }
