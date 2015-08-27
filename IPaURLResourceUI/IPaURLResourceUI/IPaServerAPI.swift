@@ -24,10 +24,26 @@ class IPaServerAPI :NSObject {
 
         let aMethod = method.uppercaseString
         if aMethod == "GET" {
-            currentAPITask = resourceUI.apiGet(api, param:param, complete:complete,failure:failure)
+            currentAPITask = resourceUI.apiGet(api, param:param, complete:{
+                response,responseObject in
+                self.currentAPITask = nil
+                complete(response,responseObject)
+                },failure:{
+                    error in
+                self.currentAPITask = nil
+                    failure(error)
+            })
         }
         else if aMethod == "POST" {
-            currentAPITask = resourceUI.apiPost(api, param:param, complete:complete,failure:failure)
+            currentAPITask = resourceUI.apiPost(api, param:param,  complete:{
+                response,responseObject in
+                self.currentAPITask = nil
+                complete(response,responseObject)
+                },failure:{
+                    error in
+                    self.currentAPITask = nil
+                    failure(error)
+            })
         }
 
     }
@@ -47,7 +63,15 @@ class IPaServerAPI :NSObject {
             }
         }
         
-        currentAPITask = resourceUI.apiPut(api, contentType: "application/json", postData: jsonData!, complete: complete, failure: failure)
+        currentAPITask = resourceUI.apiPut(api, contentType: "application/json", postData: jsonData!,  complete:{
+            response,responseObject in
+            self.currentAPITask = nil
+            complete(response,responseObject)
+            },failure:{
+                error in
+                self.currentAPITask = nil
+                failure(error)
+        })
 
 
     }
@@ -67,6 +91,14 @@ class IPaServerAPI :NSObject {
             }
         }
         
-        currentAPITask = resourceUI.apiPost(api, contentType: "application/json", postData: jsonData!, complete: complete, failure: failure)
+        currentAPITask = resourceUI.apiPost(api, contentType: "application/json", postData: jsonData!,  complete:{
+            response,responseObject in
+            self.currentAPITask = nil
+            complete(response,responseObject)
+            },failure:{
+                error in
+                self.currentAPITask = nil
+                failure(error)
+        })
     }
 }
