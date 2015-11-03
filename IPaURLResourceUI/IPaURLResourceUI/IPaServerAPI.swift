@@ -49,7 +49,13 @@ class IPaServerAPI :NSObject {
     }
     func apiPut(api:String, json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
         var jsonError:NSError?
-        var jsonData:NSData? = NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions.allZeros, error: &jsonError)
+        var jsonData:NSData?
+        do {
+            jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+        } catch let error as NSError {
+            jsonError = error
+            jsonData = nil
+        }
         
         if let error = jsonError {
             
@@ -77,7 +83,13 @@ class IPaServerAPI :NSObject {
     }
     func apiPost(api:String,json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
         var jsonError:NSError?
-        var jsonData:NSData? = NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions.allZeros, error: &jsonError)
+        var jsonData:NSData?
+        do {
+            jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+        } catch let error as NSError {
+            jsonError = error
+            jsonData = nil
+        }
         
         if let error = jsonError {
             

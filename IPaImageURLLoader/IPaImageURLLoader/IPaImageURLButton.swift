@@ -67,10 +67,10 @@ public class IPaImageURLButton : UIButton {
         _imageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage(imageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
             
         }
-
+        
         setImage((image == nil) ? defaultImage :image, forState: .Normal)
     }
     public func setBackgroundImageURL(imageURL:String?,defaultImage:UIImage?) {
@@ -78,7 +78,7 @@ public class IPaImageURLButton : UIButton {
         _backgroundImageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage(imageURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
             
         }
         

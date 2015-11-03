@@ -35,13 +35,13 @@
     
 }
 
--(NSString*)stringWithURLEncode
-{
-    return  (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                                  (CFStringRef) self,
-                                                                                  NULL,
-                                                                                  (CFStringRef) @"!*'();:@&=+$,/?%#[]",
-                                                                                  kCFStringEncodingUTF8);
-}
+//-(NSString*)stringWithURLEncode
+//{
+//    return  (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+//                                                                                  (CFStringRef) self,
+//                                                                                  NULL,
+//                                                                                  (CFStringRef) @"!*'();:@&=+$,/?%#[]",
+//                                                                                  kCFStringEncodingUTF8);
+//}
 
 @end

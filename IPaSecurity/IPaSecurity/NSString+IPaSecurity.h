@@ -12,5 +12,5 @@
 -(NSString*) SHA1String;
 -(NSString*) SHA256String;
 -(NSString*) MD5String;
--(NSString*)stringWithURLEncode;
+//-(NSString*)stringWithURLEncode;
 @end

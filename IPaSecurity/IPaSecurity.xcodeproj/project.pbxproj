@@ -10,14 +10,12 @@
 		6E49903416C358EA00B77A46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E49903316C358EA00B77A46 /* Foundation.framework */; };
 		6E49904916C35B9100B77A46 /* NSData+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */; };
 		6E49904C16C35BF800B77A46 /* NSString+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904B16C35BF800B77A46 /* NSString+IPaSecurity.m */; };
-		6E49905416C37E8C00B77A46 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E49905316C37E8C00B77A46 /* SenTestingKit.framework */; };
 		6E49905616C37E8C00B77A46 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E49905516C37E8C00B77A46 /* UIKit.framework */; };
 		6E49905716C37E8C00B77A46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E49903316C358EA00B77A46 /* Foundation.framework */; };
 		6E49905D16C37E8C00B77A46 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E49905B16C37E8C00B77A46 /* InfoPlist.strings */; };
 		6E49906016C37E8C00B77A46 /* IPaSecurityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49905F16C37E8C00B77A46 /* IPaSecurityTest.m */; };
 		6E49906516C37F4E00B77A46 /* NSData+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */; };
 		6E49906616C37F4E00B77A46 /* NSString+IPaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49904B16C35BF800B77A46 /* NSString+IPaSecurity.m */; };
-		6E5FF8361904D0AC0082CD72 /* IPaKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FF8351904D0AC0082CD72 /* IPaKeyChain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,16 +38,13 @@
 		6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+IPaSecurity.m"; sourceTree = "<group>"; };
 		6E49904A16C35BF800B77A46 /* NSString+IPaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IPaSecurity.h"; sourceTree = "<group>"; };
 		6E49904B16C35BF800B77A46 /* NSString+IPaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IPaSecurity.m"; sourceTree = "<group>"; };
-		6E49905216C37E8C00B77A46 /* IPaSecurityTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaSecurityTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E49905316C37E8C00B77A46 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6E49905216C37E8C00B77A46 /* IPaSecurityTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaSecurityTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E49905516C37E8C00B77A46 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		6E49905A16C37E8C00B77A46 /* IPaSecurityTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IPaSecurityTest-Info.plist"; sourceTree = "<group>"; };
 		6E49905C16C37E8C00B77A46 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6E49905E16C37E8C00B77A46 /* IPaSecurityTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPaSecurityTest.h; sourceTree = "<group>"; };
 		6E49905F16C37E8C00B77A46 /* IPaSecurityTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaSecurityTest.m; sourceTree = "<group>"; };
 		6E49906116C37E8C00B77A46 /* IPaSecurityTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaSecurityTest-Prefix.pch"; sourceTree = "<group>"; };
-		6E5FF8341904D0AC0082CD72 /* IPaKeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaKeyChain.h; sourceTree = "<group>"; };
-		6E5FF8351904D0AC0082CD72 /* IPaKeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaKeyChain.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E49905416C37E8C00B77A46 /* SenTestingKit.framework in Frameworks */,
 				6E49905616C37E8C00B77A46 /* UIKit.framework in Frameworks */,
 				6E49905716C37E8C00B77A46 /* Foundation.framework in Frameworks */,
 			);
@@ -88,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				6E49903016C358EA00B77A46 /* libIPaSecurity.a */,
-				6E49905216C37E8C00B77A46 /* IPaSecurityTest.octest */,
+				6E49905216C37E8C00B77A46 /* IPaSecurityTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				6E49903316C358EA00B77A46 /* Foundation.framework */,
-				6E49905316C37E8C00B77A46 /* SenTestingKit.framework */,
 				6E49905516C37E8C00B77A46 /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -106,8 +99,6 @@
 		6E49903516C358EA00B77A46 /* IPaSecurity */ = {
 			isa = PBXGroup;
 			children = (
-				6E5FF8341904D0AC0082CD72 /* IPaKeyChain.h */,
-				6E5FF8351904D0AC0082CD72 /* IPaKeyChain.m */,
 				6E49904716C35B9100B77A46 /* NSData+IPaSecurity.h */,
 				6E49904816C35B9100B77A46 /* NSData+IPaSecurity.m */,
 				6E49904A16C35BF800B77A46 /* NSString+IPaSecurity.h */,
@@ -180,8 +171,8 @@
 			);
 			name = IPaSecurityTest;
 			productName = IPaSecurityTest;
-			productReference = 6E49905216C37E8C00B77A46 /* IPaSecurityTest.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productReference = 6E49905216C37E8C00B77A46 /* IPaSecurityTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -189,8 +180,8 @@
 		6E49902816C358EA00B77A46 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0460;
+				LastTestingUpgradeCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = IPaPa;
 			};
 			buildConfigurationList = 6E49902B16C358EA00B77A46 /* Build configuration list for PBXProject "IPaSecurity" */;
@@ -244,7 +235,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E49904916C35B9100B77A46 /* NSData+IPaSecurity.m in Sources */,
-				6E5FF8361904D0AC0082CD72 /* IPaKeyChain.m in Sources */,
 				6E49904C16C35BF800B77A46 /* NSString+IPaSecurity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +276,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -363,12 +354,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaSecurityTest/IPaSecurityTest-Prefix.pch";
 				INFOPLIST_FILE = "IPaSecurityTest/IPaSecurityTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -378,12 +369,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IPaSecurityTest/IPaSecurityTest-Prefix.pch";
 				INFOPLIST_FILE = "IPaSecurityTest/IPaSecurityTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

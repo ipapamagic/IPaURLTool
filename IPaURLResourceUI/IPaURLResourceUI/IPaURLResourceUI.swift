@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public typealias IPaURLResourceUISuccessHandler = ((NSURLResponse,AnyObject?) -> ())!
+public typealias IPaURLResourceUISuccessHandler = ((NSURLResponse?,AnyObject?) -> ())!
 public typealias IPaURLResourceUIFailHandler = ((NSError) -> ())!
 public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     var baseURL:String! = ""
@@ -19,7 +19,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     }
     func urlStringForGETAPI(api:String!, param:[String:AnyObject]?) -> String! {
         var apiURL = self.baseURL + api
-  
+        
         if let params = param {
             apiURL = apiURL + "?"
             var count = 0
@@ -29,27 +29,36 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
                 count++
             }
         }
-
-        return (apiURL.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))!
-
-    
-    
+        
+        return ((apiURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()))!
+        
+        
+        
+        
     }
     func apiWithRequest(request:NSURLRequest,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
         
         let task = urlSession.dataTaskWithRequest(request, completionHandler: { (responseData,response,error) in
-            if error != nil {
+            if let error = error {
                 failure(error)
                 return
             }
-            var jsonError:NSError?
-            var jsonData:AnyObject? = NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.allZeros, error: &jsonError)
-
-            if jsonError != nil {
-
-                failure(jsonError!)
+            var jsonData:AnyObject?
+            do {
+                if let responseData = responseData {
+                    jsonData = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions())
+                }
+            } catch let error as NSError {
+                jsonData = nil
+                let responseString = String(data: responseData!, encoding: NSUTF8StringEncoding)
+                print(responseString)
+                
+                
+                failure(error)
                 
                 return
+            } catch {
+                fatalError()
             }
             if self.removeNSNull {
                 jsonData = self.removeNSNullDataFromObject(jsonData!)
@@ -63,7 +72,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     }
     
     public func apiGet(api:String ,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
-
+        
     {
         let apiURL = urlStringForGETAPI(api, param: param)
         let request = NSMutableURLRequest()
@@ -76,7 +85,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     {
         return apiPerform(api,method:"POST",paramInBody:param,complete:complete,failure:failure)
     }
-
+    
     
     func apiPut(api:String, param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
         
@@ -98,26 +107,28 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         if let param = paramInBody {
             var count = 0
             var postString = ""
-            var customAllowedSet =  NSCharacterSet(charactersInString:"!*'();:@&=+$,/?%#[]").invertedSet
+            
             for key in param.keys {
                 var value = "\(param[key]!)"
-                value = (value.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet))!
-
+                let characterSet = NSMutableCharacterSet.alphanumericCharacterSet()
+                characterSet.addCharactersInString("-._~")
+                value = (value.stringByAddingPercentEncodingWithAllowedCharacters(characterSet))!
+                
                 postString = postString + ((count > 0) ? "&" : "") + "\(key)=\(value)"
                 count++
-        
+                
             }
             request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-
+            
         }
-    
-    
+        
+        
         return apiWithRequest(request,complete:complete,failure:failure)
-
+        
     }
     func apiPerform(api:String,method:String,paramInBody:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
         return apiPerform(api, method: method, paramInHeader: nil, paramInBody: paramInBody, complete: complete, failure: failure)
-
+        
     }
     func apiUpload(api:String,method:String,headerParam:[String:String],data:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
         let apiURL = urlStringForAPI(api)
@@ -127,39 +138,42 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         
         for key in headerParam.keys {
             request.setValue(headerParam[key]!, forHTTPHeaderField: key)
-
+            
         }
-    //        [request setValue:contentType forHTTPHeaderField:@"content-type"]
-    //    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]]
-    //    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"]
-    //    [request setHTTPBody:data]
+        //        [request setValue:contentType forHTTPHeaderField:@"content-type"]
+        //    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]]
+        //    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"]
+        //    [request setHTTPBody:data]
         let task = urlSession.uploadTaskWithRequest(request, fromData: data, completionHandler: {
             (responseData,response,error) -> Void in
-            if error != nil {
+            if let error = error {
                 failure(error)
                 return
             }
-            var jsonError:NSError?
-      
             
-#if DEBUG
-            let retString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
-            print("IPaURLResourceUI return string :\(retString)")
-#endif
-            var jsonData:AnyObject? = NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.allZeros, error: &jsonError)
-
-            if (jsonError != nil) {
+            #if DEBUG
+                let retString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
+                print("IPaURLResourceUI return string :\(retString)")
+            #endif
+            var jsonData:AnyObject?
+            do {
+                if let responseData = responseData {
+                    jsonData = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions())
+                }
+            } catch let error as NSError {
                 failure(error)
                 return
+            } catch {
+                fatalError()
             }
             if self.removeNSNull {
                 jsonData = self.removeNSNullDataFromObject(jsonData!)
             }
             complete(response,jsonData)
-
+            
             
         })
-
+        
         task.resume()
         return task
     }
@@ -175,19 +189,21 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
     func apiPost(api:String,contentType:String,postData:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
         return apiUpload(api, method: "POST", headerParam: ["content-type":contentType], data: postData, complete: complete, failure: failure)
     }
-  
+    func apiDelete(api:String,contentType:String,postData:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+        return apiUpload(api, method: "DELETE", headerParam: ["content-type":contentType], data: postData, complete: complete, failure: failure)
+    }
     
     
-
-// MARK:NSURLSessionDelegate
+    
+    // MARK:NSURLSessionDelegate
     public func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
-        println("\(error)")
+        print("\(error)")
     }
     public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
         
     }
     
-// MARK: helper method
+    // MARK: helper method
     func removeNSNullDataFromObject(object:AnyObject) -> AnyObject
     {
         if let dictObject = object as? [String:AnyObject] {
@@ -204,7 +220,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         
         for key in dictionary.keys {
             var value = dictionary[key]
-            if let value = value as? NSNull {
+            if let _ = value as? NSNull {
                 continue;
             }
             else if let dictValue = value as? [String:AnyObject] {
@@ -222,7 +238,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         var mArray = [AnyObject]()
         for value in array {
             var newValue:AnyObject = value;
-            if let value = value as? NSNull {
+            if value is NSNull {
                 continue;
             }
             else if let dictValue = value as? [String:AnyObject] {
@@ -232,7 +248,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
                 newValue = removeNSNullDataFromArray(arrayValue)
             }
             mArray.append(newValue)
-
+            
         }
         return mArray;
     }
