@@ -99,8 +99,8 @@
     }
     
     size_t bufferSize = CCCryptorGetOutputLength(cryptorRef,self.length,true);
-
-
+    
+    
     
     void *buffer = malloc(bufferSize * sizeof(uint8_t));
     size_t movedBytes = 0;
@@ -121,7 +121,7 @@
         return nil;
     }
     totalBytesWritten += movedBytes;
-     NSData *retData = [NSData dataWithBytesNoCopy:(void *)buffer length:(NSUInteger)totalBytesWritten];
+    NSData *retData = [NSData dataWithBytesNoCopy:(void *)buffer length:(NSUInteger)totalBytesWritten];
     if (cryptorRef) {
         CCCryptorRelease(cryptorRef);
     }
@@ -130,7 +130,15 @@
     return retData;
 }
 
-
+- (NSData*) SHA256Data
+{
+    uint8_t digest[CC_SHA256_DIGEST_LENGTH];
+    
+    // This is an iOS5-specific method.
+    // It takes in the data, how much data, and then output format, which in this case is an int array.
+    CC_SHA256(self.bytes, (CC_LONG)self.length, digest);
+    return [[NSData alloc] initWithBytes:digest length:sizeof(uint8_t) * CC_SHA256_DIGEST_LENGTH];
+}
 -(NSString*) SHA256String
 {
     

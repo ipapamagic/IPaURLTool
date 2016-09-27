@@ -7,17 +7,17 @@
 //
 
 import Foundation
-public typealias IPaURLResourceUISuccessHandler = ((NSURLResponse?,AnyObject?) -> ())!
-public typealias IPaURLResourceUIFailHandler = ((NSError) -> ())!
-public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
+public typealias IPaURLResourceUISuccessHandler = ((URLResponse?,Any?) -> ())!
+public typealias IPaURLResourceUIFailHandler = ((Error) -> ())!
+open class IPaURLResourceUI : NSObject,URLSessionDelegate {
     var baseURL:String! = ""
-    public var removeNSNull:Bool = true
-    lazy var sessionConfiguration:NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-    lazy var urlSession:NSURLSession = NSURLSession(configuration: self.sessionConfiguration, delegate: self, delegateQueue: NSOperationQueue.mainQueue())
-    func urlStringForAPI(api:String) -> String {
+    open var removeNSNull:Bool = true
+    lazy var sessionConfiguration:URLSessionConfiguration = URLSessionConfiguration.default
+    lazy var urlSession:Foundation.URLSession = Foundation.URLSession(configuration: self.sessionConfiguration, delegate: self, delegateQueue: OperationQueue.main)
+    func urlStringForAPI(_ api:String) -> String {
         return self.baseURL + api
     }
-    func urlStringForGETAPI(api:String!, param:[String:AnyObject]?) -> String! {
+    func urlStringForGETAPI(_ api:String!, param:[String:Any]?) -> String! {
         var apiURL = self.baseURL + api
         
         if let params = param {
@@ -26,33 +26,35 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
             
             for key in params.keys {
                 apiURL = apiURL + ((count > 0) ? "&":"") + "\(key)=\(params[key]!)"
-                count++
+                count += 1
             }
         }
         
-        return ((apiURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()))!
+        return ((apiURL as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed))!
         
         
         
         
     }
-    func apiWithRequest(request:NSURLRequest,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
+    func apiWithRequest(_ request:URLRequest,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask {
         
-        let task = urlSession.dataTaskWithRequest(request, completionHandler: { (responseData,response,error) in
+        let task = urlSession.dataTask(with: request, completionHandler: { (responseData,response,error) in
             if let error = error {
                 failure(error)
                 return
             }
-            var jsonData:AnyObject?
+            var jsonData:Any?
             do {
                 if let responseData = responseData {
-                    jsonData = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions())
+                    jsonData = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions())
                 }
             } catch let error as NSError {
                 jsonData = nil
-                let responseString = String(data: responseData!, encoding: NSUTF8StringEncoding)
-                print(responseString)
-                
+                #if DEBUG
+                if let responseString = String(data: responseData!, encoding: String.Encoding.utf8) {
+                    print(responseString)
+                }
+                #endif
                 
                 failure(error)
                 
@@ -71,70 +73,85 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         return task
     }
     
-    public func apiGet(api:String ,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
+    open func apiGet(_ api:String ,param:[String:Any]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask
         
     {
         let apiURL = urlStringForGETAPI(api, param: param)
         let request = NSMutableURLRequest()
-        request.HTTPMethod = "GET"
-        request.URL = NSURL(string: apiURL)
+        request.httpMethod = "GET"
+        request.url = URL(string: apiURL!)
         
-        return apiWithRequest(request,complete:complete,failure:failure)
+        return apiWithRequest(request as URLRequest,complete:complete,failure:failure)
     }
-    func apiPost(api:String , param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
+    func apiPost(_ api:String , param:[String:Any]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask
     {
         return apiPerform(api,method:"POST",paramInBody:param,complete:complete,failure:failure)
     }
     
     
-    func apiPut(api:String, param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
+    func apiPut(_ api:String, param:[String:Any]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask {
         
         return apiPerform(api ,method:"PUT", paramInBody:param,complete:complete,failure:failure)
     }
-    
-    func apiPerform(api:String,method:String,paramInHeader:[String:String]?,paramInBody:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask
+    func apiUpload(_ api:String,method:String,json:Any,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions(rawValue: 0))
+            _ = apiUpload(api, method: method, headerParam: ["content-type":"application/json"], data: jsonData, complete: complete, failure: failure)
+            
+        }
+        catch let error as NSError {
+            failure(error)
+            return
+        }
+        
+        
+        
+    }
+    func apiPerform(_ api:String,method:String,paramInHeader:[String:String]?,paramInBody:[String:Any]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask
     {
-        let apiURL = urlStringForAPI(api)
+        let method = method.uppercased()
+        let apiURL = (method == "GET") ? urlStringForGETAPI(api, param: paramInBody) :  urlStringForAPI(api)
         let request = NSMutableURLRequest()
-        request.URL = NSURL(string: apiURL)
-        request.HTTPMethod = method
+        if let param = paramInBody , method != "GET" {
+            var count = 0
+            var postString = ""
+            
+            for key in param.keys {
+                var value = "\(param[key]!)"
+                let characterSet = NSMutableCharacterSet.alphanumeric()
+                characterSet.addCharacters(in: "-._~")
+                value = (value.addingPercentEncoding(withAllowedCharacters: characterSet as CharacterSet))!
+                
+                postString = postString + ((count > 0) ? "&" : "") + "\(key)=\(value)"
+                count += 1
+                
+            }
+            request.httpBody = postString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+            
+        }
+        
+        request.url = URL(string: apiURL!)
+        request.httpMethod = method
         if let param = paramInHeader {
             for key in param.keys {
                 request.setValue(param[key]!,forHTTPHeaderField: key)
             }
         }
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
-        if let param = paramInBody {
-            var count = 0
-            var postString = ""
-            
-            for key in param.keys {
-                var value = "\(param[key]!)"
-                let characterSet = NSMutableCharacterSet.alphanumericCharacterSet()
-                characterSet.addCharactersInString("-._~")
-                value = (value.stringByAddingPercentEncodingWithAllowedCharacters(characterSet))!
-                
-                postString = postString + ((count > 0) ? "&" : "") + "\(key)=\(value)"
-                count++
-                
-            }
-            request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            
-        }
         
+        return apiWithRequest(request as URLRequest,complete:complete,failure:failure)
         
-        return apiWithRequest(request,complete:complete,failure:failure)
         
     }
-    func apiPerform(api:String,method:String,paramInBody:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionDataTask {
+    func apiPerform(_ api:String,method:String,paramInBody:[String:Any]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionDataTask {
         return apiPerform(api, method: method, paramInHeader: nil, paramInBody: paramInBody, complete: complete, failure: failure)
         
     }
-    func apiUpload(api:String,method:String,headerParam:[String:String],data:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+    func apiUpload(_ api:String,method:String,headerParam:[String:String],data:Data,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionUploadTask {
         let apiURL = urlStringForAPI(api)
         let request = NSMutableURLRequest()
-        request.URL = NSURL(string: apiURL)
-        request.HTTPMethod = method
+        request.url = URL(string: apiURL)
+        request.httpMethod = method
         
         for key in headerParam.keys {
             request.setValue(headerParam[key]!, forHTTPHeaderField: key)
@@ -144,7 +161,7 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         //    NSString *dataLength = [NSString stringWithFormat:@"%ld", (unsigned long)[data length]]
         //    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"]
         //    [request setHTTPBody:data]
-        let task = urlSession.uploadTaskWithRequest(request, fromData: data, completionHandler: {
+        let task = urlSession.uploadTask(with: request as URLRequest, from: data, completionHandler: {
             (responseData,response,error) -> Void in
             if let error = error {
                 failure(error)
@@ -152,13 +169,15 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
             }
             
             #if DEBUG
-                let retString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
-                print("IPaURLResourceUI return string :\(retString)")
+                if let responseData = responseData {
+                    let retString = NSString(data: responseData, encoding: String.Encoding.utf8.rawValue)
+                    print("IPaURLResourceUI return string :\(retString)")
+                }
             #endif
-            var jsonData:AnyObject?
+            var jsonData:Any?
             do {
                 if let responseData = responseData {
-                    jsonData = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions())
+                    jsonData = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions())
                 }
             } catch let error as NSError {
                 failure(error)
@@ -177,75 +196,75 @@ public class IPaURLResourceUI : NSObject,NSURLSessionDelegate {
         task.resume()
         return task
     }
-    func apiUpload(api:String,method:String,multiPartFormData:IPaURLMultipartFormData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+    func apiUpload(_ api:String,method:String,multiPartFormData:IPaURLMultipartFormData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionUploadTask {
         let contentType = "multipart/form-data boundary=\(multiPartFormData.boundary)"
         multiPartFormData.endOfBodyData()
         let data = multiPartFormData.data
-        return apiUpload(api, method: method, headerParam: ["content-type":contentType], data: data, complete: complete, failure: failure)
+        return apiUpload(api, method: method, headerParam: ["content-type":contentType], data: data as Data, complete: complete, failure: failure)
     }
-    func apiPut(api:String,contentType:String,postData:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+    func apiPut(_ api:String,contentType:String,postData:Data,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionUploadTask {
         return apiUpload(api, method: "PUT", headerParam: ["content-type":contentType], data: postData, complete: complete, failure: failure)
     }
-    func apiPost(api:String,contentType:String,postData:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+    func apiPost(_ api:String,contentType:String,postData:Data,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionUploadTask {
         return apiUpload(api, method: "POST", headerParam: ["content-type":contentType], data: postData, complete: complete, failure: failure)
     }
-    func apiDelete(api:String,contentType:String,postData:NSData,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> NSURLSessionUploadTask {
+    func apiDelete(_ api:String,contentType:String,postData:Data,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) -> URLSessionUploadTask {
         return apiUpload(api, method: "DELETE", headerParam: ["content-type":contentType], data: postData, complete: complete, failure: failure)
     }
     
     
     
     // MARK:NSURLSessionDelegate
-    public func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
-        print("\(error)")
+    open func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        IPaLog("\(error)")
     }
-    public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
+    open func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         
     }
     
     // MARK: helper method
-    func removeNSNullDataFromObject(object:AnyObject) -> AnyObject
+    func removeNSNullDataFromObject(_ object:Any) -> Any
     {
-        if let dictObject = object as? [String:AnyObject] {
-            return removeNSNullDataFromDictionary(dictObject)
+        if let dictObject = object as? [String:Any] {
+            return removeNSNullDataFromDictionary(dictObject) as Any
         }
-        else if let arrayValue = object as? [AnyObject] {
-            return removeNSNullDataFromArray(arrayValue)
+        else if let arrayValue = object as? [Any] {
+            return removeNSNullDataFromArray(arrayValue) as Any
         }
         return object;
     }
-    func removeNSNullDataFromDictionary(dictionary:[String:AnyObject!]) -> [String:AnyObject!]
+    func removeNSNullDataFromDictionary(_ dictionary:[String:Any?]) -> [String:Any?]
     {
-        var mDict = [String:AnyObject]()
+        var mDict = [String:Any]()
         
         for key in dictionary.keys {
             var value = dictionary[key]
             if let _ = value as? NSNull {
                 continue;
             }
-            else if let dictValue = value as? [String:AnyObject] {
-                value = removeNSNullDataFromDictionary(dictValue)
+            else if let dictValue = value as? [String:Any] {
+                value = removeNSNullDataFromDictionary(dictValue) as Any?
             }
-            else if let arrayValue = value as? [AnyObject] {
-                value = removeNSNullDataFromArray(arrayValue)
+            else if let arrayValue = value as? [Any] {
+                value = removeNSNullDataFromArray(arrayValue) as Any?
             }
-            mDict[key] = value;
+            mDict[key] = value!;
         }
         return mDict;
     }
-    func removeNSNullDataFromArray(array:[AnyObject]) -> [AnyObject]
+    func removeNSNullDataFromArray(_ array:[Any]) -> [Any]
     {
-        var mArray = [AnyObject]()
+        var mArray = [Any]()
         for value in array {
-            var newValue:AnyObject = value;
+            var newValue:Any = value;
             if value is NSNull {
                 continue;
             }
-            else if let dictValue = value as? [String:AnyObject] {
-                newValue = removeNSNullDataFromDictionary(dictValue)
+            else if let dictValue = value as? [String:Any] {
+                newValue = removeNSNullDataFromDictionary(dictValue) as Any
             }
-            else if let arrayValue = value as? [AnyObject] {
-                newValue = removeNSNullDataFromArray(arrayValue)
+            else if let arrayValue = value as? [Any] {
+                newValue = removeNSNullDataFromArray(arrayValue) as Any
             }
             mArray.append(newValue)
             

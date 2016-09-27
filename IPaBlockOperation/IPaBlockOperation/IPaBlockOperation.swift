@@ -7,55 +7,55 @@
 //
 
 import Foundation
-typealias  IPaBlockOperationBlock = (complete:() -> ()) -> ()
-class IPaBlockOperation : NSOperation {
+typealias  IPaBlockOperationBlock = (_ complete:() -> ()) -> ()
+class IPaBlockOperation : Operation {
     var operationBlock :IPaBlockOperationBlock
     var _executing:Bool = false
     var _finished:Bool = false
-    override var executing:Bool {
+    override var isExecuting:Bool {
         get { return _executing }
         set {
-            willChangeValueForKey("isExecuting")
+            willChangeValue(forKey: "isExecuting")
             _executing = newValue
-            didChangeValueForKey("isExecuting")
+            didChangeValue(forKey: "isExecuting")
         }
     }
     
-    override var finished:Bool {
+    override var isFinished:Bool {
         get { return _finished }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: "isFinished")
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: "isFinished")
         }
     }
-    override var concurrent:Bool {
+    override var isConcurrent:Bool {
         get {
             return true
         }
     }
-    init(block:IPaBlockOperationBlock) {
+    init(block:@escaping IPaBlockOperationBlock) {
         operationBlock = block
     }
     override func start() {
-        if cancelled {
-            finished = true
+        if isCancelled {
+            isFinished = true
             return;
         }
  
 
-        executing = true
+        isExecuting = true
 
-        operationBlock(complete: {
-            self.finished = true
-            self.executing = false
+        operationBlock({
+            self.isFinished = true
+            self.isExecuting = false
         
         })
     }
     override func cancel() {
-        if executing {
-            finished = true
-            executing = false
+        if isExecuting {
+            isFinished = true
+            isExecuting = false
         }
     }
 }

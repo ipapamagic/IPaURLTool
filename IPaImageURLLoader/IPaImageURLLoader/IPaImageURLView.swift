@@ -8,11 +8,11 @@
 
 import Foundation
 import UIKit
-public class IPaImageURLView : UIImageView {
-    private var _imageURL:String?
-    private var _highlightedImageURL:String?
-    private var imageObserver:NSObjectProtocol?
-    public var imageURL:String? {
+@objc open class IPaImageURLView : UIImageView {
+    fileprivate var _imageURL:String?
+    fileprivate var _highlightedImageURL:String?
+    fileprivate var imageObserver:NSObjectProtocol?
+    open var imageURL:String? {
         get {
             return _imageURL
         }
@@ -20,7 +20,7 @@ public class IPaImageURLView : UIImageView {
             setImageURL(newValue, defaultImage: nil)
         }
     }
-    public var highlightedImageURL:String? {
+    open var highlightedImageURL:String? {
         get {
             return _highlightedImageURL
         }
@@ -30,29 +30,29 @@ public class IPaImageURLView : UIImageView {
     }
     deinit {
         if let imageObserver = imageObserver {
-            NSNotificationCenter .defaultCenter().removeObserver(imageObserver)
+            NotificationCenter.default.removeObserver(imageObserver)
         }
     }
     func createImageObserver () {
         if imageObserver != nil {
             return
         }
-        imageObserver = NSNotificationCenter.defaultCenter().addObserverForName(IPA_NOTIFICATION_IMAGE_LOADED, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
+        imageObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: IPA_NOTIFICATION_IMAGE_LOADED), object: nil, queue: OperationQueue.main, using: {
             noti in
             
             
-            if let userInfo = noti.userInfo {
+            if let userInfo = (noti as NSNotification).userInfo {
                 let imageID = userInfo[IPA_NOTIFICATION_KEY_IMAGEID] as! String
                 if let imageURL = self.imageURL {
                     if imageID == imageURL {
-                        if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
+                        if let data = try? Data(contentsOf: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! URL ) {
                             self.image = UIImage(data: data)
                         }
                     }
                 }
-                else if let imageURL = self.highlightedImage {
+                else if let imageURL = self.highlightedImageURL {
                     if imageID == imageURL {
-                        if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
+                        if let data = try? Data(contentsOf: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! URL ) {
                             self.highlightedImage = UIImage(data: data)
                         }
                     }
@@ -60,22 +60,22 @@ public class IPaImageURLView : UIImageView {
             }
         })
     }
-    public func setImageURL(imageURL:String?,defaultImage:UIImage?) {
+    open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         createImageObserver()
         _imageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage(url: (imageURL as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!, imageID: imageURL)
             
         }
         self.image = (image == nil) ? defaultImage :image
     }
-    public func setHighlightedImageURL(imageURL:String?,defaultImage:UIImage?) {
+    open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         createImageObserver()
         _highlightedImageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage(url: (imageURL as NSString).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!, imageID: imageURL)
             
         }
         self.highlightedImage = (image == nil) ? defaultImage :image

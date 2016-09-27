@@ -11,6 +11,7 @@
 @interface NSString (IPaSecurity)
 -(NSString*) SHA1String;
 -(NSString*) SHA256String;
+- (NSData*) SHA256Data;
 -(NSString*) MD5String;
 //-(NSString*)stringWithURLEncode;
 @end

@@ -14,25 +14,26 @@
 @interface NSData (IPaSecurity)
 //encryption
 //with arguments mode:kCCModeCBC padding:NO iv:nil
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData*)key;
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key;
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options;
+-( NSData* _Nullable )EncryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData* _Nullable )key;
+-(NSData* _Nullable )EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData* __nullable)iv key:(NSData* __nonnull)key;
+-(NSData* _Nullable)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData* __nullable)iv key:(NSData* __nonnull)key options:(CCModeOptions)options;
 //decryption
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData*)key;
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key;
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options;
+-(NSData* _Nullable)DecryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData* __nonnull)key;
+-(NSData* _Nullable)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData* __nullable)iv key:(NSData* __nonnull)key;
+-(NSData* _Nullable)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData* __nullable)iv key:(NSData* __nonnull)key options:(CCModeOptions)options;
 
 
--(NSData*)CipherWithOperation:(CCOperation)operation algorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options;
+-(NSData* _Nullable)CipherWithOperation:(CCOperation)operation algorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData* __nullable)iv key:(NSData* __nonnull)key options:(CCModeOptions)options;
 
 
 
--(NSString*)SHA1String;
--(NSString*)SHA256String;
--(NSString*)MD5String;
--(NSString*)HexString;
-+ (NSData*)dataFromHexString:(NSString*)string;
+-(NSString* __nonnull)SHA1String;
+-(NSString* __nonnull)SHA256String;
+- (NSData* __nonnull) SHA256Data;
+-(NSString* __nonnull)MD5String;
+-(NSString* __nonnull)HexString;
++ (NSData* __nonnull)dataFromHexString:(NSString* __nonnull)string;
 //currently support kCCHmacAlgSHA1 and kCCHmacAlgSHA256 and kCCHmacAlgMD5 only
--(NSData*)HMACDataWithAlgorithm:(CCHmacAlgorithm)algorithm sectet:(NSData*)key;
--(NSData*)HKDFDataWithAlgorithm:(CCHmacAlgorithm)algorithm Info:(NSData*)info withLength:(NSUInteger)length Salt:(NSData*)salt;
+-(NSData* _Nullable)HMACDataWithAlgorithm:(CCHmacAlgorithm)algorithm sectet:(NSData* __nonnull)key;
+-(NSData* _Nullable)HKDFDataWithAlgorithm:(CCHmacAlgorithm)algorithm Info:(NSData* _Nullable)info withLength:(NSUInteger)length Salt:(NSData* _Nullable)salt;
 @end

@@ -7,83 +7,83 @@
 //
 
 import Foundation
-class IPaImageURLOperation : NSOperation {
-    var loadedImageFileURL:NSURL?
+@objc class IPaImageURLOperation : Operation {
+    var loadedImageFileURL:URL?
     let imageID:String
-    var request:NSURLRequest
-    var task:NSURLSessionDownloadTask?
-    weak var session:NSURLSession?
+    var request:URLRequest
+    var task:URLSessionDownloadTask?
+    weak var session:URLSession?
     var _finished:Bool = false
-    override var executing:Bool {
+    override var isExecuting:Bool {
         get {
-            return !finished && (task != nil && task!.state == .Running)
+            return !isFinished && (task != nil && task!.state == .running)
         }
         
     }
     
-    override var finished:Bool {
+    override var isFinished:Bool {
         get { return _finished }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: "isFinished")
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: "isFinished")
         }
     }
-    override var concurrent:Bool {
+    override var isConcurrent:Bool {
         get {
             return true
         }
     }
-    init(request:NSURLRequest,imageID:String,session:NSURLSession) {
+    init(request:URLRequest,imageID:String,session:URLSession) {
         self.request = request
         self.imageID = imageID
         self.session = session
     }
     override func start() {
-        if cancelled
+        if isCancelled
         {
-            finished = true
+            isFinished = true
             return;
         }
-        self.willChangeValueForKey("isExecuting")
-        task = session?.downloadTaskWithRequest(request, completionHandler: {(location,response,error) in
+        self.willChangeValue(forKey: "isExecuting")
+        task = session?.downloadTask(with: request, completionHandler: {(location,response,error) in
             if error == nil {
-                if self.cancelled {
+                if self.isCancelled {
                     return
                 }
                 guard let location = location else {
                     return
                 }
                 //move file to cache first
-                var cachePath:String = NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
+                var cachePath:String = NSSearchPathForDirectoriesInDomains(.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]
                 
-                cachePath = (cachePath as NSString).stringByAppendingPathComponent(location.lastPathComponent!)
-                let toURL = NSURL(fileURLWithPath: cachePath)
-
+                cachePath = (cachePath as NSString).appendingPathComponent(location.lastPathComponent)
+                let toURL = URL(fileURLWithPath: cachePath)
+                
                 do {
-                    try NSFileManager.defaultManager().copyItemAtURL(location, toURL: toURL)
+                    try FileManager.default.copyItem(at: location, to: toURL)
                 } catch {
                     fatalError()
                 }
                 self.loadedImageFileURL = toURL
             }
-            self.willChangeValueForKey("isExecuting")
-            self.finished = true
-            self.didChangeValueForKey("isExecuting")
+            self.willChangeValue(forKey: "isExecuting")
+            self.isFinished = true
+            self.didChangeValue(forKey: "isExecuting")
             
         })
         task?.resume()
-        self.didChangeValueForKey("isExecuting")
+        self.didChangeValue(forKey: "isExecuting")
         
     }
     override func cancel() {
         super.cancel()
-        if executing {
-            self.willChangeValueForKey("isExecuting")
-            self.finished = true
+        if isExecuting {
+            self.willChangeValue(forKey: "isExecuting")
+            self.isFinished = true
             task?.cancel()
             task = nil
-            self.didChangeValueForKey("isExecuting")
+            self.didChangeValue(forKey: "isExecuting")
             
         }
     }

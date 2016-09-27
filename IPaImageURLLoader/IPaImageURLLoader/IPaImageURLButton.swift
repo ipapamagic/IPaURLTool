@@ -30,59 +30,71 @@ public class IPaImageURLButton : UIButton {
     }
     deinit {
         if let imageObserver = imageObserver {
-            NSNotificationCenter .defaultCenter().removeObserver(imageObserver)
+            NotificationCenter .default
+                .removeObserver(imageObserver)
         }
     }
     func createImageObserver () {
         if imageObserver != nil {
             return
         }
-        imageObserver = NSNotificationCenter.defaultCenter().addObserverForName(IPA_NOTIFICATION_IMAGE_LOADED, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: IPA_NOTIFICATION_IMAGE_LOADED), object: nil, queue: OperationQueue.main, using: {
             noti in
             if let userInfo = noti.userInfo {
                 let imageID = userInfo[IPA_NOTIFICATION_KEY_IMAGEID] as! String
                 
                 if let imageURL = self.imageURL {
                     if imageID == imageURL {
-                        if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
+                        do {
+                            let data = try Data(contentsOf: (userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! URL))
                             let image = UIImage(data: data)
-                            self.setImage(image, forState: .Normal)
+                            self.setImage(image, for: .normal)
                             
                         }
+
+                        catch {
+                            
+                        }
+                            
+                    
                     }
                 }
                 if let backgroundImageURL = self.backgroundImageURL {
                     if imageID == backgroundImageURL {
-                        if let data = NSData(contentsOfURL: userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! NSURL ) {
+                        do {
+                            let data = try Data(contentsOf: (userInfo[IPA_NOTIFICATION_KEY_IMAGEFILEURL] as! URL))
                             let image = UIImage(data: data)
-                            self.setBackgroundImage(image, forState: .Normal)
+                            self.setBackgroundImage(image, for: .normal)
+                        }
+                        catch {
+                            
                         }
                     }
                 }
             }
         })
     }
-    public func setImageURL(imageURL:String?,defaultImage:UIImage?) {
+    public func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         createImageObserver()
         _imageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage(url: (imageURL as NSString).addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!, imageID: imageURL)
             
         }
         
-        setImage((image == nil) ? defaultImage :image, forState: .Normal)
+        setImage((image == nil) ? defaultImage :image, for: .normal)
     }
-    public func setBackgroundImageURL(imageURL:String?,defaultImage:UIImage?) {
+    public func setBackgroundImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         createImageObserver()
         _backgroundImageURL = imageURL
         var image:UIImage?
         if let imageURL = imageURL {
-            image = IPaImageURLLoader.sharedInstance.loadImage((imageURL as NSString).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!, imageID: imageURL)
+            image = IPaImageURLLoader.sharedInstance.loadImage(url: (imageURL as NSString).addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!, imageID: imageURL)
             
         }
         
-        setBackgroundImage((image == nil) ? defaultImage :image, forState: .Normal)
+        setBackgroundImage((image == nil) ? defaultImage :image, for: .normal)
     }
 }
 

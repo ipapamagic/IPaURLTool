@@ -10,19 +10,19 @@ import Foundation
 
 class IPaServerAPI :NSObject {
     let resourceUI:IPaURLResourceUI
-    var currentAPITask:NSURLSessionDataTask?
+    var currentAPITask:URLSessionDataTask?
     init(resourceUI:IPaURLResourceUI) {
         self.resourceUI = resourceUI
     }
-    func apiPerform(api:String,method:String,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
+    func apiPerform(_ api:String,method:String,param:[String:AnyObject]?,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
         
         if let task = currentAPITask {
-            if task.state == .Running {
+            if task.state == .running {
                 task.cancel()
             }
         }
 
-        let aMethod = method.uppercaseString
+        let aMethod = method.uppercased()
         if aMethod == "GET" {
             currentAPITask = resourceUI.apiGet(api, param:param, complete:{
                 response,responseObject in
@@ -47,11 +47,11 @@ class IPaServerAPI :NSObject {
         }
 
     }
-    func apiPut(api:String, json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
+    func apiPut(_ api:String, json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
         var jsonError:NSError?
-        var jsonData:NSData?
+        var jsonData:Data?
         do {
-            jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
         } catch let error as NSError {
             jsonError = error
             jsonData = nil
@@ -64,7 +64,7 @@ class IPaServerAPI :NSObject {
             return
         }
         if let task = currentAPITask {
-            if task.state == .Running {
+            if task.state == .running {
                 task.cancel()
             }
         }
@@ -81,11 +81,11 @@ class IPaServerAPI :NSObject {
 
 
     }
-    func apiPost(api:String,json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
+    func apiPost(_ api:String,json:AnyObject,complete:IPaURLResourceUISuccessHandler,failure:IPaURLResourceUIFailHandler) {
         var jsonError:NSError?
-        var jsonData:NSData?
+        var jsonData:Data?
         do {
-            jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
         } catch let error as NSError {
             jsonError = error
             jsonData = nil
@@ -98,7 +98,7 @@ class IPaServerAPI :NSObject {
             return
         }
         if let task = currentAPITask {
-            if task.state == .Running {
+            if task.state == .running {
                 task.cancel()
             }
         }

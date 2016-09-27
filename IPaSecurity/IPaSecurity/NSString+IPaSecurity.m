@@ -15,6 +15,11 @@
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data SHA256String];
 }
+- (NSData*) SHA256Data
+{
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    return [data SHA256Data];
+}
 -(NSString*) SHA1String
 {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
