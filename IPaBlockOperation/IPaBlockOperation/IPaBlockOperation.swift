@@ -7,7 +7,7 @@
 //
 
 import Foundation
-typealias  IPaBlockOperationBlock = (_ complete:() -> ()) -> ()
+typealias  IPaBlockOperationBlock = (_ complete: @escaping () -> ()) -> ()
 class IPaBlockOperation : Operation {
     var operationBlock :IPaBlockOperationBlock
     var _executing:Bool = false
@@ -42,14 +42,14 @@ class IPaBlockOperation : Operation {
             isFinished = true
             return;
         }
- 
-
+        
+        
         isExecuting = true
-
+        
         operationBlock({
             self.isFinished = true
             self.isExecuting = false
-        
+            
         })
     }
     override func cancel() {
