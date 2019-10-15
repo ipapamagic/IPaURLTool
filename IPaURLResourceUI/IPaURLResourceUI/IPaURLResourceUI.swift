@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import IPaLog
 public typealias IPaURLResourceUISuccessHandler = ((URLResponse?,Any?) -> ())!
 public typealias IPaURLResourceUIFailHandler = ((Error) -> ())!
 open class IPaURLResourceUI : NSObject,URLSessionDelegate {
@@ -216,7 +217,9 @@ open class IPaURLResourceUI : NSObject,URLSessionDelegate {
     
     // MARK:NSURLSessionDelegate
     open func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        IPaLog("\(error)")
+        if let error = error {
+            IPaLog("\(error)")
+        }
     }
     open func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         

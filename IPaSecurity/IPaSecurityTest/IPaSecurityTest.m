@@ -7,8 +7,8 @@
 //
 
 #import "IPaSecurityTest.h"
-#import "NSData+IPaSecurity.h"
-#import "NSString+IPaSecurity.h"
+#import <IPaSecurity/NSData+IPaSecurity.h>
+#import <IPaSecurity/NSString+IPaSecurity.h>
 @implementation IPaSecurityTest
 
 - (void)setUp
@@ -40,7 +40,7 @@
         NSString *realResult = testCase[key];
         if (![result isEqualToString:realResult]) {
             
-            STFail(@"SHA1 fail!! result should be %@ but  %@  instead!",result,realResult);
+            XCTFail(@"SHA1 fail!! result should be %@ but  %@  instead!",result,realResult);
         }
     }
 }
@@ -56,7 +56,7 @@
         NSString *realResult = testCase[key];
         if (![result isEqualToString:realResult]) {
             
-            STFail(@"SHA1 fail!! result should be %@ but  %@  instead!",result,realResult);
+            XCTFail(@"SHA1 fail!! result should be %@ but  %@  instead!",result,realResult);
         }
     }
 }
@@ -71,7 +71,7 @@
         NSString *realResult = testCase[key];
         if (![result isEqualToString:realResult]) {
             
-            STFail(@"MD5 fail!! result should be %@ but  %@  instead!",result,realResult);
+            XCTFail(@"MD5 fail!! result should be %@ but  %@  instead!",result,realResult);
         }
     }
    
@@ -110,26 +110,26 @@
 
         NSData* realPRK = [NSData dataFromHexString:data[@"realPRK"]];
         if (realPRK != nil) {
-            NSData *PRK = [IKM HMACDataWithAlgorithm:kCCHmacAlgSHA256 sectet:salt];
+            NSData *PRK = [IKM HMACDataWithAlgorithm:kCCHmacAlgSHA256 secret:salt];
             if (![PRK isEqualToData:realPRK])
             {
                 NSLog(@"PRK:%@",PRK);
                 NSLog(@"correct PRK:%@",realPRK);
                 
-                STFail(@"HKDF SHA256 fail!! PRK not correct!");
+                XCTFail(@"HKDF SHA256 fail!! PRK not correct!");
             }
 
         }
         
         
-        NSData *OKM = [IKM HKDFDataWithAlgorithm:kCCHmacAlgSHA256 Info:info withLength:[data[@"length"] integerValue] Salt:salt];
+        NSData *OKM = [IKM HKDFDataWithAlgorithm:kCCHmacAlgSHA256 Info:info withLength:[data[@"length"] integerValue] salt:salt];
         NSData *realOKM = [NSData dataFromHexString:data[@"realOKM"]];
         if (![OKM isEqualToData:realOKM])
         {
             NSLog(@"OKM:%@",OKM);
             NSLog(@"correct OKM:%@",realOKM);
             
-            STFail(@"HKDF SHA256 fail!! OKM not correct!");
+            XCTFail(@"HKDF SHA256 fail!! OKM not correct!");
         }
 
     }
@@ -165,7 +165,7 @@
         NSData *IKM = [NSData dataFromHexString:data[@"IKM"]];
         NSData *salt = [NSData dataFromHexString:data[@"salt"]];
         NSData *info = [NSData dataFromHexString:data[@"info"]];
-        NSData *PRK = [IKM HMACDataWithAlgorithm:kCCHmacAlgSHA1 sectet:salt];
+        NSData *PRK = [IKM HMACDataWithAlgorithm:kCCHmacAlgSHA1 secret:salt];
         NSData* realPRK = [NSData dataFromHexString:data[@"realPRK"]];
         if (realPRK != nil) {
             if (![PRK isEqualToData:realPRK])
@@ -173,18 +173,18 @@
                 NSLog(@"PRK:%@",PRK);
                 NSLog(@"correct PRK:%@",realPRK);
                 
-                STFail(@"HKDF SHA1 fail!! PRK not correct!");
+                XCTFail(@"HKDF SHA1 fail!! PRK not correct!");
             }
         }
         
-        NSData *OKM = [IKM HKDFDataWithAlgorithm:kCCHmacAlgSHA1 Info:info withLength:[data[@"length"] integerValue] Salt:salt];
+        NSData *OKM = [IKM HKDFDataWithAlgorithm:kCCHmacAlgSHA1 Info:info withLength:[data[@"length"] integerValue] salt:salt];
         NSData *realOKM = [NSData dataFromHexString:data[@"realOKM"]];
         if (![OKM isEqualToData:realOKM])
         {
             NSLog(@"OKM:%@",OKM);
             NSLog(@"correct OKM:%@",realOKM);
             
-            STFail(@"HKDF SHA1 fail!! OKM not correct!");
+            XCTFail(@"HKDF SHA1 fail!! OKM not correct!");
         }
         
     }
@@ -225,7 +225,7 @@
             NSData *key = [NSData dataFromHexString:testCase[@"Key"]];
             NSData *realCipherData = [NSData dataFromHexString:testCase[@"realCipherData"]];
             NSData *iv = [NSData dataFromHexString:testCase[@"iv"]];
-            NSData *cipherData = [plainText EncryotWithAlgorighm:kCCAlgorithmAES128 mode:mode padding:NO iv:iv key:key];
+            NSData *cipherData = [plainText encryptWithAlgorithm:kCCAlgorithmAES128 mode:mode padding:NO iv:iv key:key];
             
             NSString *modeName;
             switch (mode) {
@@ -245,15 +245,15 @@
                 NSLog(@"cipher data:%@",cipherData);
                 NSLog(@"correct cipher data:%@",realCipherData);
                 
-                STFail(@"AES fail!! encrypt not correct");
+                XCTFail(@"AES fail!! encrypt not correct");
             }
-            NSData *decryptData = [cipherData DecryotWithAlgorighm:kCCAlgorithmAES128 mode:mode padding:NO iv:iv key:key];
+            NSData *decryptData = [cipherData decryptWithAlgorithm:kCCAlgorithmAES128 mode:mode padding:NO iv:iv key:key];
             if (![decryptData isEqualToData:plainText]) {
                 NSLog(@"Mode Name:%@",modeName);                
                 NSLog(@"decrypt data:%@",decryptData);
                 NSLog(@"correct decrypt data:%@",plainText);
                 
-                STFail(@"AES fail!! decrypt not correct");
+                XCTFail(@"AES fail!! decrypt not correct");
             }
         }
     }
@@ -269,17 +269,17 @@
                            @"phone":@"12345678901",
                            };
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:testData];
-    NSData *encryptData = [data EncryotWithAlgorighm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
+    NSData *encryptData = [data encryptWithAlgorithm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
     
     
     
-    data = [encryptData DecryotWithAlgorighm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
+    data = [encryptData decryptWithAlgorithm:kCCAlgorithmDES mode:kCCModeECB padding:YES iv:nil key:[NSData dataFromHexString:@"38627974656B6579"]];
     
     
     NSDictionary *resultData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     if (![testData isEqual:resultData]) {
-        STFail(@"DES fail!! decrypt not correct");
+        XCTFail(@"DES fail!! decrypt not correct");
     }
 }
 -(void)testDES
@@ -298,20 +298,20 @@
         NSData *plainText = [NSData dataFromHexString:testCase[@"PlainText"]];
         NSData *key = [NSData dataFromHexString:testCase[@"Key"]];
         NSData *realCipherData = [NSData dataFromHexString:testCase[@"realCipherData"]];
-        NSData *cipherData = [plainText EncryotWithAlgorighm:kCCAlgorithmDES key:key];
+        NSData *cipherData = [plainText encryptWithAlgorithm:kCCAlgorithmDES key:key];
         
         if (![cipherData isEqualToData:realCipherData]) {
             NSLog(@"cipher data:%@",cipherData);
             NSLog(@"correct cipher data:%@",realCipherData);
             
-            STFail(@"DES fail!! encrypt not correct");
+            XCTFail(@"DES fail!! encrypt not correct");
         }
-        NSData *decryptData = [cipherData DecryotWithAlgorighm:kCCAlgorithmDES key:key];
+        NSData *decryptData = [cipherData decryptWithAlgorithm:kCCAlgorithmDES key:key];
         if (![decryptData isEqualToData:plainText]) {
             NSLog(@"decrypt data:%@",decryptData);
             NSLog(@"correct decrypt data:%@",plainText);
             
-            STFail(@"DES fail!! decrypt not correct");
+            XCTFail(@"DES fail!! decrypt not correct");
         }
     }
     
@@ -334,7 +334,7 @@
                 
                 
                CCHmacAlgorithm algorithm = [algorithmKey integerValue];
-                NSString *hmacString = [[data HMACDataWithAlgorithm:algorithm  sectet:key] HexString];
+                NSString *hmacString = [[data HMACDataWithAlgorithm:algorithm  secret:key] HexString];
                 NSString *correctHmac = tData[@"correctHmac"];
                 if (![hmacString isEqualToString:correctHmac]) {
                     switch (algorithm) {
@@ -350,7 +350,7 @@
                     NSLog(@"hmac string:%@",hmacString);
                     NSLog(@"correct hmac string:%@",correctHmac);
                     
-                    STFail(@"Hmac fail!");
+                    XCTFail(@"Hmac fail!");
                 }
            }
        }

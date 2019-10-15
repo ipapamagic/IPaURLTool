@@ -6,8 +6,8 @@
 //  Copyright (c) 2013年 IPaPa. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+@import XCTest;
 
-@interface IPaSecurityTest : SenTestCase
+@interface IPaSecurityTest : XCTestCase
 
 @end

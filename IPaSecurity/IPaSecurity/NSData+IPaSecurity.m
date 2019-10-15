@@ -9,32 +9,32 @@
 #import "NSData+IPaSecurity.h"
 
 @implementation NSData (IPaSecurity)
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData*)key
+-(NSData*)decryptWithAlgorithm:(CCAlgorithm)algorithm key:(NSData*)key
 {
-    return [self DecryotWithAlgorighm:algorithm mode:kCCModeCBC padding:NO iv:nil key:key];
+    return [self decryptWithAlgorithm:algorithm mode:kCCModeCBC padding:NO iv:nil key:key];
 }
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
+-(NSData*)decryptWithAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
 {
-    return [self DecryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:0];
+    return [self decryptWithAlgorithm:algorithm mode:mode padding:padding iv:iv key:key options:0];
 }
--(NSData*)DecryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
+-(NSData*)decryptWithAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
 {
-    return [self CipherWithOperation:kCCDecrypt algorighm:algorithm mode:mode padding:padding iv:iv key:key options:options];
+    return [self cipherWithOperation:kCCDecrypt algorighm:algorithm mode:mode padding:padding iv:iv key:key options:options];
 }
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm key:(NSData*)key
+-(NSData*)encryptWithAlgorithm:(CCAlgorithm)algorithm key:(NSData*)key
 {
-    return [self EncryotWithAlgorighm:algorithm mode:kCCModeCBC padding:NO iv:nil key:key];
+    return [self encryptWithAlgorithm:algorithm mode:kCCModeCBC padding:NO iv:nil key:key];
 }
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
+-(NSData*)encryptWithAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key
 {
-    return [self EncryotWithAlgorighm:algorithm mode:mode padding:padding iv:iv key:key options:0];
+    return [self encryptWithAlgorithm:algorithm mode:mode padding:padding iv:iv key:key options:0];
 }
--(NSData*)EncryotWithAlgorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
+-(NSData*)encryptWithAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
 {
-    return [self CipherWithOperation:kCCEncrypt algorighm:algorithm mode:mode padding:padding iv:iv key:key options:options];
+    return [self cipherWithOperation:kCCEncrypt algorighm:algorithm mode:mode padding:padding iv:iv key:key options:options];
 }
 
--(NSData*)CipherWithOperation:(CCOperation)operation algorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
+-(NSData*)cipherWithOperation:(CCOperation)operation algorighm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(BOOL)padding iv:(NSData*)iv key:(NSData*)key options:(CCModeOptions)options
 {
     //check key size
     switch (algorithm) {
@@ -186,7 +186,7 @@
     return  output;
     
 }
--(NSData*) HMACDataWithAlgorithm:(CCHmacAlgorithm)algorithm sectet:(NSData*)key
+-(NSData*) HMACDataWithAlgorithm:(CCHmacAlgorithm)algorithm secret:(NSData*)key
 {
     const void *cKey  = key.bytes;
     const void *cData = self.bytes;
@@ -275,14 +275,14 @@
     }
     return data;
 }
--(NSData*)HKDFDataWithAlgorithm:(CCHmacAlgorithm)algorithm Info:(NSData*)info withLength:(NSUInteger)length Salt:(NSData*)salt
+-(NSData*)HKDFDataWithAlgorithm:(CCHmacAlgorithm)algorithm Info:(NSData*)info withLength:(NSUInteger)length salt:(NSData*)salt
 {
     // Step 1 of RFC 5869
     // Extract
     // Get sha256HMAC Bytes
     // Input: salt (message), IKM (input keyring material)
     // Output: PRK (pseudorandom key)
-    NSData *PRK = [self HMACDataWithAlgorithm:algorithm sectet:salt];
+    NSData *PRK = [self HMACDataWithAlgorithm:algorithm secret:salt];
     
     // Step 2 of RFC 5869.
     // Expand
@@ -295,7 +295,7 @@
         [Tn appendData:info];
         const char value = idx+1;
         [Tn appendBytes:&value length:sizeof(const char)];
-        Tn = [[Tn HMACDataWithAlgorithm:algorithm sectet:PRK] mutableCopy];
+        Tn = [[Tn HMACDataWithAlgorithm:algorithm secret:PRK] mutableCopy];
         
         [T appendData:Tn];
     }
